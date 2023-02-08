@@ -24,6 +24,7 @@ function login() {
     console.log(validatedInput);
 
     if(validatedInput.pass){
+      // Logic for Login TODO
       if(email === 'shemil@gmail.com' && password === 'Password@1001'){
         clearInputs();
         console.log('Login working..');
@@ -41,7 +42,6 @@ function login() {
 
             <h1 className="mb-8 text-3xl text-center">Login</h1>
             <form className='m-auto' onSubmit={handleLogin}>
-              {/* <label htmlFor='name' className='text-gray-500 mb-2'>Name</label> */}
               <input
                 type="text"
                 className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900"
@@ -51,8 +51,7 @@ function login() {
                 onChange={(e) => {
                   setError(false);
                   setEmail(e.target.value);}}
-                // value={loginEmail}
-                // onChange={(e) => setLoginEmail(e.target.value)}
+               
                 required
               />
               
