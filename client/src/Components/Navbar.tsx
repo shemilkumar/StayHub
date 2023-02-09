@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
-    <div className='fixed w-[80%]'>
-      <div className="flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
+    <div className='fixed top-0 w-full'>
+      <div className="max-w-same m-auto flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
         <div className="text-3xl cursor-pointer">StayHub</div>
         <div className="flex gap-4 shadow-md py-4 px-8 rounded-full cursor-pointer">
           <span className=''>Home</span>

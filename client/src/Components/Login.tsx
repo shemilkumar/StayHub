@@ -36,7 +36,7 @@ function login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900 border-4">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black dark:text-teal-50 w-full dark:bg-gray-900">
 

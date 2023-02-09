@@ -1,18 +1,22 @@
 import React from 'react'
+import BestSellers from '../Components/BestSellers';
 import Feature from '../Components/Feature';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
-import HouseSection from '../Components/HouseSection';
 import Navbar from '../Components/Navbar';
+import Testimonial from '../Components/Testimonial';
 
 function Home() {
   return (
     <>
       <Navbar/>
-      <Hero/>
-      <Feature/>
-      <HouseSection/>
-      <Footer/>
+      <div className='flex flex-col max-w-same m-auto'>
+        <Hero/>
+        <Feature/>
+        <BestSellers/>
+        <Testimonial/>
+        <Footer/>
+      </div>
     </>
   )
 }

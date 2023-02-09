@@ -9,7 +9,7 @@ module.exports = {
         tertiary_1: "#EB4D55",
         tertiary_2: "#333366",
       },
-      width: {
+      maxWidth: {
         same: "80%",
       },
     },
