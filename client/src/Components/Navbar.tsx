@@ -5,19 +5,42 @@ function Navbar() {
   return (
     <div className='fixed top-0 w-full'>
       <div className="max-w-same m-auto flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
-        <div className="text-3xl cursor-pointer">StayHub</div>
+        <Link to="/">
+          <div className="text-3xl cursor-pointer">StayHub</div>
+        </Link>
         <div className="flex gap-4 shadow-md py-4 px-8 rounded-full cursor-pointer">
-          <span className=''>Home</span>
+          <Link to="/">
+            <span className=''>Home</span>
+          </Link>
+
           <span>Houses</span>
           <span>About</span>
         </div>
         <div className="flex items-centers gap-4 cursor-pointer">
+        
         <Link to="/login">
           <span className="py-2">Login</span>
         </Link>
+        
         <Link to="/signup">
           <span className='py-2 px-4 border-2 border-gray-300 rounded-full hover:bg-secondary hover:text-white hover:border-secondary'>SignUp</span>
         </Link>
+
+        {/* <div className='flex gap-2 items-center'>
+          <Link to="/login">
+            <span className="py-2">Logout</span>
+          </Link>
+
+          <Link to="/profile">
+            <div className='py-2 px-3 border-2 border-gray-300 rounded-full flex gap-4 items-center'>
+
+            <img src="https://dummyimage.com/302x302" alt="profile" className='w-9 h-9 rounded-full' />
+            <span className='uppercase'>Shemil</span>
+
+            </div>
+          </Link>
+        </div> */}
+
         </div>
       </div>
     </div>
