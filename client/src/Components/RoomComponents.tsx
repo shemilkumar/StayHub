@@ -7,6 +7,7 @@ import { setDefaultLocale } from  "react-datepicker";
 // import es from 'date-fns/locale/es';
 
 import Input from "../Components/Elements/Input";
+import RoomDetails from './RoomDetails';
 
 function RoomComponents() {
   setDefaultLocale('es');
@@ -14,11 +15,6 @@ function RoomComponents() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const customOnChange = (dates : Date[]): void => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-  };
 
   const filterPassedTimeForEnd = (time : any) => {
     const selectedDate = new Date(time);
@@ -37,7 +33,7 @@ function RoomComponents() {
   return (
     <>
       <div className='flex flex-col w-3/4'>
-        <ImageCarousel />
+        <RoomDetails/>
       </div>
 
       <div className='h-full border-2 border-gray-200 w-1/4 p-6 sticky top-24'>
@@ -103,7 +99,6 @@ function RoomComponents() {
         </div>
 
         <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold'>Continue to Book</button>
-        
 
       </div>
     </>
