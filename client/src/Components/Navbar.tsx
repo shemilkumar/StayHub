@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
-    <div className='fixed top-0 w-full'>
+    <div className='fixed top-0 w-full z-50'>
       <div className="max-w-same m-auto flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
         <Link to="/">
           <div className="text-3xl cursor-pointer">StayHub</div>
