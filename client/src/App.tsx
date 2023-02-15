@@ -8,7 +8,7 @@ import RoomPage from "./Pages/RoomPage";
 
 function App() {
   return (
-    <Router>
+    <Router >
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/room' element={<RoomPage/>}/>

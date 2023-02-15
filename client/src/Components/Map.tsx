@@ -13,7 +13,7 @@ interface ViewPort {
 
 function Map(props : ViewPort) {
 
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   const [viewport, setViewport] = useState<ViewPort>({
     longitude: props.longitude,
@@ -30,6 +30,7 @@ function Map(props : ViewPort) {
         initialViewState={viewport}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         style={{height:500}}
+        onClick={(e) => setShowPopup(!showPopup)}
       >
 
         <GeolocateControl

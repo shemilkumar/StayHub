@@ -8,6 +8,7 @@ import { MdDry,MdPool } from "react-icons/md";
 import { FiMonitor } from "react-icons/fi";
 import {GiWashingMachine, GiCooler } from "react-icons/gi";
 import Map from './Map';
+import Card from './Card';
 
 
 function RoomDetails() {
@@ -15,7 +16,7 @@ function RoomDetails() {
   return (
     <>
       <ImageCarousel /> 
-      <div className='mt-16 mb-24'>
+      <div className='mt-16 mb-12'>
 
         <div className='w-3/4 mb-8'>
           <h1 className='text-4xl font-semibold'>Chao Pao Villa</h1>
@@ -131,6 +132,15 @@ function RoomDetails() {
           <div className='text-base text-gray-600 mt-8 w-3/4'>
             <p className='text-xl mb-2'>Address ipsum dolor sit amet.</p>
             <p>summary Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum nobis vero illum ad, magni vel expedita, voluptate culpa quidem, dolorem laborum! Quae rem voluptatem explicabo, necessitatibus quod laudantium labore distinctio!</p>
+          </div>
+        </div>
+
+        <div className='mt-16'>
+          <h1 className='font-semibold text-3xl mb-4'>Similar Homes</h1>
+          <div className='mt-4 grid grid-cols-3 gap-2'>
+            <Card/>
+            <Card/>
+            <Card/>
           </div>
         </div>
 

@@ -29,6 +29,13 @@ function ImageCarousel() {
               alt="Exotic Fruits"
             />
           </div>
+          <div className="carousel-item relative float-left w-full">
+            <img
+              src="/src/assets/House-Images/house-1-4.webp"
+              className="block w-full"
+              alt="Exotic Fruits"
+            />
+          </div>
         </div>
         <button
           className="carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
