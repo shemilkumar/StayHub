@@ -36,7 +36,7 @@ function RoomComponents() {
         <RoomDetails/>
       </div>
 
-      <div className='h-full border-2 border-gray-200 w-1/4 p-6 sticky top-24'>
+      <div className='h-full w-1/4 p-6 sticky top-24 shadow-2xl mb-4'>
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <span className='font-semibold text-2xl'>$1343</span>
