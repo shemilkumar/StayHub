@@ -1,21 +1,27 @@
-import express,{Request,Response} from 'express';
 import mongoose from "mongoose";
 
-const app = express();
+// .ENV files configuartion
+import * as dotenv from "dotenv";
+dotenv.config({path : `${__dirname}/config.env`});
 
-const DB = 'mongodb+srv://Shemil:3cq0aQgIPkYw4nNK@myprojectscluster.pxortas.mongodb.net/?retryWrites=true&w=majority'
+import app from "./app";
 
+// Environment variable checking
+let DB: string = '';
+if(process.env.DB && process.env.DB_PASSWORD){
+  DB = process.env.DB.replace('<PASSWORD>',process.env.DB_PASSWORD);
+} else console.log('DB environment variables are not defined');
+
+
+// Connect MongoDB
 mongoose.set('strictQuery',false);
 mongoose.connect(DB)
-.then(() => console.log('DB connection successful'));
+.then(() => console.log('DB connection successful'))
+.catch(err => console.log(err));
 
 
-app.get('/',(req : Request,res: Response ) => {
-  res.send("Hello Shemil...");
-});
-
-const port = 3000;
-app.listen(port, ()=>{
-    // tslint:disable-next-line:no-console
+// Running on port
+const port = process.env.PORT || 8000;
+const server = app.listen(port, ()=>{
   console.log('Server running on port : 3000');
 })
