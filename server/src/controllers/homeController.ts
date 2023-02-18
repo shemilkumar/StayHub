@@ -1,14 +1,35 @@
 import {NextFunction, Request,Response} from 'express';
 import Home from '../models/homeModel';
+import APIFeatures from '../util/APIFeatures';
 import AppError from '../util/AppError';
 import catchAsync from '../util/catchAsync';
 
-export const getAllHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+interface QueryParams{
+  [key:string] : string
+}
 
-  const homes = await Home.find();
+export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,address';
+
+  next();
+});
+
+export const getAllHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+  
+  const features = new APIFeatures(Home.find(),req.query as QueryParams)
+    ?.filter()
+    ?.sort()
+    ?.limitFields()
+    ?.paginate();
+
+  if(!features) return next(new AppError('Something went wrong',404));
+  const homes = await features.query;
 
   res.status(200).json({
     status: 'success',
+    results: homes.length,
     homes,
   });
 });

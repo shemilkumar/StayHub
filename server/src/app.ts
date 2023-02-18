@@ -3,6 +3,7 @@ import morgan from "morgan";
 
 import AppError from './util/AppError';
 import homeRouter from './routes/homeRoutes';
+import userRouter from './routes/userRoutes';
 import globalErrorController from './controllers/errorController';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/homes/', homeRouter);
+app.use('/api/v1/users/', userRouter);
 
 
 // Url not found error handling
