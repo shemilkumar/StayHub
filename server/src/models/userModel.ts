@@ -9,6 +9,7 @@ export interface UserType extends Document{
   password:string,
   passwordConfirm:string | undefined,
   passwordChangedAt: Date,
+  role: string,
 
   checkPassword: (encryptedPassword:string,password: string) => Promise<boolean>,
   changedPasswordAfter: (JWTTimestamp : number) => boolean,
@@ -47,6 +48,11 @@ const userSchema = new mongoose.Schema<UserType>(
         },
         message: 'Passwords are not same'
       }
+    },
+    role:{
+      type: String,
+      enum: ['user','admin'],
+      default: 'user'
     },
     passwordChangedAt : Date,
   }

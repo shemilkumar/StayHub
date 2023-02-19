@@ -81,7 +81,7 @@ export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextF
   const currentUser = await User.findById(decodedToken.id);
   if(!currentUser) return next(new AppError('This user belonging to this token does no longer exist.',401));
 
-  // // check if user chenged password after the token was issued
+  // check if user chenged password after the token was issued
   if(currentUser.changedPasswordAfter(decodedToken.iat)) return next(new AppError('User recently changed password! Please log in again',401));
 
 
@@ -89,3 +89,14 @@ export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextF
   req.user = currentUser;
   next();
 });
+
+export const restrictTo = (...roles : string[]) => {
+  return (req:AuthRequest,res:Response,next:NextFunction) => {
+
+    if(!req.user) return next(new AppError('You are not logged in! Please log in to get access',401));
+    
+    if(!roles.includes(req.user.role)) return next(new AppError('You do not have permission to perform this action',403));
+    
+    next();
+  }
+}
