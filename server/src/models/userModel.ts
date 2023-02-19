@@ -2,14 +2,16 @@ import mongoose,{Document} from "mongoose";
 import validator from "validator";
 import bcrypt from 'bcryptjs';
 
-interface UserType extends Document{
+export interface UserType extends Document{
   name:string,
   email:string,
   photo:string,
   password:string,
   passwordConfirm:string | undefined,
+  passwordChangedAt: Date,
 
   checkPassword: (encryptedPassword:string,password: string) => Promise<boolean>,
+  changedPasswordAfter: (JWTTimestamp : number) => boolean,
 }
 
 const userSchema = new mongoose.Schema<UserType>(
@@ -45,12 +47,23 @@ const userSchema = new mongoose.Schema<UserType>(
         },
         message: 'Passwords are not same'
       }
-    }
+    },
+    passwordChangedAt : Date,
   }
 );
 
 userSchema.methods.checkPassword = async function(encryptedPassword:string,password: string){
   return await bcrypt.compare(password,encryptedPassword);
+}
+
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp : number){
+
+  if(this.passwordChangedAt){
+    const changedTimestamp = parseInt((this.passwordChangedAt.getTime() / 1000).toString(),10);
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  return false
 }
 
 userSchema.pre('save',async function(next){

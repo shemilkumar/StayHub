@@ -1,9 +1,19 @@
 import { Request,Response,NextFunction} from "express";
-import User from "../models/userModel";
+import User,{UserType} from "../models/userModel";
 import catchAsync from "../util/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../util/AppError";
 import { promisify } from "util";
+
+interface AuthRequest extends Request{
+  user?: UserType,
+}
+
+interface DecodedToken{
+  id: string,
+  iat: number,
+  exp: number,
+}
 
 const signToken = (id: string):string => {
   return jwt.sign({id},process.env.JWT_SECRET!,{
@@ -51,9 +61,9 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
   });
 }); 
 
-export const protect = catchAsync(async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
+export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
   // Getting token and check of if its there
-  let token;
+  let token: string = '';
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token = req.headers.authorization.split(' ')[1];
   }
@@ -61,12 +71,21 @@ export const protect = catchAsync(async (req:Request,res:Response,next:NextFunct
   if(!token) return next(new AppError('You are not logged in! Please log in to get access',401));
 
   // verification token
-  // const verify = promisify(jwt.verify);
-  // const decoded = await ver(token,process.env.JWT_SECRET!);
+  // const verifyToken = promisify<string, string>(jwt.verify); 
+  // const decoded = await verifyToken(token, process.env.JWT_SECRET!);
+  const decoded = await promisify<string, string>(jwt.verify)(token, process.env.JWT_SECRET!) as unknown;
 
+  const decodedToken = decoded as DecodedToken;
+  
   // check if user still exists
+  const currentUser = await User.findById(decodedToken.id);
+  if(!currentUser) return next(new AppError('This user belonging to this token does no longer exist.',401));
 
-  // check if user chenged password after the token was issued
+  // // check if user chenged password after the token was issued
+  if(currentUser.changedPasswordAfter(decodedToken.iat)) return next(new AppError('User recently changed password! Please log in again',401));
 
 
+  // Grant access to the protected route
+  req.user = currentUser;
+  next();
 });
