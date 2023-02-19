@@ -1,12 +1,12 @@
 import { Request,Response,NextFunction} from "express";
-import User,{UserType} from "../models/userModel";
+import User,{UserType } from "../models/userModel";
 import catchAsync from "../util/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../util/AppError";
 import { promisify } from "util";
 import crypto from "crypto";
 
-interface AuthRequest extends Request{
+export interface AuthRequest extends Request{
   user?: UserType,
 }
 
@@ -22,19 +22,23 @@ const signToken = (id: string):string => {
   })
 }
 
+const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status:'success',
+    token,
+    data:{
+      user,
+    }
+  });
+}
+
 export const signup = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
 
   const newUser = await User.create(req.body);
 
-  const token = signToken(newUser._id);
-
-  res.status(200).json({
-    status:'success',
-    token,
-    data:{
-      user: newUser
-    }
-  });
+  createSendToken(newUser,201,res);
 });
 
 export const login = catchAsync(async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
@@ -54,15 +58,10 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
   }
 
   // id everything ok send token
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status:'success',
-    token,
-  });
+  createSendToken(user,200,res);
 }); 
 
-export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
+export const protect = catchAsync(async (req: AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
   // Getting token and check of if its there
   let token: string = '';
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
@@ -88,6 +87,7 @@ export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextF
 
   // Grant access to the protected route
   req.user = currentUser;
+  // console.log(req.user);
   next();
 });
 
@@ -125,12 +125,26 @@ export const resetPasswod = catchAsync(async (req:AuthRequest,res:Response,next:
   // Update changedPasswrodAt property for thr user
 
   // log the user in send JWT
-  const token = signToken(user._id);
+  createSendToken(user,200,res);
+});
 
-  res.status(200).json({
-    status: 'success',
-    token
-  })
+export const updatePassword = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
+  // get user from collection
+  if(!req.user) return next(new AppError('Please log in first for updating password',400));
+  const user = await User.findOne({_id : req.user.id}).select('+password');
+  
+  if(!user) return next();
+  // check if postd current password is correct
+  if(!(await user.checkPassword(user.password, req.body.passwordCurrent)))
+    return next(new AppError('Current password is incorrect',400));
+
+  // if so, update update password
+  user.password = req.body.passwordNew;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save()
+
+  // Log in user in send JWT
+  createSendToken(user,200,res);
 });
 
 
