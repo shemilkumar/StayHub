@@ -4,6 +4,7 @@ import catchAsync from "../util/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../util/AppError";
 import { promisify } from "util";
+import crypto from "crypto";
 
 interface AuthRequest extends Request{
   user?: UserType,
@@ -89,6 +90,49 @@ export const protect = catchAsync(async (req:AuthRequest,res:Response,next:NextF
   req.user = currentUser;
   next();
 });
+
+export const forgotPasswod = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
+
+  // get  user besed on email
+  const user = await User.findOne({email : req.body.email});
+  if(!user) return next(new AppError('There is no user with this email address.',404));
+  
+  // generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({validateBeforeSave: false});
+
+  // Send it to the users email
+});
+
+export const resetPasswod = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
+  // get user based on the token
+  const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+  const user = await User.findOne(
+    {
+      passwordResetToken : hashedToken,
+      passwordResetExpires : {$gt : Date.now()}
+  });
+
+  if(!user) return next(new AppError('Token is invalid or has expired',400));
+
+  // if token has not expired, and then there is user, set the new password
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  // Update changedPasswrodAt property for thr user
+
+  // log the user in send JWT
+  const token = signToken(user._id);
+
+  res.status(200).json({
+    status: 'success',
+    token
+  })
+});
+
 
 export const restrictTo = (...roles : string[]) => {
   return (req:AuthRequest,res:Response,next:NextFunction) => {
