@@ -13,6 +13,7 @@ export interface UserType extends Document{
   passwordChangedAt?: Date | number,
   passwordResetToken?: string,
   passwordResetExpires?: Date,
+  active: boolean,
 
   checkPassword: (encryptedPassword:string,password: string) => Promise<boolean>,
   changedPasswordAfter: (JWTTimestamp : number) => boolean,
@@ -58,6 +59,11 @@ const userSchema = new mongoose.Schema<UserType>(
       enum: ['user','admin'],
       default: 'user'
     },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false
+    },
     passwordChangedAt : Date,
     passwordResetToken : String,
     passwordResetExpires: Date,
@@ -102,6 +108,11 @@ userSchema.pre('save', function(next){
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+
+userSchema.pre(/^find/,function(next){
+  this.find({active : { $ne : false}});
+  next();
+})
 
 const User = mongoose.model<UserType>('User',userSchema);
 
