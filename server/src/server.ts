@@ -1,4 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Error } from "mongoose";
+
+// Handling uncaught exceptions
+process.on('uncaughtException', err => {
+  console.log('UNCAUGHT EXCEPTION! Shutting down...');
+  console.log(err.name, err.message);
+  server.close(() =>{
+    process.exit(1);
+  });
+});
 
 // .ENV files configuartion
 import * as dotenv from "dotenv";
@@ -24,4 +33,12 @@ mongoose.connect(DB)
 const port = process.env.PORT || 8000;
 const server = app.listen(port, ()=>{
   console.log('Server running on port : 3000');
-})
+});
+
+process.on('unhandledRejection',( err: Error) => {
+  console.log('UNHANDLED REJECTION! Shutting down...');
+  console.log(err.name, err.message);
+  server.close(() =>{
+    process.exit(1);
+  });
+});

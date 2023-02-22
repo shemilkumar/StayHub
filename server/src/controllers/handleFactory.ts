@@ -77,7 +77,7 @@ export const getOne = <T>(Model: Model<T>) => catchAsync( async(req:Request, res
 
   const doc = await Model.findOne({_id : req.params.id});
 
-  if(!doc) return next(new AppError('There is no value as id in this route',400))
+  if(!doc) return next(new AppError('No document found with that ID',400))
 
   res.status(200).json({
     status: 'success',

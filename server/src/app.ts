@@ -51,8 +51,8 @@ app.use(express.static(`${__dirname}/public`));
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // Routes
-app.use('/api/v1/homes/', homeRouter);
-app.use('/api/v1/users/', userRouter);
+app.use('/api/v1/homes', homeRouter);
+app.use('/api/v1/users', userRouter);
 
 
 // Url not found error handling
@@ -61,6 +61,5 @@ app.all('*',(req : Request ,res : Response ,next: NextFunction) =>{
 });
 // Global Error handling
 app.use(globalErrorController);
-
 
 export default app;

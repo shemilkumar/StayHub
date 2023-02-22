@@ -56,7 +56,6 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
   const {email, password} = req.body
 
   // check user email and password exists
-  console.log(email, password);
   if(!email || !password){
     return next(new AppError('Please provide email and password',400));
   }
