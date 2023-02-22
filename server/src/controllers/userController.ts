@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import User from "../models/userModel";
+import User, { UserType } from "../models/userModel";
 import AppError from "../util/AppError";
 import catchAsync from "../util/catchAsync";
 import { AuthRequest } from "../controllers/authController";
-// import {  } from "";
+import * as factory from "../controllers/handleFactory";
 
 
 const filterObj = (obj : {[key:string]: any}, ...allowedFields: string[]): object =>{
@@ -44,49 +44,14 @@ export const deleteMe = catchAsync( async(req:AuthRequest, res: Response, next: 
   })
 });
 
-export const getAllUsers = catchAsync(async(req:Request, res:Response, next:NextFunction): Promise<void> => {
-
-  const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    users,
-  });
+export const getMe = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction) : Promise<void> =>{
+  req.params.id = req.user?.id;
+  next();
 });
 
-export const getUser = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
-
-  const user = await User.findOne({_id : req.params.id});
-
-  if(!user) return next(new AppError('There is no value as id in this route',400))
-  
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      user,
-    }
-  });
-});
-
-export const updateUser = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
-
-  const doc = await User.findByIdAndUpdate(req.params.id,req.body,{
-    new:true,
-    runValidators:true
-  });
-
-  if(!doc) return next(new AppError('No document found with that ID', 404));
-
-  res.status(200).json({
-    status:'success',
-    data:{
-      user: doc
-    },
-  })
-});
-
-// export const deleteUser = 
+export const getUser = factory.getOne<UserType>(User);
+export const getAllUsers = factory.getAll<UserType>(User);
+export const updateUser = factory.updateOne<UserType>(User);
+export const deleteUser = factory.deleteOne<UserType>(User);
 
 

@@ -189,6 +189,9 @@ const homeSchema = new mongoose.Schema<HomeModel>(
   },
 });
 
+homeSchema.index({price: 1, ratingsAverage: -1});
+homeSchema.index({slug: 1});
+
 homeSchema.pre('save', function(next){
   this.createdAt = new Date().toISOString();
   this.slug = slugify(this.name, {lower:true});

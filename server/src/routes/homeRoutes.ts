@@ -1,5 +1,6 @@
 import express from "express";
 import * as homeController from "../controllers/homeController";
+import * as authController from "../controllers/authController";
 
 const router = express.Router();
 
@@ -10,12 +11,12 @@ router
 router
   .route('/')
   .get(homeController.getAllHomes)
-  .post(homeController.createHome);
+  .post(authController.protect,authController.restrictTo('admin'),homeController.createHome);
 
 router
   .route('/:id')
   .get(homeController.getHome)
-  .patch(homeController.updateHome)
-  .delete(homeController.deleteHome);
+  .patch(authController.protect,authController.restrictTo('admin'),homeController.updateHome)
+  .delete(authController.protect,authController.restrictTo('admin'),homeController.deleteHome);
 
 export default router;
