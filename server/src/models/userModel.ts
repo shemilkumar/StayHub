@@ -7,7 +7,7 @@ export interface UserType extends Document{
   name:string,
   email:string,
   photo?:string,
-  password:string,
+  password:string | undefined,
   passwordConfirm:string | undefined,
   role: string,
   passwordChangedAt?: Date | number,
@@ -97,7 +97,7 @@ userSchema.methods.createPasswordResetToken = function(){
 userSchema.pre('save',async function(next){
   if(!this.isModified('password')) return next();
 
-  this.password = await bcrypt.hash(this.password,12);
+  this.password = await bcrypt.hash(this.password!,12);
 
   this.passwordConfirm = undefined;
 });

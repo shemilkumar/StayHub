@@ -3,6 +3,7 @@ import User from "../models/userModel";
 import AppError from "../util/AppError";
 import catchAsync from "../util/catchAsync";
 import { AuthRequest } from "../controllers/authController";
+// import {  } from "";
 
 
 const filterObj = (obj : {[key:string]: any}, ...allowedFields: string[]): object =>{
@@ -86,16 +87,6 @@ export const updateUser = catchAsync( async(req:Request, res: Response, next: Ne
   })
 });
 
-export const deleteUser = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
-
-  const doc = await User.findByIdAndDelete(req.params.id);
-
-  if(!doc) return next(new AppError('No document found with that ID', 404));
-
-  res.status(204).json({
-    status:'success',
-    data: null
-  })
-});
+// export const deleteUser = 
 
 

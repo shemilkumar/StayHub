@@ -19,11 +19,13 @@ interface Rules {
   "parties": boolean
 }
 
-interface HomeModel extends mongoose.Document{
+export interface HomeModel extends mongoose.Document{
   name:string,
   ratingsAverage: number,
   ratingsQuantity: number,
   address: string,
+  place: string,
+  state: string
   location: number[],
   imageCover:string,
   images: string[],
@@ -69,6 +71,16 @@ const homeSchema = new mongoose.Schema<HomeModel>(
       maxlength: [40, 'Adress must be less than 40 character'],
     },
     location: [Number],
+    place: {
+      type: String,
+      trim: true,
+      required: [true, 'A home must have a place name'],
+    },
+    state:{
+      type: String,
+      trim: true,
+      required: [true, 'A home must have a state'],
+    },
     imageCover: {
       type: String,
       required: [true, 'A home must have a cover image'],
