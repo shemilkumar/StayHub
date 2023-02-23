@@ -4,6 +4,7 @@ import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import ProfilePage from "./Pages/ProfilePage";
 import RoomPage from "./Pages/RoomPage";
+import AllHomes from "./Pages/allHomes";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <Router >
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/homes' element={<AllHomes />}/>
         <Route path='/room' element={<RoomPage/>}/>
         <Route path='/signup' element={<SignUpPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>

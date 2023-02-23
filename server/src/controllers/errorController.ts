@@ -14,6 +14,7 @@ interface ErrorClass extends Error{
 }
 
 const sendErrorDev = (err : ErrorClass, res : Response): void => {
+  console.log(err.name);
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -26,9 +27,7 @@ const sendErrorProd = (err : ErrorClass, res : Response): void => {
   if(err.isOperational){
     res.status(err.statusCode).json({
       status: err.status,
-      error: err,
       message: err.message,
-      stack: err.stack,
     });
   // Programming or other unkwnown error: dont leak error details
   }else{
@@ -68,24 +67,21 @@ const globalErrorController = (err: ErrorClass, req:Request, res:Response, next:
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if(process.env.NODE_ENV === 'development'){
-    sendErrorDev(err,res);
-  } 
+  if(process.env.NODE_ENV === 'development') sendErrorDev(err,res);
+  
     
 
   else if(process.env.NODE_ENV === 'production') {
 
     let error = {...err};
-    // console.log(err);
 
-    if(error.kind === 'ObjectId') error = handleCastErrorDB(error);
+    if(err.kind === 'ObjectId') error = handleCastErrorDB(error);
     if(err.name === 'ValidationError') error = handleValidationErrorDB(error);
-    if(error.code === 11000) error = handleDuplicateFieldsDB(error);
+    if(err.code === 11000) error = handleDuplicateFieldsDB(error);
+    if(err.name === 'JsonWebTokenError') error = handleJWTError(error);
+    if(err.name === 'TokenExpiredError') error = handleJWTExpiredError(error);
 
-    if(error.name = 'JsonWebTokenError') error = handleJWTError(error);
-    if(error.name = 'TokenExpiredError') error = handleJWTExpiredError(error);
-
-    sendErrorProd(error,res);
+    error.message ? sendErrorProd(error,res) : sendErrorProd(err,res)
   }  
 };
 

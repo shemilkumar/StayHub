@@ -4,6 +4,7 @@ import Navbar from '../Components/Navbar';
 import Login from '../Components/Login';
 
 function loginPage() {
+
   return (
     <>
       <Navbar/>

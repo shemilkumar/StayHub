@@ -4,6 +4,9 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import compression from 'compression';
 // import xss from "xss-clean";
 
 import AppError from './util/AppError';
@@ -16,6 +19,12 @@ const app = express();
 
 ///////////////////////////////////////////////////////////////////////////////////////
 //  1) Blobal Middlewares
+
+  // Implement Cors
+app.use(cors());
+
+app.options('*', cors());
+
   // Set security HTTP header
 app.use(helmet());
 
@@ -33,6 +42,9 @@ app.use('/api', limiter);
   // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '1 Mb'}));
 
+  // Cookie parser
+app.use(cookieParser());
+
   // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
@@ -43,6 +55,9 @@ app.use(mongoSanitize());
 app.use(hpp({
   whitelist: ['ratingsAverage', 'maxGuests', 'price']
 }));
+
+  // Compression
+// app.use(compression());
 
   // Serving static files
 app.use(express.static(`${__dirname}/public`));

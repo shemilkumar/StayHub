@@ -12,7 +12,7 @@ type Result = {
 
 const validator = (inputs :Inputs): Result => {
 
-  console.log(inputs);
+  // console.log(inputs);
 
   if(inputs.email){
     if(!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(inputs.email)){

@@ -25,12 +25,17 @@ const signToken = (id: string):string => {
 const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
   const token = signToken(user._id);
 
-  res.cookie('jwt', token, {
-    expires: new Date(Date.now() + (+process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000),
-    secure: true,
-    httpOnly:true,
-    sameSite: 'none'
-  });
+  const cookieOption = {
+    expires: new Date(
+      Date.now() + (+process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: false,
+  };
+
+  if(process.env.NODE_ENV === 'production') cookieOption.secure = true;
+
+  res.cookie('jwt', token, cookieOption);
 
   // Remove password from response
   user.password = undefined;
@@ -62,6 +67,7 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
 
   // check if user exists and password is correct
   const user = await User.findOne({email}).select('+password');
+
   if(!user || !(await user.checkPassword(user.password!,password))){
     return next(new AppError('Incorrect email and Password',401));
   }
@@ -73,7 +79,11 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
 export const protect = catchAsync(async (req: AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
   // Getting token and check of if its there
   let token: string = '';
-  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+  
+  if(req.cookies){
+    token = req.cookies.jwt;
+    console.log(req.cookies);
+  }else if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token = req.headers.authorization.split(' ')[1];
   }
 

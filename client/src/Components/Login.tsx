@@ -2,8 +2,16 @@ import React, { FormEvent, useState } from 'react'
 import { Link,useNavigate } from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
+import apiRequest from '../api/apiRequest';
+import { AxiosError, AxiosResponse } from 'axios';
+
+interface Credentials{
+  email: string,
+  password: string
+}
 
 function login() {
+
 
   const navigate = useNavigate();
 
@@ -15,23 +23,41 @@ function login() {
   const clearInputs = ():void => {
     setEmail("");
     setPassword("");
-  }
+  };
 
-  const handleLogin = (e : FormEvent): void => {
+  // const postData = async(data : Credentials) =>{
+  //   try {
+  //     const result = await api.postRequest(baseUrl,data) as AxiosResponse<any>;
+  //     console.log(result.data);
+  //     if(result.data.status === 'success') navigate('/');
+  //     else alert(result.data.message);
+  //   } catch (error : any) {
+  //       if(error.response){
+  //         console.log(error.response.data);
+          
+  //       }
+  //       else{
+  //         console.log("unknwon ==>",error.message);
+  //         alert(error.message);
+  //       } 
+  //   }
+  // };
+
+  const handleLogin = async(e : FormEvent): Promise<void> => {
     e.preventDefault();
 
     const validatedInput = validator({email});
-    console.log(validatedInput);
 
     if(validatedInput.pass){
-      // Logic for Login TODO
-      if(email === 'shemil@gmail.com' && password === 'Password@1001'){
+
+      const result = await apiRequest('POST','/users/login',{email,password});
+
+      if(result){
+        // Data = result
         clearInputs();
-        console.log('Login working..');
         navigate('/');
-        return;
       }
-      setError(true);
+      // setError(true);
     }
   }
 

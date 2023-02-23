@@ -2,6 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
+import apiRequest from '../api/apiRequest';
 
 function SignUp() {
 
@@ -27,7 +28,7 @@ function SignUp() {
   }
 
 
-  const handleSignUp = (e: FormEvent): void => {
+  const handleSignUp = async(e: FormEvent): Promise<void> => {
     e.preventDefault();
 
     // Confirm passord with original password
@@ -45,9 +46,19 @@ function SignUp() {
 
     // If validation is successfull then signup otherwise immediate return
     if(validateResult.pass){
-      clearInputs();
-      console.log("Signup working ....");
-      navigate('/');
+
+      const result = await apiRequest('POST','/users/signup',{
+        name,  
+        email,
+        password,
+        passwordConfirm
+      });
+
+      if(result){
+        // Data = result
+        clearInputs();
+        navigate('/');
+      }
       return;
     }
 

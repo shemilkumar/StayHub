@@ -1,9 +1,20 @@
+import axios from "axios";
+
 interface Testimonial {
   image: string,
   review: string,
   name: string,
   job: string,
 }
+
+// export const baseUrl: string = 'http://127.0.0.1:8000/api/v1/users/login';
+
+export const axiosApi = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export const TestimonialData: Testimonial[] = [
   {

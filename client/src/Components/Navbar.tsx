@@ -13,7 +13,10 @@ function Navbar() {
             <span className=''>Home</span>
           </Link>
 
-          <span>Houses</span>
+          <Link to="/homes">
+            <span>Houses</span>
+          </Link>
+
           <span>About</span>
         </div>
         <div className="flex items-centers gap-4 cursor-pointer">
