@@ -8,7 +8,11 @@ const apiRequest = async(request:string, url : string, data: object = {}) => {
     let res: AxiosResponse;
     switch (request) {
       case 'GET':
-        res = await axiosApi.get(url);
+        res = await axiosApi.get(url,{
+          headers: {
+            'Cache-Control': 'max-age=3600'
+          }
+        });
         break;
       
       case 'POST':
@@ -26,15 +30,17 @@ const apiRequest = async(request:string, url : string, data: object = {}) => {
       default:
         throw new Error("Request is not defined");
     }
-    
 
     if(res.data.status === 'success'){
       return res.data;
-    }else alert(res.data.message);
+    }else{
+      alert(res.data.message);
+    } 
     
   } catch (error ) {
     if (isAxiosError(error)) {
       if(error.response){
+        console.log(error);
         alert(error.response.data.message);
       }else {
         if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");

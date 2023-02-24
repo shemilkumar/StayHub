@@ -3,18 +3,49 @@ import Card from '../Components/Card';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import apiRequest from '../api/apiRequest';
+import { HomeModel } from "../Constants/modelTypes";
 
 function allHomes() {
 
-  const [homes, setHomes] = useState<object[]>([]);
+  const cacheKey = 'allHomes';
+  const CACHE_MINUTE = 1;
+
+  const [homes, setHomes] = useState<HomeModel[]>([]);
+
+  const cacheDelete = (minute: number): void => {
+    setTimeout(() => {
+      localStorage.removeItem(cacheKey);
+    }, 1000 * 60 * minute);
+  }
 
   useEffect(() => {
     const getHomes = async() =>{
-      const response = await apiRequest('GET','/homes');
-      setHomes(response.data);
-    }
 
-    getHomes();
+      let data: HomeModel[] = [];
+      const cachedData = localStorage.getItem(cacheKey);
+      // console.log(JSON.parse(cachedData));
+      if(cachedData) {
+        data = JSON.parse(cachedData) as HomeModel[];
+
+        // Remove cache after specific mins
+        cacheDelete(CACHE_MINUTE);
+      }
+
+      if(data.length > 0){
+        console.log("Data from localStorage");
+        setHomes(data);
+      }else{
+        const response = await apiRequest('GET','/homes');
+        console.log("Data from API",response);
+        setHomes(response.data);
+
+        localStorage.setItem(cacheKey,JSON.stringify(response.data));
+        // Remove cache after specific mins
+        cacheDelete(CACHE_MINUTE);
+      }
+    };
+
+    if(homes.length <= 0) getHomes();
   }, []);
   
   return (
@@ -22,7 +53,7 @@ function allHomes() {
       <Navbar/>
         <div className='min-h-screen flex'>
           <div className='m-auto grid grid-cols-3 gap-4'>
-            {homes.length > 0 ? homes.map((home,i) => <Card key={i} />) : ''}
+            {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
           </div>
         </div>
       <Footer/>

@@ -8,8 +8,9 @@ import { setDefaultLocale } from  "react-datepicker";
 
 import Input from "../Components/Elements/Input";
 import RoomDetails from './RoomDetails';
+import { HomeModel } from '../Constants/modelTypes';
 
-function RoomComponents() {
+function RoomComponents({home} : {home: HomeModel}) {
   setDefaultLocale('es');
 
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -33,15 +34,15 @@ function RoomComponents() {
   return (
     <>
       <div className='flex flex-col w-3/4'>
-        <RoomDetails/>
+        {home && <RoomDetails home={home}/>}
       </div>
 
       <div className='h-full w-1/4 p-6 sticky top-24 shadow-2xl mb-12'>
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className='font-semibold text-2xl'>$1343</span>
-            <span className='stroke text-gray-500 text-base line-through'>$4258</span>
-            <span className='text-yellow-600 text-base font-semibold'>68% off</span>
+            <span className='font-semibold text-2xl'>${home.price}</span>
+            <span className='stroke text-gray-500 text-base line-through'>${home.mrpPrice}</span>
+            <span className='text-yellow-600 text-base font-semibold'>{home.discount}% off</span>
           </div>
           <p className='text-xs text-gray-500'>Inclusive of all taxes</p>
         </div>

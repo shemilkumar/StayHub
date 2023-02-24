@@ -4,6 +4,7 @@ import Feature from '../Components/Feature';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
 import Navbar from '../Components/Navbar';
+import Spinner from '../Components/Spinner';
 import Testimonial from '../Components/Testimonial';
 
 function Home() {
@@ -13,7 +14,7 @@ function Home() {
       <div className='flex flex-col max-w-same m-auto'>
         <Hero/>
         <Feature/>
-        <BestSellers/>
+        {/* <BestSellers/> */}
         <Testimonial/>
         <Footer/>
       </div>

@@ -24,6 +24,7 @@ export interface HomeModel extends mongoose.Document{
   ratingsAverage: number,
   ratingsQuantity: number,
   address: string,
+  addressDescription: string,
   place: string,
   state: string
   location: number[],
@@ -34,6 +35,7 @@ export interface HomeModel extends mongoose.Document{
   beds: number,
   bathrooms: number,
   price: number,
+  mrpPrice: number,
   checkIn: string[],
   checkOut: string[],
   description: string,
@@ -44,6 +46,7 @@ export interface HomeModel extends mongoose.Document{
   // 
   slug?: string,
   createdAt?: string
+  discount?: number,
 }
 
 const homeSchema = new mongoose.Schema<HomeModel>(
@@ -69,6 +72,11 @@ const homeSchema = new mongoose.Schema<HomeModel>(
       required: [true, 'A home must have a address'],
       minlength: [10, 'Adress must be 10 character long'],
       maxlength: [40, 'Adress must be less than 40 character'],
+    },
+    addressDescription: {
+      type: String,
+      trim: true,
+      required: [true, 'A home must have a address description (near place, distance, landmarks..etc'],
     },
     location: [Number],
     place: {
@@ -105,6 +113,15 @@ const homeSchema = new mongoose.Schema<HomeModel>(
     price: {
       type: Number,
       required: [true, 'A home must have a price'],
+    },
+    mrpPrice: {
+      type: Number,
+      required: [true, 'A home must have a MRP price for giving discount'],
+      validate:{
+        validator : function(this: HomeModel, mrpPrice: number): boolean {
+          return mrpPrice > this.price
+        }
+      }
     },
     checkIn : [
       {
@@ -193,6 +210,10 @@ homeSchema.index({price: 1, ratingsAverage: -1});
 homeSchema.index({slug: 1});
 
 homeSchema.pre('save', function(next){
+  // simple arithmetic operation for Discount 
+  const discountPercentage = ((this.mrpPrice - this.price) * 100) / this.mrpPrice;
+
+  this.discount  = Math.ceil(discountPercentage);
   this.createdAt = new Date().toISOString();
   this.slug = slugify(this.name, {lower:true});
   next();
