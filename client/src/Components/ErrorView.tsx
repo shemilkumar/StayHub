@@ -1,0 +1,19 @@
+import React from 'react'
+import { Link } from 'react-router-dom';
+import Button from './Elements/Button';
+
+function ErrorView() {
+  return (
+    <div className='min-h-screen flex'>
+      <div className='m-auto w-3/4 flex flex-col items-center'>
+        <h1 className='uppercase text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-tr from-red-500  to-orange-600'>Oh! Something went wrong</h1>
+        <h3 className='text-2xl font-semibold mb-4'>Cant find this route on this server</h3>
+        <Link to={'/'}>
+          <Button text='Back To Home'/>
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+export default ErrorView;

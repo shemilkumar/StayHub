@@ -1,5 +1,17 @@
-import {isAxiosError, AxiosResponse } from "axios";
+import axios, {isAxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "../Constants/constant";
+
+axiosApi.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 class apiRequest {
 
@@ -12,60 +24,52 @@ class apiRequest {
   async get(url : string){
     try {
       this.response = await axiosApi.get(url) as AxiosResponse;
-      return this._responseCheck(this.response);
+      return this.response
     } catch (error){
-      this._internalError(error);
+      return this._internalError(error);
     } 
   }
 
   async post(url : string, data: object){
     try {
       this.response = await axiosApi.post(url,data) as AxiosResponse;
-      return this._responseCheck(this.response);
+      return this.response
+
     } catch (error){
-      this._internalError(error);
+      return this._internalError(error);
     } 
   }
 
   async patch(url : string, data: object){
     try {
       this.response = await axiosApi.patch(url,data) as AxiosResponse;
-      return this._responseCheck(this.response); 
+      return this.response
+
     } catch (error){
-      this._internalError(error);
+      return this._internalError(error);
     } 
   }
 
   async delete(url : string){
     try {
       this.response = await axiosApi.delete(url) as AxiosResponse;
-      return this._responseCheck(this.response); 
+      return this.response
+
     } catch (error){
-      this._internalError(error);
+      return this._internalError(error);
     } 
-  }
-
-  _responseCheck(response : AxiosResponse){
-    if(response.data.status === 'success') return response.data;
-    else{
-      this._responseError(response.data.message);
-      return null;
-    } 
-      
-  }
-
-  _responseError(message : string){
-    alert(message);
   }
 
   _internalError(error : unknown){
     if (isAxiosError(error)) {
       if(error.response){
-        console.log(error);
-        alert(error.response.data.message);
+        // console.log("here",error.response);
+        return error.response;
+        // alert(error.response.data.message);
       }else {
-        if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");
-        throw error;
+        // if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");
+        // console.log(error);
+        return error;
       }
     }
     else alert(error);

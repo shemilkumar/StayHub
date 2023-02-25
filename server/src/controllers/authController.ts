@@ -25,17 +25,25 @@ const signToken = (id: string):string => {
 const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
   const token = signToken(user._id);
 
-  const cookieOption = {
+  // const cookieOption = {
+  //   expires: new Date(
+  //     Date.now() + (+process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000
+  //   ),
+  //   httpOnly: true,
+  //   secure: false,
+  //   sameSite: 'none'
+  // };
+
+  // if(process.env.NODE_ENV === 'production') cookieOption.secure = true;
+
+  res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + (+process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: false,
-  };
-
-  if(process.env.NODE_ENV === 'production') cookieOption.secure = true;
-
-  res.cookie('jwt', token, cookieOption);
+    secure: true,
+    sameSite: 'none'
+  });
 
   // Remove password from response
   user.password = undefined;
@@ -43,9 +51,7 @@ const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
   res.status(statusCode).json({
     status:'success',
     token,
-    data:{
-      user,
-    }
+    user
   });
 }
 
@@ -80,11 +86,15 @@ export const protect = catchAsync(async (req: AuthRequest,res:Response,next:Next
   // Getting token and check of if its there
   let token: string = '';
   
-  if(req.cookies){
-    token = req.cookies.jwt;
-    console.log(req.cookies);
-  }else if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token = req.headers.authorization.split(' ')[1];
+
+  }else if (req.cookies) {
+
+      token = req.cookies.jwt;
+      console.log("Cookieeee =======>>>>>>",token,req.cookies);
+  }else{
+    console.log("not working");
   }
 
   if(!token) return next(new AppError('You are not logged in! Please log in to get access',401));

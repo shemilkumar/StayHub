@@ -4,10 +4,22 @@ import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest from '../api/apiRequest';
 import { AxiosError, AxiosResponse } from 'axios';
+import Alert from '../util/Alert';
 
-interface Credentials{
+type User = {
+  name: string,
   email: string,
-  password: string
+}
+
+type Data = {
+  status: string,
+  token: string,
+  user : User,
+  message : string,
+}
+
+interface APIResponse{
+  data: Data
 }
 
 function login() {
@@ -19,11 +31,19 @@ function login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error,setError] = useState(false);
+  const [apiError,setApiError] = useState('');
 
   const clearInputs = ():void => {
     setEmail("");
     setPassword("");
   };
+
+  const apiErrorSetting = (message : string) => {
+    setApiError(message);
+    setTimeout(() => {
+      setApiError('');
+    }, 4000);
+  }
 
   const handleLogin = async(e : FormEvent): Promise<void> => {
     e.preventDefault();
@@ -32,19 +52,28 @@ function login() {
 
     if(validatedInput.pass){
 
-      const result = await apiRequest.post('/users/login',{email,password});
+      const result = await apiRequest.post('/users/login',{email,password}) as APIResponse | AxiosError;
 
-      if(result){
-        // Data = result
-        clearInputs();
-        navigate('/');
+      if(result instanceof AxiosError){
+        if(result.name === 'AxiosError') apiErrorSetting(result.message);
+        return;
       }
-      // setError(true);
+
+      if(result.data.status !== 'success') {
+        apiErrorSetting(result.data.message);
+        return
+      }
+
+      localStorage.setItem("token",result.data.token);
+      localStorage.setItem("user",result.data.user.name);
+      clearInputs();
+      navigate('/');      
     }
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900 border-4">
+        {apiError && <Alert message={apiError}/> }
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black dark:text-teal-50 w-full dark:bg-gray-900">
 

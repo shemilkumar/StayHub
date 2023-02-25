@@ -1,14 +1,31 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import apiRequest from '../api/apiRequest';
 
 function Navbar() {
 
-  useEffect(() => {
-    // const async getUser = () =>{
-    //   const response = await apiRequest()
-    // }
-  }, [])
+  interface User {
+    _id: number,
+    name: string,
+    email: string,
+  }
+
+  // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
+  const userName = localStorage.getItem("user") as string;
+  
+
+  const [username, setUsername] = useState<string | undefined>(userName);
+
+
+  // useEffect(() => {
+  
+  // }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUsername(undefined);
+  }
   
 
   return (
@@ -29,15 +46,36 @@ function Navbar() {
           <span>About</span>
         </div>
         <div className="flex items-centers gap-4 cursor-pointer">
-        
-        <Link to="/login">
-          <span className="py-2">Login</span>
-        </Link>
-        
-        <Link to="/signup">
-          <span className='py-2 px-4 border-2 border-gray-300 rounded-full hover:bg-secondary hover:text-white hover:border-secondary'>SignUp</span>
-        </Link>
 
+        {username ? 
+          <div className='flex gap-2 items-center'>
+            <Link to="/">
+              <span className="py-2" onClick={handleLogout}>Logout</span>
+            </Link>
+
+            <Link to="/profile">
+              <div className='py-1 px-2 border-2 border-gray-200 rounded-full flex gap-2 items-center'>
+
+              <img src="https://dummyimage.com/302x302" alt="profile" className='w-9 h-9 rounded-full' />
+              <span className='uppercase'>{username.split(' ')[0]}</span>
+
+              </div>
+            </Link>
+          </div> 
+          :
+          <div className='flex gap-2'>
+            <Link to="/login">
+              <span className="py-2">Login</span>
+            </Link>
+            
+            <Link to="/signup">
+              <span className='py-2 px-4 border-2 border-gray-300 rounded-full hover:bg-secondary hover:text-white hover:border-secondary'>SignUp</span>
+            </Link>
+
+          </div>
+        }
+        
+        
         {/* <div className='flex gap-2 items-center'>
           <Link to="/login">
             <span className="py-2">Logout</span>

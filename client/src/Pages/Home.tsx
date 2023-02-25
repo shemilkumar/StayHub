@@ -4,8 +4,8 @@ import Feature from '../Components/Feature';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
 import Navbar from '../Components/Navbar';
-import Spinner from '../Components/Spinner';
 import Testimonial from '../Components/Testimonial';
+import Alert from '../util/Alert';
 
 function Home() {
   return (

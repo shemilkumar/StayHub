@@ -1,15 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import apiRequest from '../api/apiRequest';
 import Button from './Elements/Button';
 import Input from './Elements/Input';
 
 function SettingsChange() {
+
+  interface User{
+    name : string,
+    email: string
+  }
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<User | null>();
+
+  useEffect(() => {
+    const getUser = async() => {
+      try {
+        const response = await apiRequest.get('/users/me');
+        // setUser(response.user);
+        // console.log(response.data);
+      } catch (error) {
+        navigate('/login');
+      }
+    }
+
+    if(!user) getUser();
+  }, [])
+  
+
   return (
       <div className='px-16'>
         <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Your Account Settings</h1>
         <form>
 
-          <Input id='name' type='text' label='Name' value='Shemilkumar'/>
-          <Input id='email' type='email' label='Email address' value='shemil@gmail.com'/>
+          <Input id='name' type='text' label='Name' value={user?.name ? user.name : 'name'}/>
+          <Input id='email' type='email' label='Email address' value={user?.email ? user.email : 'email'}/>
 
           <div className='flex gap-4 items-center'>
             <div className='w-20 h-20 rounded-full border-4'></div>
