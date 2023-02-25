@@ -25,24 +25,6 @@ function login() {
     setPassword("");
   };
 
-  // const postData = async(data : Credentials) =>{
-  //   try {
-  //     const result = await api.postRequest(baseUrl,data) as AxiosResponse<any>;
-  //     console.log(result.data);
-  //     if(result.data.status === 'success') navigate('/');
-  //     else alert(result.data.message);
-  //   } catch (error : any) {
-  //       if(error.response){
-  //         console.log(error.response.data);
-          
-  //       }
-  //       else{
-  //         console.log("unknwon ==>",error.message);
-  //         alert(error.message);
-  //       } 
-  //   }
-  // };
-
   const handleLogin = async(e : FormEvent): Promise<void> => {
     e.preventDefault();
 
@@ -50,7 +32,7 @@ function login() {
 
     if(validatedInput.pass){
 
-      const result = await apiRequest('POST','/users/login',{email,password});
+      const result = await apiRequest.post('/users/login',{email,password});
 
       if(result){
         // Data = result

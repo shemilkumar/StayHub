@@ -8,7 +8,8 @@ import { HomeModel } from "../Constants/modelTypes";
 function allHomes() {
 
   const cacheKey = 'allHomes';
-  const CACHE_MINUTE = 1;
+  // 3 sec
+  const CACHE_MINUTE = 0.05;
 
   const [homes, setHomes] = useState<HomeModel[]>([]);
 
@@ -35,13 +36,17 @@ function allHomes() {
         console.log("Data from localStorage");
         setHomes(data);
       }else{
-        const response = await apiRequest('GET','/homes');
+        // const response = await apiRequest('GET','/homes');
+        const response = await apiRequest.get(`/homes`);
         console.log("Data from API",response);
-        setHomes(response.data);
 
-        localStorage.setItem(cacheKey,JSON.stringify(response.data));
-        // Remove cache after specific mins
-        cacheDelete(CACHE_MINUTE);
+        if(response){
+          setHomes(response.data);
+  
+          localStorage.setItem(cacheKey,JSON.stringify(response.data));
+          // Remove cache after specific mins
+          cacheDelete(CACHE_MINUTE);
+        }
       }
     };
 

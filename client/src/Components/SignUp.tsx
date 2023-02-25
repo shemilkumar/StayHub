@@ -47,7 +47,7 @@ function SignUp() {
     // If validation is successfull then signup otherwise immediate return
     if(validateResult.pass){
 
-      const result = await apiRequest('POST','/users/signup',{
+      const result = await apiRequest.post('/users/signup',{
         name,  
         email,
         password,

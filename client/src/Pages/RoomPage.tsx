@@ -18,7 +18,7 @@ function RoomPage() {
   useEffect(() => {
     const getHome = async() =>{
       if(id){
-        const response = await apiRequest('GET',`/homes/${id}`);
+        const response = await apiRequest.get(`/homes/${id}`)
         setHome(response?.data);
         // console.log("yes===>",response.data);
       }else console.log('id is not there');

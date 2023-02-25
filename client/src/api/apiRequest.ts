@@ -1,43 +1,64 @@
-import axios, { AxiosError, isAxiosError, AxiosResponse } from "axios";
+import {isAxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "../Constants/constant";
 
+class apiRequest {
 
-const apiRequest = async(request:string, url : string, data: object = {}) => {
-  try {
+  response: AxiosResponse | undefined;
 
-    let res: AxiosResponse;
-    switch (request) {
-      case 'GET':
-        res = await axiosApi.get(url,{
-          headers: {
-            'Cache-Control': 'max-age=3600'
-          }
-        });
-        break;
-      
-      case 'POST':
-        res = await axiosApi.post(url,data);
-        break;
+  constructor(){
+    this.response = undefined;
+  };
 
-      case 'PATCH':
-        res = await axiosApi.patch(url,data);
-        break;
-
-      case 'DELETE':
-        res = await axiosApi.delete(url);
-        break;
-    
-      default:
-        throw new Error("Request is not defined");
-    }
-
-    if(res.data.status === 'success'){
-      return res.data;
-    }else{
-      alert(res.data.message);
+  async get(url : string){
+    try {
+      this.response = await axiosApi.get(url) as AxiosResponse;
+      return this._responseCheck(this.response);
+    } catch (error){
+      this._internalError(error);
     } 
-    
-  } catch (error ) {
+  }
+
+  async post(url : string, data: object){
+    try {
+      this.response = await axiosApi.post(url,data) as AxiosResponse;
+      return this._responseCheck(this.response);
+    } catch (error){
+      this._internalError(error);
+    } 
+  }
+
+  async patch(url : string, data: object){
+    try {
+      this.response = await axiosApi.patch(url,data) as AxiosResponse;
+      return this._responseCheck(this.response); 
+    } catch (error){
+      this._internalError(error);
+    } 
+  }
+
+  async delete(url : string){
+    try {
+      this.response = await axiosApi.delete(url) as AxiosResponse;
+      return this._responseCheck(this.response); 
+    } catch (error){
+      this._internalError(error);
+    } 
+  }
+
+  _responseCheck(response : AxiosResponse){
+    if(response.data.status === 'success') return response.data;
+    else{
+      this._responseError(response.data.message);
+      return null;
+    } 
+      
+  }
+
+  _responseError(message : string){
+    alert(message);
+  }
+
+  _internalError(error : unknown){
     if (isAxiosError(error)) {
       if(error.response){
         console.log(error);
@@ -49,6 +70,57 @@ const apiRequest = async(request:string, url : string, data: object = {}) => {
     }
     else alert(error);
   }
-};
 
-export default apiRequest;
+}
+
+
+// const apiRequest = async(request:string, url : string, data: object = {}) => {
+//   try {
+
+//     let res: AxiosResponse;
+//     switch (request) {
+//       case 'GET':
+//         res = await axiosApi.get(url,{
+//           headers: {
+//             'Cache-Control': 'max-age=3600'
+//           }
+//         });
+//         break;
+      
+//       case 'POST':
+//         res = await axiosApi.post(url,data);
+//         break;
+
+//       case 'PATCH':
+//         res = await axiosApi.patch(url,data);
+//         break;
+
+//       case 'DELETE':
+//         res = await axiosApi.delete(url);
+//         break;
+    
+//       default:
+//         throw new Error("Request is not defined");
+//     }
+
+//     if(res.data.status === 'success'){
+//       return res.data;
+//     }else{
+//       alert(res.data.message);
+//     } 
+    
+//   } catch (error ) {
+//     if (isAxiosError(error)) {
+//       if(error.response){
+//         console.log(error);
+//         alert(error.response.data.message);
+//       }else {
+//         if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");
+//         throw error;
+//       }
+//     }
+//     else alert(error);
+//   }
+// };
+
+export default new apiRequest();

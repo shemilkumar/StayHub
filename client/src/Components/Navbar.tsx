@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import apiRequest from '../api/apiRequest';
 
 function Navbar() {
+
+  useEffect(() => {
+    // const async getUser = () =>{
+    //   const response = await apiRequest()
+    // }
+  }, [])
+  
+
   return (
     <div className='fixed top-0 w-full z-50'>
       <div className="max-w-same m-auto flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
