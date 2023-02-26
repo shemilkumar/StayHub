@@ -22,7 +22,7 @@ const validator = (inputs :Inputs): Result => {
         prop: 'email',
         message : 'Invalid email, Please try again with a valid email'
       }
-      alert(result.message);
+      // alert(result.message);
       return result;
     }
   }
@@ -35,7 +35,7 @@ const validator = (inputs :Inputs): Result => {
         prop: 'password',
         message : 'Password must contain 6 characters, and contain atleast one lowercase,uppercase letter and one digit'
       }
-      alert(result.message);
+      // alert(result.message);
       return result;
     }
   }

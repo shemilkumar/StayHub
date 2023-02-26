@@ -15,6 +15,14 @@ interface Rules {
   "parties": boolean
 }
 
+export type Data = {
+  status: string,
+  token: string,
+  user?: User,
+  data?: any,
+  message : string,
+}
+
 export interface HomeModel{
   name:string,
   ratingsAverage: number,
@@ -43,4 +51,14 @@ export interface HomeModel{
   slug?: string,
   createdAt?: string,
   discount?: number,
+}
+
+export interface User{
+  name : string,
+  email: string,
+  role: string,
+}
+
+export interface APIResponse{
+  data: Data
 }

@@ -5,25 +5,9 @@ import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest from '../api/apiRequest';
 import { AxiosError, AxiosResponse } from 'axios';
 import Alert from '../util/Alert';
-
-type User = {
-  name: string,
-  email: string,
-}
-
-type Data = {
-  status: string,
-  token: string,
-  user : User,
-  message : string,
-}
-
-interface APIResponse{
-  data: Data
-}
+import { APIResponse,User } from '../Constants/modelTypes';
 
 function login() {
-
 
   const navigate = useNavigate();
 
@@ -65,9 +49,12 @@ function login() {
       }
 
       localStorage.setItem("token",result.data.token);
-      localStorage.setItem("user",result.data.user.name);
+      localStorage.setItem("user",result.data.user!.name);
       clearInputs();
-      navigate('/');      
+      navigate('/'); 
+
+    }else{
+      apiErrorSetting(validatedInput.message);
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import apiRequest from '../api/apiRequest';
+import useApi from '../api/useApi';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import RoomComponents from '../Components/RoomComponents';
@@ -9,23 +10,27 @@ import { HomeModel } from '../Constants/modelTypes';
 
 function RoomPage() {
 
+  const naviagate =useNavigate()
   const [home, setHome] = useState<HomeModel>();
+  const [apiError,setApiError] = useState<string>();
 
   const {id} = useParams();
-  console.log(id);
+  // console.log(id);
+  const {data,error} = useApi('GET',`/homes/${id}`);
   
   
   useEffect(() => {
-    const getHome = async() =>{
-      if(id){
-        const response = await apiRequest.get(`/homes/${id}`)
-        setHome(response?.data);
-        // console.log("yes===>",response.data);
-      }else console.log('id is not there');
+
+    if(data){
+      setHome(data.data);
     }
-    
-    if(!home) getHome();
-  }, [home]);
+
+    if(error){
+      setApiError(error);
+      naviagate(`/error/${error}`);
+    }
+
+  }, [data,error]);
 
   return (
     <>

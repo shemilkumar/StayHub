@@ -42,7 +42,8 @@ const sendErrorProd = (err : ErrorClass, res : Response): void => {
 }
 
 const handleCastErrorDB = (err: ErrorClass) =>{
-  const message = `Can not find '${err.value}' as id on the server`;
+  console.log(err);
+  const message = `Can not find '${err.value}' on the server`;
   return new AppError(message,400);
 }
 

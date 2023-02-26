@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import apiRequest from '../api/apiRequest';
+import logout from '../util/logout';
 
 function Navbar() {
 
@@ -12,21 +12,15 @@ function Navbar() {
 
   // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
   const userName = localStorage.getItem("user") as string;
-  
+  const [username, setUsername] = useState<string | null>(userName);
 
-  const [username, setUsername] = useState<string | undefined>(userName);
-
-
-  // useEffect(() => {
-  
-  // }, []);
+  useEffect(() => {
+    setUsername(userName);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUsername(undefined);
+    logout();
   }
-  
 
   return (
     <div className='fixed top-0 w-full z-50'>
@@ -43,13 +37,15 @@ function Navbar() {
             <span>Houses</span>
           </Link>
 
-          <span>About</span>
+          <Link to="/profile">
+            <span>Profile</span>
+          </Link>
         </div>
         <div className="flex items-centers gap-4 cursor-pointer">
 
         {username ? 
           <div className='flex gap-2 items-center'>
-            <Link to="/">
+            <Link to="/login">
               <span className="py-2" onClick={handleLogout}>Logout</span>
             </Link>
 

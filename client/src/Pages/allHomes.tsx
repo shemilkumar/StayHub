@@ -3,63 +3,65 @@ import Card from '../Components/Card';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import apiRequest from '../api/apiRequest';
-import { HomeModel } from "../Constants/modelTypes";
+import { Data, HomeModel } from "../Constants/modelTypes";
+import useApi from '../api/useApi';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../Components/Spinner';
 
 function allHomes() {
 
-  const cacheKey = 'allHomes';
-  // 3 sec
-  const CACHE_MINUTE = 0.05;
-
+  const navigate = useNavigate();
   const [homes, setHomes] = useState<HomeModel[]>([]);
+  const [apiError,setApiError] = useState<string | null>(null);
 
+  const endpoint = '/homes';
+  const {data ,error} = useApi('GET',endpoint);
+  // console.log("Data from API",data);
+
+  // 3 sec
+  const CACHE_MINUTE = 1;
   const cacheDelete = (minute: number): void => {
     setTimeout(() => {
-      localStorage.removeItem(cacheKey);
+      localStorage.removeItem(endpoint);
     }, 1000 * 60 * minute);
   }
 
   useEffect(() => {
-    const getHomes = async() =>{
 
-      let data: HomeModel[] = [];
-      const cachedData = localStorage.getItem(cacheKey);
+      let dataFromCache: HomeModel[] = [];
+      const cachedData = localStorage.getItem(endpoint);
       // console.log(JSON.parse(cachedData));
       if(cachedData) {
-        data = JSON.parse(cachedData) as HomeModel[];
+        dataFromCache = JSON.parse(cachedData).data;
 
         // Remove cache after specific mins
         cacheDelete(CACHE_MINUTE);
       }
 
-      if(data.length > 0){
-        console.log("Data from localStorage");
-        setHomes(data);
+      if(dataFromCache.length > 0){
+        // console.log("Data from localStorage");
+        setHomes(dataFromCache);
       }else{
-        // const response = await apiRequest('GET','/homes');
-        const response = await apiRequest.get(`/homes`);
-        console.log("Data from API",response);
-
-        if(response){
-          setHomes(response.data);
-  
-          localStorage.setItem(cacheKey,JSON.stringify(response.data));
-          // Remove cache after specific mins
-          cacheDelete(CACHE_MINUTE);
-        }
-      }
+        if(data?.data) setHomes(data.data);
+        cacheDelete(CACHE_MINUTE);
     };
 
-    if(homes.length <= 0) getHomes();
-  }, []);
+    setApiError(error);
+    if(error) navigate(`/error/${error}`)
+
+  }, [data,error]);
   
   return (
     <>
       <Navbar/>
+
         <div className='min-h-screen flex'>
+          { homes.length <= 0 ?
+          <Spinner/> :
           <div className='m-auto grid grid-cols-3 gap-4'>
             {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
           </div>
+          }
         </div>
       <Footer/>
     </>

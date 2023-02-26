@@ -20,6 +20,7 @@ function App() {
         <Route path='/signup' element={<SignUpPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
 
+        <Route path='/error/:message' element={<ErrorPage/>}/>
         <Route path='*' element={<ErrorPage/>}/>
       </Routes>
     </Router>

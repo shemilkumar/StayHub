@@ -7,13 +7,7 @@ import Profile from '../Components/Profile';
 
 function ProfilePage() {
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const localUser = localStorage.getItem("user");
-    if(!localUser) navigate('/login')
-  }, []);
-
+  
 
   return (
     <>

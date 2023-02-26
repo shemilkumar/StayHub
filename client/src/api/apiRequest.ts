@@ -24,7 +24,7 @@ class apiRequest {
   async get(url : string){
     try {
       this.response = await axiosApi.get(url) as AxiosResponse;
-      return this.response
+      return this.response;
     } catch (error){
       return this._internalError(error);
     } 

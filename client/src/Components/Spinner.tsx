@@ -1,6 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Spinner() {
+
+  // const navigate = useNavigate();
+
+  // setTimeout(() => {
+  //   navigate(`/error/Connection lost, Please try again later`)
+  // }, 10000);
+
   return (
     <div className='flex w-full min-h-screen'>
       <span className="flex h-12 w-12 m-auto">

@@ -3,6 +3,9 @@ import {Link, useNavigate} from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest from '../api/apiRequest';
+import { APIResponse } from '../Constants/modelTypes';
+import { AxiosError } from 'axios';
+import Alert from '../util/Alert';
 
 function SignUp() {
 
@@ -17,8 +20,11 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordMatch, setpasswordMatch] = useState(true);
+  
   const [error, setError] = useState(false);
   const [showPassword,setShowPassword] = useState(false);
+
+  const [apiError,setApiError] = useState('');
 
   const clearInputs = ():void => {
     setName("");
@@ -27,6 +33,12 @@ function SignUp() {
     setPasswordConfirm("");
   }
 
+    const apiErrorSetting = (message : string) => {
+    setApiError(message);
+    setTimeout(() => {
+      setApiError('');
+    }, 4000);
+  }
 
   const handleSignUp = async(e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -52,26 +64,33 @@ function SignUp() {
         email,
         password,
         passwordConfirm
-      });
+      }) as APIResponse | AxiosError;
 
-      if(result){
-        // Data = result
-        clearInputs();
-        navigate('/');
+      if(result instanceof AxiosError){
+        if(result.name === 'AxiosError') apiErrorSetting(result.message);
+        return;
       }
-      return;
-    }
 
-    // validation is failed
-    console.log(validateResult);
-    setError(true);
-    if(validateResult.prop === 'email') emailRef.current?.focus();
-    if(validateResult.prop === 'password') passwordRef.current?.focus()
-    return;
+      if(result.data.status !== 'success') {
+        apiErrorSetting(result.data.message);
+        return
+      }
+
+      localStorage.setItem("token",result.data.token);
+      localStorage.setItem("user",result.data.user!.name);
+      clearInputs();
+      navigate('/'); 
+    }else{
+      apiErrorSetting(validateResult.message);
+      setError(true);
+      if(validateResult.prop === 'email') emailRef.current?.focus();
+      if(validateResult.prop === 'password') passwordRef.current?.focus()
+    }
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900">
+        {apiError && <Alert message={apiError}/> }
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black dark:text-teal-50 w-full dark:bg-gray-900">
 
