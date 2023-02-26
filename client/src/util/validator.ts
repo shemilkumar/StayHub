@@ -1,5 +1,5 @@
 interface Inputs {
-  readonly email: string,
+  readonly email?: string,
   readonly password?: string,
 }
 

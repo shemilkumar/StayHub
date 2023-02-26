@@ -86,8 +86,8 @@ function SettingsChange({user} : {user: User}) {
 
           </div>
 
-          <span className='mt-8 flex justify-end border-green-500 border-4 rounded-full'>
-            <span className='border-purple-500 border-4 rounded-full' onClick={handleUpdate}>
+          <span className='mt-8 flex justify-end rounded-full'>
+            <span className='rounded-full' onClick={handleUpdate}>
               <Button text='Save Settings'/>
             </span>
           </span>
