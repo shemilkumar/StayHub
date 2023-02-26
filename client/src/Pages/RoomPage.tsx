@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import apiRequest from '../api/apiRequest';
 import useApi from '../api/useApi';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
@@ -17,7 +16,8 @@ function RoomPage() {
   const {id} = useParams();
   // console.log(id);
   const {data,error} = useApi('GET',`/homes/${id}`);
-  
+  console.log(data,error);
+
   
   useEffect(() => {
 

@@ -43,8 +43,8 @@ class apiRequest {
   async patch(url : string, data: object){
     try {
       this.response = await axiosApi.patch(url,data) as AxiosResponse;
-      return this.response
-
+      return this.response;
+      
     } catch (error){
       return this._internalError(error);
     } 
@@ -77,6 +77,7 @@ class apiRequest {
 
 }
 
+export default new apiRequest();
 
 // const apiRequest = async(request:string, url : string, data: object = {}) => {
 //   try {
@@ -127,4 +128,3 @@ class apiRequest {
 //   }
 // };
 
-export default new apiRequest();
