@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import apiRequest from '../api/apiRequest';
 import Button from './Elements/Button';
 import { APIResponse,User } from '../Constants/modelTypes';
+import { backendStaticUserUrl } from '../Constants/constant';
 import validator from '../util/validator';
 import Alert from '../util/Alert';
 
@@ -76,8 +77,14 @@ function SettingsChange({user} : {user: User}) {
           <Input id='email' type='email' label='Email address' value={user?.email}/> */}
 
           <div className='flex gap-4 items-center'>
-            <div className='w-20 h-20 rounded-full border-4'></div>
+            <div className='w-20 h-20 rounded-full '>
             
+              {/* <img src={`${backendStaticUserUrl}/${user.photo}`} alt="profile" />*/}
+              <img src='http://127.0.0.1:8000/public/img/users/default.jpg' alt="" 
+              className='w-20 h-20 object-cover rounded-full border-2 border-secondary p-0.5'/>
+            
+            </div> 
+
             <div className=''>
               <input type="file" accept='image/*' className='opacity-0 overflow-hidden absolute -z-1 focus:outline-[3px] focus:outline focus:outline-secondary text-secondary inline-block border-b-2 border-secondary p-1 cursor-pointer transition-all duration-150'/>
 

@@ -20,7 +20,7 @@ function useApi<T, U>(req: string,endpoint: string, payload?: U): { data: Data |
   const [error, setError] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
-  const cachingEndpoints: string[] = ['/homes','/users/me'];
+  const cachingEndpoints: string[] = ['/homes'];
   let hasData:boolean = false;
 
   const cacheNeedChecking = (endpoint : string) =>{

@@ -31,6 +31,7 @@ function Profile() {
 
     if(error){
       setApiError(error);
+      localStorage.getItem("user");
       navigate(`/error/${error}`);
     }
   }, [data,error]);

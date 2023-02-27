@@ -90,7 +90,7 @@ function PasswordChange(){
         />
 
         <label htmlFor='confirmPassword' className='font-semibold'>Confirm password</label>
-        <input type='password' id='newPassword' className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mb-8 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'
+        <input type='password' id='confirmPassword' className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mb-8 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'
         value={passwordConfirm}
         onChange={(e) => setPasswordConfirm(e.target.value)}
         placeholder={'* * * * * * * *'}

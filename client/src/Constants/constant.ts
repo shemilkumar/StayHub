@@ -7,7 +7,9 @@ interface Testimonial {
   job: string,
 }
 
-// export const baseUrl: string = 'http://127.0.0.1:8000/api/v1/users/login';
+export const backendBaseUrl: string = 'http://127.0.0.1:8000';
+export const backendStaticUserUrl = `${backendBaseUrl}/public/img/users/`;
+// http://127.0.0.1:8000/public/img/users/user-63fcd99f01813ed932e71cbf-1677516687758.jpeg
 
 export const axiosApi = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/v1',
