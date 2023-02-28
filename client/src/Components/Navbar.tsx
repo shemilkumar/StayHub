@@ -24,24 +24,30 @@ function Navbar() {
 
   return (
     <div className='fixed top-0 w-full z-50'>
-      <div className="max-w-same m-auto flex justify-between items-center p-4 font-semibold bg-primary text-secondary">
-        <Link to="/">
-          <div className="text-3xl cursor-pointer">StayHub</div>
-        </Link>
-        <div className="flex gap-4 shadow-md py-4 px-8 rounded-full cursor-pointer">
+      <div className="max-w-same m-auto flex justify-around items-center p-4 font-semibold bg-primary text-secondary">
+        <div  className='w-1/3'>
           <Link to="/">
-            <span className=''>Home</span>
-          </Link>
-
-          <Link to="/homes">
-            <span>Houses</span>
-          </Link>
-
-          <Link to="/profile">
-            <span>Profile</span>
+            <div className="text-3xl cursor-pointer">StayHub</div>
           </Link>
         </div>
-        <div className="flex items-centers gap-4 cursor-pointer">
+
+        <div className='w-1/3 flex justify-center'>
+          <div className="inline-block shadow-md py-4 px-8 rounded-full cursor-pointer">
+            <Link to="/">
+              <span className='mr-4'>Home</span>
+            </Link>
+
+            <Link to="/homes">
+              <span className='mr-4'>Houses</span>
+            </Link>
+
+            <Link to="/profile">
+              <span className=''>Profile</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex justify-end items-centers gap-4 cursor-pointer w-1/3">
 
         {username ? 
           <div className='flex gap-2 items-center'>
@@ -50,10 +56,10 @@ function Navbar() {
             </Link>
 
             <Link to="/profile">
-              <div className='py-1 px-2 border-2 border-gray-200 rounded-full flex gap-2 items-center'>
+              <div className='py-1 px-2 pr-3 border-2 border-gray-200 rounded-full flex gap-2 items-center'>
 
-              <img src="https://dummyimage.com/302x302" alt="profile" className='w-9 h-9 rounded-full' />
-              <span className='uppercase'>{username.split(' ')[0]}</span>
+                <img src="https://dummyimage.com/302x302" alt="profile" className='w-9 h-9 rounded-full' />
+                <span className='uppercase'>{username.split(' ')[0]}</span>
 
               </div>
             </Link>
