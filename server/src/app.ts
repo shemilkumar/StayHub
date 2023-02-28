@@ -21,12 +21,15 @@ const app = express();
 //  1) Blobal Middlewares
 
   // Implement Cors
-app.use(cors());
+app.use(cors({}));
 
 app.options('*', cors());
 
   // Set security HTTP header
-app.use(helmet());
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: false,
+}));
 
   // Development logging
 if(process.env.NODE_ENV === 'development') app.use(morgan('dev'));

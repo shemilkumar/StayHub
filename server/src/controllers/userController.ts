@@ -6,25 +6,30 @@ import catchAsync from "../util/catchAsync";
 import { AuthRequest } from "../controllers/authController";
 import * as factory from "../controllers/handleFactory";
 import { Callback } from "mongoose";
+import sharp from "sharp";
 
-const multerStorage = multer.diskStorage({
-  destination: (req : Request,file : Express.Multer.File,cb : Callback) =>{
-    cb(null, 'src/public/img/users');
-  },
-  filename:(req : AuthRequest,file : Express.Multer.File,cb : Callback) =>{
-    const extension = file.mimetype.split('/')[1];
+// const multerStorage = multer.diskStorage({
+//   destination: (req : Request,file : Express.Multer.File,cb : Callback) =>{
+//     cb(null, 'src/public/img/users');
+//   },
+//   filename:(req : AuthRequest,file : Express.Multer.File,cb : Callback) =>{
+//     const extension = file.mimetype.split('/')[1];
 
-    if(!req.user){
-      cb(new AppError('Please login',401), false);
-      return;
-    }
+//     if(!req.user){
+//       cb(new AppError('Please login',401), false);
+//       return;
+//     }
 
-    const filename = `user-${req.user.id}-${Date.now()}.${extension}`;
-    cb(null, filename);
-  }
-});
+//     const filename = `user-${req.user.id}-${Date.now()}.${extension}`;
+//     cb(null, filename);
+//   }
+// });
+
+const multerStorage = multer.memoryStorage(); 
 
 const multerFilter = (req : Request,file : Express.Multer.File ,cb : FileFilterCallback) =>{
+
+  // console.log("fileee ===>",req.file);
   if(file.mimetype.startsWith('image')) cb(null,true);
   else {
     new AppError('Not an image! Please upload only images', 400);
@@ -39,11 +44,29 @@ const upload = multer({
 
 export const uploadUserPhoto = upload.single('photo');
 
-interface UserData{
-  name: string,
-  email: string,
-  photo?: string,
-}
+export const resizePhoto = (req:AuthRequest, res: Response, next: NextFunction) =>{
+
+  // console.log("res+=====>", req.file);
+
+  if(!req.file) return next();
+  if(!req.user) return next(new AppError('Login error',400));
+
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+  sharp(req.file.buffer)
+    .resize(500,500)
+    .toFormat('jpeg')
+    .jpeg({quality : 90})
+    .toFile(`src/public/img/users/${req.file.filename}`);
+
+  next();
+};
+
+// interface UserData{
+//   name: string,
+//   email: string,
+//   photo?: string,
+// }
 
 const filterObj = (obj : {[key:string]: any}, ...allowedFields: string[]): any =>{
   const newObj: {[key:string]: any} = {};
@@ -61,6 +84,8 @@ export const updateMe = catchAsync( async(req:AuthRequest, res: Response, next: 
   
   const filteredBody = filterObj(req.body,'name', 'email');
   if(req.file) filteredBody.photo = req.file.filename;
+
+  console.log(req.body);
 
   const updatedUser = await User.findByIdAndUpdate(req.user!.id, filteredBody,{
     new:true,
