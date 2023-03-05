@@ -1,0 +1,58 @@
+// import nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
+import { htmlToText } from 'html-to-text';
+import * as template from "./Templates/template";
+
+class Email{
+
+  to: string;
+  from: string;
+  url: string;
+  firstName: string;
+
+  constructor(user : {name: string, email: string}, url : string){
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
+    this.url = url;
+    this.from = `Shemilkumar E A <${process.env.EMAIL}>`
+
+    // console.log(this.to,this.firstName);
+  }
+
+  newTransport(){
+    // if(process.env.No)
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+      }
+    })
+  }
+
+  async send(htmlTemplate : string, subject: string){
+
+    let html : string= '';
+
+    if(htmlTemplate === 'welcome'){
+      html = (template.welcome).replace('<name>', this.firstName);
+    }
+
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: htmlToText(html)
+    }
+
+    await this.newTransport().sendMail(mailOptions);
+    console.log(this.to,this.firstName);
+  };
+
+  async sendWelcome(){
+    await this.send('welcome', 'Welcome to the StayHub Family!');
+  };
+}
+
+export default Email;

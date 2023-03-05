@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import AppError from "../util/AppError";
 import { promisify } from "util";
 import crypto from "crypto";
+import Email from "../util/Email/email";
 
 export interface AuthRequest extends Request{
   user?: UserType,
@@ -59,6 +60,7 @@ export const signup = catchAsync( async(req:Request, res: Response, next: NextFu
 
   const newUser = await User.create(req.body);
 
+  if(newUser) new Email(newUser, `http://127.0.0.1:5173`).sendWelcome();
   createSendToken(newUser,201,res);
 });
 
@@ -127,6 +129,7 @@ export const forgotPasswod = catchAsync(async (req:AuthRequest,res:Response,next
   await user.save({validateBeforeSave: false});
 
   // Send it to the users email
+  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
 });
 
 export const resetPasswod = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
