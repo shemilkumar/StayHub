@@ -54,7 +54,7 @@ function SignUp() {
     }
 
     // Validate inputs
-    const validateResult = validator({email,password}) 
+    const validateResult = validator({email,password}); 
 
     // If validation is successfull then signup otherwise immediate return
     if(validateResult.pass){

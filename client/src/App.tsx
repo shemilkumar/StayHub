@@ -6,6 +6,8 @@ import ProfilePage from "./Pages/ProfilePage";
 import RoomPage from "./Pages/RoomPage";
 import AllHomes from "./Pages/allHomes";
 import ErrorPage from "./Pages/ErrorPage";
+import ResetPasswordPage from "./Pages/ResetPasswordPage";
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 
 
 function App() {
@@ -19,6 +21,9 @@ function App() {
 
         <Route path='/signup' element={<SignUpPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
+
+        <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
+        <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
 
         <Route path='/error/:message' element={<ErrorPage/>}/>
         <Route path='*' element={<ErrorPage/>}/>

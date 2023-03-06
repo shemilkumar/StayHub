@@ -108,8 +108,14 @@ function login() {
             Login
           </button>
 
+          <Link to={'/forgotPassword'}>
+            <div className='flex justify-center mt-3'>
+              <span className='px-2 hover:bg-blue-50 text-tertiary_2 text-sm cursor-pointer'>Forgot Password?</span>
+            </div>
+          </Link>
+
           <Link to="/signup">
-          <div className="text-grey-dark mt-6 dark:text-teal-50 text-center">
+          <div className="text-grey-dark mt-5 dark:text-teal-50 text-center">
             Don't have an account?{" "}
             <span className="font-semibold text-tertiary_2">Create one</span>
           </div>

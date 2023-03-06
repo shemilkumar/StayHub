@@ -129,7 +129,19 @@ export const forgotPasswod = catchAsync(async (req:AuthRequest,res:Response,next
   await user.save({validateBeforeSave: false});
 
   // Send it to the users email
-  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+  // const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+  const resetURL = `http://127.0.0.1:5173/resetPassword/${resetToken}`;
+
+  await new Email(user, resetURL).sendPasswordReset();
+
+  res.status(201).json({
+    status: 'success',
+    user:{
+      name: user.name,
+      email: user.email,
+      role: user.role
+    }
+  })
 });
 
 export const resetPasswod = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{

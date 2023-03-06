@@ -38,6 +38,10 @@ class Email{
       html = (template.welcome).replace('<name>', this.firstName);
     }
 
+    if(htmlTemplate === 'passwordReset'){
+      html = (template.passwordResetMail).replace('<URL>', this.url);
+    }
+
     const mailOptions = {
       from: this.from,
       to: this.to,
@@ -53,6 +57,10 @@ class Email{
   async sendWelcome(){
     await this.send('welcome', 'Welcome to the StayHub Family!');
   };
+
+  async sendPasswordReset(){
+    await this.send('passwordReset', 'Your password reset token (valid for only 10 minutes)');
+  }
 }
 
 export default Email;

@@ -62,15 +62,8 @@ class apiRequest {
 
   _internalError(error : unknown){
     if (isAxiosError(error)) {
-      if(error.response){
-        // console.log("here",error.response);
-        return error.response;
-        // alert(error.response.data.message);
-      }else {
-        // if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");
-        // console.log(error);
-        return error;
-      }
+      if(error.response) return error.response;
+      else return error;
     }
     else alert(error);
   }
