@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useApi from '../api/useApi';
 import PasswordChange from '../Components/PasswordChange';
@@ -10,6 +11,9 @@ import Spinner from './Spinner';
 function Profile() {
 
   const navigate = useNavigate();
+  const userFromStrore = useSelector((state : any) => state.user.value);
+
+  // console.log(userFromStrore);
 
   const [user, setUser] = useState<User | null>();
   const [apiError, setApiError] = useState('');

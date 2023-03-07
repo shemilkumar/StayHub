@@ -5,18 +5,26 @@ import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest from '../api/apiRequest';
 import { AxiosError, AxiosResponse } from 'axios';
 import Alert from '../util/Alert';
-import { APIResponse,User } from '../Constants/modelTypes';
+import { APIResponse, User } from '../Constants/modelTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserInitialState, userLoggin } from "../Redux/Slicers/userSlice";
+
+
 
 function login() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const userFromStrore = useSelector((state : any) => state.user.value);
+
+  // console.log(userFromStrore);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error,setError] = useState(false);
   const [apiError,setApiError] = useState('');
-
+  
   const clearInputs = ():void => {
     setEmail("");
     setPassword("");
@@ -33,9 +41,9 @@ function login() {
     e.preventDefault();
 
     const validatedInput = validator({email});
+    // console.log(email,password);
 
     if(validatedInput.pass){
-
       const result = await apiRequest.post('/users/login',{email,password}) as APIResponse | AxiosError;
 
       if(result instanceof AxiosError){
@@ -50,6 +58,7 @@ function login() {
 
       localStorage.setItem("token",result.data.token);
       localStorage.setItem("user",result.data.user!.name);
+      dispatch(userLoggin(result.data.user!));
       clearInputs();
       navigate('/'); 
 

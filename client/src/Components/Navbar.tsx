@@ -27,7 +27,7 @@ function Navbar() {
       <div className="max-w-same m-auto flex justify-around items-center p-4 font-semibold bg-primary text-secondary">
         <div  className='w-1/3'>
           <Link to="/">
-            <div className="text-3xl cursor-pointer">StayHub</div>
+            <div className="text-3xl cursor-pointer font-mono">StayHub</div>
           </Link>
         </div>
 
