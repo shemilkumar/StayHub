@@ -10,7 +10,7 @@ function Feature() {
 
   return (
     <div className='min-h-screen'>
-      <SearchForm/>
+      {/* <SearchForm/> */}
       <FeatureBlock/>  
       <div className='flex-row-reverse'>
         <HeroBlock image={image} description={description} subHeading={"Scenic Spots"} switchFlex={true}/>   

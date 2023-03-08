@@ -5,7 +5,7 @@ function Testimonial() {
     <>
       <section className="text-gray-600 body-font min-h-screen flex">
         <div className="container px-5 py-24 m-auto">
-          <h1 className="text-6xl text-gray-700 font-semibold flex justify-center ">Testimonials</h1>
+          <h1 className="text-6xl text-gray-700 font-semibold flex justify-center mb-12">Testimonials</h1>
           <div className="flex flex-wrap -m-4">
             {
               TestimonialData.map((testimonial,i) => {

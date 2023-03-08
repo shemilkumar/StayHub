@@ -5,10 +5,20 @@ function SearchForm() {
     <div>
       <div className="flex w-full">
         <form className='flex gap-1 m-auto w-full'>
-        <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>
-        <input type="date" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
-        <input type="date" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
+
+        {/* <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/> */}
+
+        <select placeholder='going to' name="places" id="places" className='block p-3 rounded-2xl w-full border-2 border-gray-400'>
+            <option value="" disabled selected>Going to</option>
+            <option value="kochi">Kochi</option>
+            <option value="bangalore">Bangalore</option>
+            <option value="chennai">Chennai</option>
+        </select>
+
+        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
+        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
         <input type="text" placeholder='Guests' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>
+        
         <button className='py-4 px-8 bg-tertiary_2 text-white font-semibold rounded'>Search</button>
         </form>
       </div>

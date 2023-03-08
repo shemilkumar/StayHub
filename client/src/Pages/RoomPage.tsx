@@ -14,10 +14,7 @@ function RoomPage() {
   const [apiError,setApiError] = useState<string>();
 
   const {id} = useParams();
-  // console.log(id);
   const {data,error} = useApi('GET',`/homes/${id}`);
-  // console.log(data,error);
-
   
   useEffect(() => {
 
