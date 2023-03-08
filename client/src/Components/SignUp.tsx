@@ -2,7 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { APIResponse } from '../Constants/modelTypes';
 import { AxiosError } from 'axios';
 import Alert from '../util/Alert';
@@ -64,23 +64,31 @@ function SignUp() {
         email,
         password,
         passwordConfirm
-      }) as APIResponse | AxiosError;
+      }) as FetchChecked;
 
-      if(result instanceof AxiosError){
-        if(result.name === 'AxiosError') apiErrorSetting(result.message);
-        return;
-      }
+      if(result.pass){
+        if(!result.fetchedData) return;
+        localStorage.setItem("token",result.fetchedData.data.token);
+        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        clearInputs();
+        navigate('/'); 
+      }else apiErrorSetting(result.message ? result.message : 'Something went worng');
 
-      if(result.data.status !== 'success') {
-        apiErrorSetting(result.data.message);
-        return
-      }
+      // if(result instanceof AxiosError){
+      //   if(result.name === 'AxiosError') apiErrorSetting(result.message);
+      //   return;
+      // }
 
-      localStorage.setItem("token",result.data.token);
-      localStorage.setItem("user",result.data.user!.name);
+      // if(result.data.status !== 'success') {
+      //   apiErrorSetting(result.data.message);
+      //   return
+      // }
 
-      clearInputs();
-      navigate('/'); 
+      // localStorage.setItem("token",result.data.token);
+      // localStorage.setItem("user",result.data.user!.name);
+
+      // clearInputs();
+      // navigate('/'); 
     }else{
       apiErrorSetting(validateResult.message);
       setError(true);

@@ -7,7 +7,7 @@ import { APIResponse, User } from '../Constants/modelTypes';
 import Spinner from './Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from "../Redux/Slicers/userSlice";
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { AxiosError } from 'axios';
 
 function Profile() {
@@ -20,27 +20,20 @@ function Profile() {
   const [apiError, setApiError] = useState('');
 
   const fetchCurrentUser = async() =>{
-    const result = await apiRequest.get('/users/me') as APIResponse | AxiosError;
+    const result = await apiRequest.get('/users/me') as FetchChecked;
 
-    if(result instanceof AxiosError){
-      if(result.name === 'AxiosError') navigate(`/error/${result.message}`);
-      return;
-    }
+    if(result.pass){
+      setUser(result.fetchedData!.data.data);
+      dispatch(setUserData(result.fetchedData!.data.data));
 
-    if(result.data.status !== 'success') {
-      navigate(`/error/${result.data.message}`);
-      return;
-    }
-
-    setUser(result.data.data);
-    dispatch(setUserData(result.data.data));
+    }else navigate(`/error/${result.message}`);
   }
 
   useEffect(() => {
     if(userFromStrore.name === '') fetchCurrentUser();
     else setUser(userFromStrore);
   }, []);
-  
+
 
   return (
     <div>

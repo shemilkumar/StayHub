@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { backendStaticUserUrl } from '../Constants/constant';
+import { deleteUserData } from '../Redux/Slicers/userSlice';
 import logout from '../util/logout';
 
 function Navbar() {
@@ -10,6 +12,8 @@ function Navbar() {
     name: string,
     email: string,
   }
+
+  const dispatch = useDispatch();
 
   // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
   const userName = localStorage.getItem("user") as string;
@@ -22,7 +26,10 @@ function Navbar() {
     setUserphoto(userPhoto);
   }, []);
 
-  const handleLogout = () => logout();
+  const handleLogout = () => {
+    logout();
+    dispatch(deleteUserData());
+  }
   
 
   return (

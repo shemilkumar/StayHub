@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import { Link,useNavigate } from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { AxiosError, AxiosResponse } from 'axios';
 import Alert from '../util/Alert';
 import { APIResponse, User } from '../Constants/modelTypes';
@@ -40,24 +40,34 @@ function login() {
     // console.log(email,password);
 
     if(validatedInput.pass){
-      const result = await apiRequest.post('/users/login',{email,password}) as APIResponse | AxiosError;
+      const result = await apiRequest.post('/users/login',{email,password}) as FetchChecked;
 
-      if(result instanceof AxiosError){
-        if(result.name === 'AxiosError') apiErrorSetting(result.message);
-        return;
-      }
+      if(result.pass){
+        if(!result.fetchedData) return;
+        localStorage.setItem("token",result.fetchedData.data.token);
+        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        localStorage.setItem("userPhoto",result.fetchedData.data.user!.photo);
+        dispatch(setUserData(result.fetchedData.data.user!));
+        clearInputs();
+        navigate('/'); 
+      }else apiErrorSetting(result.message ? result.message : 'Something went worng');
 
-      if(result.data.status !== 'success') {
-        apiErrorSetting(result.data.message);
-        return
-      }
+      // if(result instanceof AxiosError){
+      //   if(result.name === 'AxiosError') apiErrorSetting(result.message);
+      //   return;
+      // }
 
-      localStorage.setItem("token",result.data.token);
-      localStorage.setItem("user",result.data.user!.name);
-      localStorage.setItem("userPhoto",result.data.user!.photo);
-      dispatch(setUserData(result.data.user!));
-      clearInputs();
-      navigate('/'); 
+      // if(result.data.status !== 'success') {
+      //   apiErrorSetting(result.data.message);
+      //   return
+      // }
+
+      // localStorage.setItem("token",result.data.token);
+      // localStorage.setItem("user",result.data.user!.name);
+      // localStorage.setItem("userPhoto",result.data.user!.photo);
+      // dispatch(setUserData(result.data.user!));
+      // clearInputs();
+      // navigate('/'); 
 
     }else{
       apiErrorSetting(validatedInput.message);

@@ -1,5 +1,12 @@
-import axios, {isAxiosError, AxiosResponse } from "axios";
+import axios, {isAxiosError, AxiosResponse, AxiosError } from "axios";
 import { axiosApi } from "../Constants/constant";
+import { APIResponse } from "../Constants/modelTypes";
+
+export interface FetchChecked{
+  pass: boolean,
+  message?: string,
+  fetchedData?: APIResponse
+}
 
 axiosApi.interceptors.request.use(
   (config) => {
@@ -14,7 +21,7 @@ axiosApi.interceptors.request.use(
 
 class apiRequest {
 
-  response: AxiosResponse | undefined;
+  response: APIResponse | AxiosError | undefined;
 
   constructor(){
     this.response = undefined;
@@ -22,8 +29,10 @@ class apiRequest {
 
   async get(url : string){
     try {
-      this.response = await axiosApi.get(url) as AxiosResponse;
-      return this.response;
+      this.response = await axiosApi.get(url) as APIResponse | AxiosError;
+      const result = this._checkResponse(this.response) as FetchChecked;
+      return result;
+
     } catch (error){
       return this._internalError(error);
     } 
@@ -31,8 +40,9 @@ class apiRequest {
 
   async post(url : string, data: object){
     try {
-      this.response = await axiosApi.post(url,data) as AxiosResponse;
-      return this.response
+      this.response = await axiosApi.post(url,data) as APIResponse | AxiosError;
+      const result = this._checkResponse(this.response) as FetchChecked;
+      return result;
 
     } catch (error){
       return this._internalError(error);
@@ -61,10 +71,33 @@ class apiRequest {
 
   _internalError(error : unknown){
     if (isAxiosError(error)) {
-      if(error.response) return error.response;
-      else return error;
+      if(error.response){
+        return {pass : false, message: error.response.data.message};
+      }
+      else return {pass : false, message: error.message};
     }
     else alert(error);
+  }
+
+  _checkResponse(response : typeof this.response){
+
+    if(!response) return;
+
+    if(response instanceof AxiosError){
+      if(response.name === 'AxiosError'){
+        // navigate(`/error/${response.message}`);
+        return {pass : false, message: response.message};
+      }
+    }else if(response.data.status !== 'success') {
+      // navigate(`/error/${response.data.message}`);
+      return {pass : false, message: response.data.message};
+    }
+
+    return {
+      pass: true,
+      fetchedData: response
+    };
+
   }
 
 }

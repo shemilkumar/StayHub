@@ -1,6 +1,7 @@
 const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+  localStorage.removeItem("userPhoto");
   localStorage.removeItem("/users/me");
 };
 
