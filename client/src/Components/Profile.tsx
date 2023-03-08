@@ -1,48 +1,51 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import useApi from '../api/useApi';
 import PasswordChange from '../Components/PasswordChange';
 import SettingsChange from '../Components/SettingsChange';
 import SidebarMenu from '../Components/SidebarMenu';
-import { User } from '../Constants/modelTypes';
+import { APIResponse, User } from '../Constants/modelTypes';
 import Spinner from './Spinner';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from "../Redux/Slicers/userSlice";
+import apiRequest from '../api/apiRequest';
+import { AxiosError } from 'axios';
 
 function Profile() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userFromStrore = useSelector((state : any) => state.user.value);
-
-  // console.log(userFromStrore);
 
   const [user, setUser] = useState<User | null>();
   const [apiError, setApiError] = useState('');
 
-  const endpoint = '/users/me';
-  const {data ,error} = useApi('GET',endpoint);
-  // console.log(data,error);
+  const fetchCurrentUser = async() =>{
+    const result = await apiRequest.get('/users/me') as APIResponse | AxiosError;
+
+    if(result instanceof AxiosError){
+      if(result.name === 'AxiosError') navigate(`/error/${result.message}`);
+      return;
+    }
+
+    if(result.data.status !== 'success') {
+      navigate(`/error/${result.data.message}`);
+      return;
+    }
+
+    setUser(result.data.data);
+    dispatch(setUserData(result.data.data));
+  }
 
   useEffect(() => {
-
-    const localUser = localStorage.getItem(endpoint);
-    if(localUser){
-      setUser(JSON.parse(localUser).data);
-    }
-
-    if(data) {
-      setUser(data.data);
-    }
-
-    if(error){
-      setApiError(error);
-      localStorage.getItem("user");
-      navigate(`/error/${error}`);
-    }
-  }, [data,error]);
+    if(userFromStrore.name === '') fetchCurrentUser();
+    else setUser(userFromStrore);
+  }, []);
+  
 
   return (
     <div>
       {user ? 
+      
       <div className='flex'>
         <div className='m-auto w-[63%]'>
           <div className='grid grid-cols-4 bg-white shadow-2xl'>

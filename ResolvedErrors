@@ -1,0 +1,3 @@
+1#) Email and Password is not going to the server by request
+A) You are accessing login route before logout
+

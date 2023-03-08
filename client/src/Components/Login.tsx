@@ -7,17 +7,13 @@ import { AxiosError, AxiosResponse } from 'axios';
 import Alert from '../util/Alert';
 import { APIResponse, User } from '../Constants/modelTypes';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserInitialState, userLoggin } from "../Redux/Slicers/userSlice";
-
-
+import { UserInitialState, setUserData } from "../Redux/Slicers/userSlice";
 
 function login() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const userFromStrore = useSelector((state : any) => state.user.value);
-
-  // console.log(userFromStrore);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,7 +54,8 @@ function login() {
 
       localStorage.setItem("token",result.data.token);
       localStorage.setItem("user",result.data.user!.name);
-      dispatch(userLoggin(result.data.user!));
+      localStorage.setItem("userPhoto",result.data.user!.photo);
+      dispatch(setUserData(result.data.user!));
       clearInputs();
       navigate('/'); 
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { backendStaticUserUrl } from '../Constants/constant';
 import logout from '../util/logout';
 
 function Navbar() {
@@ -12,15 +13,17 @@ function Navbar() {
 
   // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
   const userName = localStorage.getItem("user") as string;
+  const userPhoto = localStorage.getItem("userPhoto") as string;
   const [username, setUsername] = useState<string | null>(userName);
+  const [userphoto, setUserphoto] = useState<string | null>(userPhoto);
 
   useEffect(() => {
     setUsername(userName);
+    setUserphoto(userPhoto);
   }, []);
 
-  const handleLogout = () => {
-    logout();
-  }
+  const handleLogout = () => logout();
+  
 
   return (
     <div className='fixed top-0 w-full z-50'>
@@ -58,7 +61,10 @@ function Navbar() {
             <Link to="/profile">
               <div className='py-1 px-2 pr-3 border-2 border-gray-200 rounded-full flex gap-2 items-center'>
 
-                <img src="https://dummyimage.com/302x302" alt="profile" className='w-9 h-9 rounded-full' />
+                {userphoto &&
+                  <img src={`${backendStaticUserUrl}/${userphoto}`} alt="profile" className='w-9 h-9 rounded-full' />
+                }
+                
                 <span className='uppercase'>{username.split(' ')[0]}</span>
 
               </div>

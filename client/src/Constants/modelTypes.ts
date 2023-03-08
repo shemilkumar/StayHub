@@ -57,7 +57,7 @@ export interface User{
   name : string,
   email: string,
   role: string,
-  photo?: string,
+  photo: string,
 }
 
 export interface APIResponse{

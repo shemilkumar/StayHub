@@ -10,6 +10,7 @@ const initialState: UserInitialState = {
     name : '',
     email: '',
     role: '',
+    photo: ''
   }
 }
 
@@ -17,12 +18,12 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userLoggin : (state : UserInitialState, action : PayloadAction<User>) =>{
+    setUserData : (state : UserInitialState, action : PayloadAction<User>) =>{
       state.value = action.payload;
     }
   }
 });
 
-export const {userLoggin} = userSlice.actions;
+export const {setUserData} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ErrorView from '../Components/ErrorView';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
+import logout from '../util/logout';
 
 function ErrorPage() {
 
@@ -12,9 +13,9 @@ function ErrorPage() {
 
   useEffect(() => {
     // console.log(params);
-    if(params.message){
-      setErrorMessage(params.message);
-    }
+    if(params.message) setErrorMessage(params.message);
+    if(params.message?.includes('Please login again')) logout();
+
   }, [])
   
 
