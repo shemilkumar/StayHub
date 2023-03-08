@@ -13,12 +13,12 @@ const homeSlice = createSlice({
   name: 'homes',
   initialState,
   reducers: {
-    setHomes : (state: AllHomeState, action: PayloadAction<HomeModel[]>) =>{
+    setAllHomes : (state: AllHomeState, action: PayloadAction<HomeModel[]>) =>{
       state.allHomes = action.payload;
     }
   }
 });
 
-export const {setHomes} = homeSlice.actions;
+export const { setAllHomes } = homeSlice.actions;
 export default homeSlice.reducer;
 

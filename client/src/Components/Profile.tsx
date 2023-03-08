@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from "../Redux/Slicers/userSlice";
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { AxiosError } from 'axios';
+import { StateFromReducersMapObject } from '@reduxjs/toolkit';
 
 function Profile() {
 
@@ -23,8 +24,9 @@ function Profile() {
     const result = await apiRequest.get('/users/me') as FetchChecked;
 
     if(result.pass){
-      setUser(result.fetchedData!.data.data);
-      dispatch(setUserData(result.fetchedData!.data.data));
+      if(!result.fetchedData) return
+      setUser(result.fetchedData.data.data);
+      dispatch(setUserData(result.fetchedData.data.data));
 
     }else navigate(`/error/${result.message}`);
   }

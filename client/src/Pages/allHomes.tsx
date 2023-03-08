@@ -2,54 +2,39 @@ import React, { useEffect, useState } from 'react'
 import Card from '../Components/Card';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { Data, HomeModel } from "../Constants/modelTypes";
 import useApi from '../api/useApi';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../Components/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAllHomes } from '../Redux/Slicers/homeSlice';
 
 function allHomes() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const homesFromStore = useSelector((state: any )=> state.homes.allHomes);
+
   const [homes, setHomes] = useState<HomeModel[]>([]);
   const [apiError,setApiError] = useState<string | null>(null);
 
-  const endpoint = '/homes';
-  const {data ,error} = useApi('GET',endpoint);
-  // console.log("Data from API",data);
+  const fetchAllHomes = async() =>{
+    const result = await apiRequest.get('/homes') as FetchChecked;
 
-  // 3 sec
-  const CACHE_MINUTE = 1;
-  const cacheDelete = (minute: number): void => {
-    setTimeout(() => {
-      localStorage.removeItem(endpoint);
-    }, 1000 * 60 * minute);
+    if(result.pass){
+      if(!result.fetchedData) return
+      setHomes(result.fetchedData.data.data);
+      dispatch(setAllHomes(result.fetchedData.data.data));
+
+    }else navigate(`/error/${result.message}`);
   }
 
   useEffect(() => {
 
-      let dataFromCache: HomeModel[] = [];
-      const cachedData = localStorage.getItem(endpoint);
-      // console.log(JSON.parse(cachedData));
-      if(cachedData) {
-        dataFromCache = JSON.parse(cachedData).data;
-
-        // Remove cache after specific mins
-        cacheDelete(CACHE_MINUTE);
-      }
-
-      if(dataFromCache.length > 0){
-        // console.log("Data from localStorage");
-        setHomes(dataFromCache);
-      }else{
-        if(data?.data) setHomes(data.data);
-        cacheDelete(CACHE_MINUTE);
-    };
-
-    setApiError(error);
-    if(error) navigate(`/error/${error}`)
-
-  }, [data,error]);
+    if(homesFromStore.length === 0) fetchAllHomes();
+    else setHomes(homesFromStore);
+  }, []);
   
   return (
     <>
