@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import ImageCarousel from './ImageCarousel';
+import moment from "moment";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,12 +10,34 @@ import { setDefaultLocale } from  "react-datepicker";
 import Input from "../Components/Elements/Input";
 import RoomDetails from './RoomDetails';
 import { HomeModel } from '../Constants/modelTypes';
+import apiRequest from '../api/apiRequest';
+import { useParams } from 'react-router-dom';
 
 function RoomComponents({home} : {home: HomeModel}) {
   setDefaultLocale('es');
 
+  const {id} = useParams();
+
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [bookedDates, setBookedDates] = useState<Date[]>([]);
+  // let bookedDates: Date[] = [];
+
+
+  // useEffect(() => {
+   
+  // }, []);
+
+  const bookHome = async(data : any) =>{
+    console.log("frontend",data);
+    const result = await apiRequest.post('/booking',data) as any;
+
+    if(result.pass){
+      if(!result.fetchedData) return;
+      console.log(result.fetchedData);
+    }else console.log(result.message);
+  }
+  
 
 
   const filterPassedTimeForEnd = (time : any) => {
@@ -29,6 +52,42 @@ function RoomComponents({home} : {home: HomeModel}) {
 
     if(!endDate?.getTime) return true;
     return endDate!.getTime() >= selectedDate.getTime();
+  };
+
+  function getDates(checkInDate: Date, checkOutDate: Date) {
+    let dateArray = [];
+    let startingDate = moment(checkInDate);
+    const stopDate = moment(checkOutDate);
+    while (startingDate <= stopDate) {
+        dateArray.push(new Date(moment(startingDate).format()));
+        startingDate = moment(startingDate).add(1, 'days');
+    }
+    return dateArray;
+  } 
+
+  const renderCustomDayContents = (day:any, date: Date) => {
+    if (bookedDates.some((bookedDate) => bookedDate.getTime() === date.getTime())) {
+      return <div className="bg-red-500 text-white rounded-lg">{day}</div>;
+    }
+    return day;
+  };
+
+  const hanldeBook = (e : FormEvent) =>{
+    e.preventDefault();
+    // console.log(startDate,endDate);
+    if(!startDate || !endDate) return;
+
+    setBookedDates(getDates(startDate,endDate));
+    // console.log(bookedDates);
+
+    const bookingDetails = {
+      tour: id,
+      price: home.price,
+      startDate,
+      endDate,
+    }
+
+    bookHome(bookingDetails);
   };
 
   return (
@@ -47,30 +106,20 @@ function RoomComponents({home} : {home: HomeModel}) {
           <p className='text-xs text-gray-500'>Inclusive of all taxes</p>
         </div>
 
-        <div className='mt-8'>
-
-          <DatePicker
-            selected={startDate}
-            onChange={(dates) => {
-              const [start, end] = dates;
-              setStartDate(start);
-              setEndDate(end);
-            }}
-            startDate={startDate}
-            endDate={endDate}
-            selectsRange
-            inline
-          />
+        <div className='mt-4'>
 
           <DatePicker 
             placeholderText='Check In'
-            showTimeSelect
+            // showTimeSelect
             dateFormat="MMMM d, yyyy h:mmaa"
             closeOnScroll={true}
             selected={startDate} 
             selectsStart
             startDate={startDate}
             endDate={endDate}
+            excludeDates={bookedDates}
+            renderDayContents={renderCustomDayContents}
+            // highlightDates={bookedDates}
             filterTime={filterPassedTimeForStart}
             onChange={date => setStartDate(date!)}
             className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'
@@ -78,7 +127,7 @@ function RoomComponents({home} : {home: HomeModel}) {
 
           <DatePicker 
             placeholderText='Check Out'
-            showTimeSelect
+            // showTimeSelect
             dateFormat="MMMM d, yyyy h:mmaa"
             closeOnScroll={true}
             selected={endDate} 
@@ -91,6 +140,25 @@ function RoomComponents({home} : {home: HomeModel}) {
             className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mb-2 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'
           />
 
+          <p className='my-2 text-xs text-red-500'>Red color dates are not available</p>
+
+          <DatePicker
+            selected={startDate}
+            onChange={(dates) => {
+              const [start, end] = dates;
+              setStartDate(start);
+              setEndDate(end);
+            }}
+            startDate={startDate}
+            endDate={endDate}
+            // highlightDates={bookedDates}
+            disabled
+            excludeDates={bookedDates}
+            renderDayContents={renderCustomDayContents}
+            selectsRange
+            inline
+          />
+
         </div>
 
         <div className='mt-4'>
@@ -99,7 +167,7 @@ function RoomComponents({home} : {home: HomeModel}) {
           <Input label='Phone' id='phone' type='text' />
         </div>
 
-        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold'>Continue to Book</button>
+        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={hanldeBook}>Continue to Book</button>
 
       </div>
     </>

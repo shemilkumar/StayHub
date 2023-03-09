@@ -12,6 +12,7 @@ import compression from 'compression';
 import AppError from './util/AppError';
 import homeRouter from './routes/homeRoutes';
 import userRouter from './routes/userRoutes';
+import bookingRouter from './routes/bookingRoutes';
 import globalErrorController from './controllers/errorController';
 
 const app = express();
@@ -72,6 +73,7 @@ app.use('/public',express.static(`${__dirname}/public`));
 // Routes
 app.use('/api/v1/homes', homeRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/booking', bookingRouter);
 
 
 // Url not found error handling

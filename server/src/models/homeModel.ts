@@ -202,8 +202,8 @@ const homeSchema = new mongoose.Schema<HomeModel>(
 
     createdAt: {
       type: String,
-    select: false
-  },
+      select: false
+    },
 });
 
 homeSchema.index({price: 1, ratingsAverage: -1});
