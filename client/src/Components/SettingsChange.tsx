@@ -87,6 +87,7 @@ function SettingsChange({user} : {user: User}) {
         {validationError && <Alert message={validationError}/> }  
         <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Your Account Settings</h1>
         <form encType="multipart/form-data" onSubmit={handleUpdate}>
+        {/* <form onSubmit={handleUpdate}> */}
 
           <label htmlFor='name' className='font-semibold'>Name</label>
           <input type='text' id='name' className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mb-8 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'

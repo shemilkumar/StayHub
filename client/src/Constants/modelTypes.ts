@@ -1,3 +1,5 @@
+import mongoose,{Document} from "mongoose";
+
 interface Perks {
   "kitchen": boolean,
   "wifi": boolean,
@@ -51,6 +53,8 @@ export interface HomeModel{
   slug?: string,
   createdAt?: string,
   discount?: number,
+
+  _id: mongoose.Schema.Types.ObjectId
 }
 
 export interface User{

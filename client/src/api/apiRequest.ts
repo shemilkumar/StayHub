@@ -8,17 +8,6 @@ export interface FetchChecked{
   fetchedData?: APIResponse
 }
 
-axiosApi.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 class apiRequest {
 
   response: APIResponse | AxiosError | undefined;
@@ -40,7 +29,16 @@ class apiRequest {
 
   async post(url : string, data: object){
     try {
-      this.response = await axiosApi.post(url,data) as APIResponse | AxiosError;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      console.log(data);
+
+      this.response = await axiosApi.post(url,data, config) as APIResponse | AxiosError;
       const result = this._checkResponse(this.response) as FetchChecked;
       return result;
 

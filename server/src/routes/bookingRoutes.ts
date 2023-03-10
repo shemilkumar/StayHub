@@ -10,6 +10,11 @@ router.use(authController.protect);
 router
   .route('/')
   .post(bookingController.createBooking);
+
+router
+  .route('/:id')
+  .get(bookingController.getBooking);
+
 // Only admins will get access to these below routes
 router.use(authController.restrictTo('admin'));
 

@@ -64,7 +64,6 @@ app.use(hpp({
 // app.use(compression());
 
   // Serving static files
-  console.log(__dirname);
 app.use('/public',express.static(`${__dirname}/public`));
 
 

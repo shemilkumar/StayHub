@@ -66,6 +66,8 @@ export const signup = catchAsync( async(req:Request, res: Response, next: NextFu
 
 export const login = catchAsync(async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
 
+  // console.log(req);
+
   const {email, password} = req.body
 
   // check user email and password exists
@@ -86,6 +88,8 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
 
 export const protect = catchAsync(async (req: AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
   // Getting token and check of if its there
+  // console.log(req);
+
   let token: string = '';
   
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){

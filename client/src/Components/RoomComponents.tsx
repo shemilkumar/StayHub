@@ -12,32 +12,36 @@ import RoomDetails from './RoomDetails';
 import { HomeModel } from '../Constants/modelTypes';
 import apiRequest from '../api/apiRequest';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function RoomComponents({home} : {home: HomeModel}) {
   setDefaultLocale('es');
 
-  const {id} = useParams();
+  // const {id} = useParams();
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   // let bookedDates: Date[] = [];
 
+  const getBookedDates = async() => {
+    const response = await apiRequest.get(`/booking/${home._id}`) as any;
 
-  // useEffect(() => {
-   
-  // }, []);
+    if(response.pass){
+      if(!response.fetchedData) return;
+      // console.log(response.fetchedData.data.allBookedDates);
+      const bookedDatesStr = response.fetchedData.data.allBookedDates;
+      const bookedDatesDateObj = bookedDatesStr.map((dates: string) => new Date(dates));
 
-  const bookHome = async(data : any) =>{
-    console.log("frontend",data);
-    const result = await apiRequest.post('/booking',data) as any;
-
-    if(result.pass){
-      if(!result.fetchedData) return;
-      console.log(result.fetchedData);
-    }else console.log(result.message);
+      // console.log(bookedDatesDateObj);
+      setBookedDates(bookedDatesDateObj);
+    }else console.log(response.message);
   }
-  
+
+  useEffect(() => {
+    getBookedDates();
+  }, []);
+
 
 
   const filterPassedTimeForEnd = (time : any) => {
@@ -72,17 +76,24 @@ function RoomComponents({home} : {home: HomeModel}) {
     return day;
   };
 
-  const hanldeBook = (e : FormEvent) =>{
+  const bookHome = async(data: any) =>{
+    const result = await apiRequest.post('/booking',data) as any;
+
+    if(result.pass){
+      if(!result.fetchedData) return;
+      console.log(result.fetchedData);
+    }else console.log(result.message);
+  }
+
+  const handleBook = async(e : FormEvent) =>{
+
     e.preventDefault();
-    // console.log(startDate,endDate);
     if(!startDate || !endDate) return;
+    // setBookedDates(getDates(startDate,endDate));
 
-    setBookedDates(getDates(startDate,endDate));
-    // console.log(bookedDates);
-
-    const bookingDetails = {
-      tour: id,
-      price: home.price,
+    const bookingDetails = {   
+      home: home,
+      price: home.price,  
       startDate,
       endDate,
     }
@@ -163,11 +174,11 @@ function RoomComponents({home} : {home: HomeModel}) {
 
         <div className='mt-4'>
           <p className='font-semibold text-lg text-secondary mb-4'>Enter your details</p>
-          <Input label='Email' id='email' type='text' value={`shemil@example.com`}/>
+          <Input label='Email' id='email' type='text' value={`email@example.com`}/>
           <Input label='Phone' id='phone' type='text' />
         </div>
 
-        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={hanldeBook}>Continue to Book</button>
+        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={handleBook}>Continue to Book</button>
 
       </div>
     </>

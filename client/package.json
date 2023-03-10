@@ -24,12 +24,14 @@
     "tw-elements": "^1.0.0-alpha13"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "@types/react": "^18.0.27",
     "@types/react-datepicker": "^4.8.0",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "mongoose": "^7.0.1",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
     "tailwindcss-debug-screens": "^2.2.1",

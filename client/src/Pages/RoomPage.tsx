@@ -11,6 +11,7 @@ function RoomPage() {
 
   const naviagate =useNavigate()
   const [home, setHome] = useState<HomeModel>();
+  const [homeId, setHomeId] = useState();
   const [apiError,setApiError] = useState<string>();
 
   const {id} = useParams();
@@ -19,6 +20,7 @@ function RoomPage() {
   useEffect(() => {
 
     if(data){
+      // console.log(data);
       setHome(data.data);
     }
 

@@ -20,6 +20,29 @@ export const axiosApi = axios.create({
   },
 });
 
+axiosApi.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token){
+      config.headers.Authorization = `Bearer ${token}`;
+      // console.log("token", token);
+    }
+
+    if (config.data instanceof FormData) {
+      // For requests with FormData payload, set the Content-Type to multipart/form-data
+      config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+      // For other requests, set the Content-Type to application/json
+      config.headers['Content-Type'] = 'application/json';
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const TestimonialData: Testimonial[] = [
   {
     image: "https://dummyimage.com/302x302",
