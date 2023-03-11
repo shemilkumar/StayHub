@@ -9,3 +9,12 @@ A) I have used multipart/form-data in calling post API in profile page, So when 
        config.headers["Content-Type"] = 'multipart/form-data';
      }
 
+
+@) Even after updated or created database documents, in the backend and frontend data updation is not reflecting, getting same old data.
+
+A) I have cached data in server getAll function. It cached everything for 1hr. So only after 1hr update will reflect.
+
+//code:
+
+    res.setHeader('Cache-Control', 'max-age=3600');
+

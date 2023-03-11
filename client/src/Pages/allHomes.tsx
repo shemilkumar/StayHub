@@ -23,7 +23,8 @@ function allHomes() {
     const result = await apiRequest.get('/homes') as FetchChecked;
 
     if(result.pass){
-      if(!result.fetchedData) return
+      if(!result.fetchedData) return;
+      // console.log(result.fetchedData.data.data);
       setHomes(result.fetchedData.data.data);
       dispatch(setAllHomes(result.fetchedData.data.data));
 
@@ -31,7 +32,6 @@ function allHomes() {
   }
 
   useEffect(() => {
-
     if(homesFromStore.length === 0) fetchAllHomes();
     else setHomes(homesFromStore);
   }, []);

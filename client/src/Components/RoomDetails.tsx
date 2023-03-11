@@ -19,7 +19,7 @@ function RoomDetails({home} : {home: HomeModel}) {
       {
         home && 
         <div>
-          <ImageCarousel /> 
+          <ImageCarousel home={home}/> 
           <div className='mt-16 mb-12'>
 
             <div className='w-3/4 mb-8'>

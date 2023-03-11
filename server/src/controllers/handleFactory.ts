@@ -19,7 +19,8 @@ export const getAll = <T>(Model: Model<T>) => catchAsync( async(req:Request, res
   if(!features) return next(new AppError('Something went wrong',404));
   const doc = await features.query;
 
-  res.setHeader('Cache-Control', 'max-age=3600');
+  // res.setHeader('Cache-Control', 'max-age=3600');
+  // console.log("======>",doc);
 
   res.status(200).json({
     status: 'success',

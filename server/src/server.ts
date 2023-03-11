@@ -32,7 +32,7 @@ mongoose.connect(DB)
 // Running on port
 const port = process.env.PORT || 8000;
 const server = app.listen(port, ()=>{
-  console.log('Server running on port : 3000');
+  console.log(`Server running on port : ${port}`);
 });
 
 process.on('unhandledRejection',( err: Error) => {

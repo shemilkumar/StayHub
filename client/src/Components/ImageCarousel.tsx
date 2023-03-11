@@ -1,42 +1,36 @@
 import React from 'react'
 import 'tw-elements';
 
-import image from "../assets/House-Images/house-1-1.webp";
+import { backendStaticHomesUrl } from '../Constants/constant';
 
-function ImageCarousel() {
+function ImageCarousel({home} : any) {
   return (
     <>
       <div id="carouselExampleControls" className="carousel slide relative" data-bs-ride="carousel">
         <div className="carousel-inner relative w-full overflow-hidden">
           <div className="carousel-item active relative float-left w-full">
             <img
-              src={image}
+              src={`${backendStaticHomesUrl}/${home.imageCover}`}
               className="block w-full"
               alt="Wild Landscape"
             />
           </div>
-          <div className="carousel-item relative float-left w-full">
-            <img
-              src="/src/assets/House-Images/house-1-2.webp"
-              className="block w-full"
-              alt="Camera"
-            />
-          </div>
-          <div className="carousel-item relative float-left w-full">
-            <img
-              src="/src/assets/House-Images/house-1-3.webp"
-              className="block w-full"
-              alt="Exotic Fruits"
-            />
-          </div>
-          <div className="carousel-item relative float-left w-full">
-            <img
-              src="/src/assets/House-Images/house-1-4.webp"
-              className="block w-full"
-              alt="Exotic Fruits"
-            />
-          </div>
+
+          {
+            home.images.map((image : string,i : number) => {
+              return(
+                <div className="carousel-item relative float-left w-full" key={i}>
+                  <img
+                    src={`${backendStaticHomesUrl}/${image}`}
+                    className="block w-full"
+                    alt="home-photo"
+                  />
+                </div>
+              )
+            })
+          }
         </div>
+
         <button
           className="carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
           type="button"

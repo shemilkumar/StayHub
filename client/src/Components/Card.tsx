@@ -4,12 +4,11 @@ import {BsHouseDoorFill} from "react-icons/bs";
 import {FaBed} from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { HomeModel } from "../Constants/modelTypes";
+import { backendStaticHomesUrl } from '../Constants/constant';
 
-interface Homes extends HomeModel{
-  _id?: number,
-}
+function Card( {home} : {home:HomeModel}) {
 
-function Card( {home} : {home:Homes}) {
+  console.log(home.imageCover);
 
   return (
     <div>
@@ -17,7 +16,9 @@ function Card( {home} : {home:Homes}) {
       <Link to={home?._id ? `/room/${home._id}` : 'room/fake_id'}>
         <div className="w-96 shadow-2xl rounded-xl">
           <div>
-            <img src="src/assets/House-Images/house-1-cover.webp" alt="house1" 
+            {/* <img src="src/assets/House-Images/house-1-cover.webp" alt="house1" 
+            className='shadow-xl rounded-t-lg'/> */}
+            <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
             className='shadow-xl rounded-t-lg'/>
           </div>
           <div className='flex flex-col gap-4 mt-8 border-b-2 items-center'>
