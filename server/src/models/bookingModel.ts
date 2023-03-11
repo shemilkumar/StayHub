@@ -65,10 +65,7 @@ bookingSchema.pre('save', function(next){
 
 
 bookingSchema.pre(/^find/, function(next){
-  this.populate('user').populate({
-    path: 'home',
-    select: 'name'
-  });
+  this.populate('user').populate('home');
   next();
 });
 

@@ -10,6 +10,7 @@ import AllHomes from "./Pages/allHomes";
 import ErrorPage from "./Pages/ErrorPage";
 import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
+import MyBookingsPage from "./Pages/MyBookingsPage";
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
 
           <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
+
+          <Route path='/myBookings' element={<MyBookingsPage/>}/>
 
           <Route path='/error/:message' element={<ErrorPage/>}/>
           <Route path='*' element={<ErrorPage/>}/>

@@ -54,3 +54,22 @@ export const getBooking = catchAsync( async(req:AuthRequest, res: Response, next
     allBookedDates
   });
 });
+
+export const getMyBookings = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction): Promise<void> =>{
+
+  if(!req.user){
+    next(new AppError('Please log in to get your bookings',401));
+  }
+
+  const user = req.user?._id;
+  const myBookings = await Booking.find({user});
+
+
+  res.status(201).json({
+    status: 'success',
+    results: myBookings.length,
+    data:{
+      data: myBookings
+    },
+  });
+});

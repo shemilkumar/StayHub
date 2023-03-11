@@ -49,7 +49,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     if(result.pass){
       if(!result.fetchedData) return;
       // TODO Navigate to my booking
-      console.log(result.fetchedData);
+      navigate('/myBookings');
     }else apiErrorSetting(result.message);
   }
 
@@ -118,7 +118,7 @@ function RoomComponents({home} : {home: HomeModel}) {
           <DatePicker 
             placeholderText='Check In'
             // showTimeSelect
-            dateFormat="MMMM d, yyyy h:mmaa"
+            dateFormat="MMMM d, yyyy"
             closeOnScroll={true}
             selected={startDate} 
             selectsStart
@@ -136,7 +136,7 @@ function RoomComponents({home} : {home: HomeModel}) {
           <DatePicker 
             placeholderText='Check Out'
             // showTimeSelect
-            dateFormat="MMMM d, yyyy h:mmaa"
+            dateFormat="MMMM d, yyyy"
             closeOnScroll={true}
             selected={endDate} 
             selectsEnd

@@ -8,6 +8,10 @@ const router = express.Router();
 // router.use(authController.protect);
 
 router
+  .route('/myBookings')
+  .get(authController.protect,bookingController.getMyBookings);
+
+router
   .route('/')
   .post(authController.protect,bookingController.createBooking);
 
