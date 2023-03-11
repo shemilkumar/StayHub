@@ -20,7 +20,6 @@ function RoomPage() {
   useEffect(() => {
 
     if(data){
-      // console.log(data);
       setHome(data.data);
     }
 

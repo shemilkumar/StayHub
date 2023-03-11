@@ -3,11 +3,9 @@ import { Link,useNavigate } from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest, { FetchChecked } from '../api/apiRequest';
-import { AxiosError, AxiosResponse } from 'axios';
 import Alert from '../util/Alert';
-import { APIResponse, User } from '../Constants/modelTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { UserInitialState, setUserData } from "../Redux/Slicers/userSlice";
+import { useDispatch } from 'react-redux';
+import { setUserData } from "../Redux/Slicers/userSlice";
 
 function login() {
 
@@ -37,7 +35,6 @@ function login() {
     e.preventDefault();
 
     const validatedInput = validator({email});
-    // console.log(email,password);
 
     if(validatedInput.pass){
       const result = await apiRequest.post('/users/login',{email,password}) as FetchChecked;
@@ -51,23 +48,6 @@ function login() {
         clearInputs();
         navigate('/'); 
       }else apiErrorSetting(result.message ? result.message : 'Something went worng');
-
-      // if(result instanceof AxiosError){
-      //   if(result.name === 'AxiosError') apiErrorSetting(result.message);
-      //   return;
-      // }
-
-      // if(result.data.status !== 'success') {
-      //   apiErrorSetting(result.data.message);
-      //   return
-      // }
-
-      // localStorage.setItem("token",result.data.token);
-      // localStorage.setItem("user",result.data.user!.name);
-      // localStorage.setItem("userPhoto",result.data.user!.photo);
-      // dispatch(setUserData(result.data.user!));
-      // clearInputs();
-      // navigate('/'); 
 
     }else{
       apiErrorSetting(validatedInput.message);

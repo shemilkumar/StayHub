@@ -14,15 +14,15 @@ export const deleteBooking = factory.deleteOne<BookingModel>(Booking);
 export const createBooking = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction): Promise<void> =>{
 
   if(!req.user){
-    next(new AppError('Please log in to book',401));
+    next(new AppError('Please log in to book homes',401));
   }
 
   const bookingDetails = {
     user: req.user?._id,
     home: req.body.home._id,
+    price: req.body.home.price,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    price: req.body.price,
   }
 
   const newBooking = await Booking.create(bookingDetails);
@@ -38,9 +38,7 @@ export const createBooking = catchAsync( async(req:AuthRequest, res: Response, n
 export const getBooking = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction): Promise<void> =>{
 
   const homeId = req.params.id;
-
   const bookings = await Booking.find({home: homeId});
-  console.log(bookings);
 
   const allBookedDates: Date[] = [];
 

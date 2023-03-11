@@ -1,4 +1,4 @@
-import axios, {isAxiosError, AxiosResponse, AxiosError } from "axios";
+import {isAxiosError, AxiosResponse, AxiosError } from "axios";
 import { axiosApi } from "../Constants/constant";
 import { APIResponse } from "../Constants/modelTypes";
 
@@ -30,15 +30,12 @@ class apiRequest {
   async post(url : string, data: object){
     try {
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      console.log(data);
-
-      this.response = await axiosApi.post(url,data, config) as APIResponse | AxiosError;
+      // const config = {
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // };
+      this.response = await axiosApi.post(url,data) as APIResponse | AxiosError;
       const result = this._checkResponse(this.response) as FetchChecked;
       return result;
 

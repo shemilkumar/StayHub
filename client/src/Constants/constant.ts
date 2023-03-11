@@ -1,12 +1,5 @@
 import axios from "axios";
 
-interface Testimonial {
-  image: string,
-  review: string,
-  name: string,
-  job: string,
-}
-
 export const frondendBaseUrl: string = 'http://127.0.0.1:5173'
 
 export const backendBaseUrl: string = 'http://127.0.0.1:8000';
@@ -25,7 +18,6 @@ axiosApi.interceptors.request.use(
     const token = localStorage.getItem('token');
     if (token){
       config.headers.Authorization = `Bearer ${token}`;
-      // console.log("token", token);
     }
 
     if (config.data instanceof FormData) {
@@ -42,6 +34,13 @@ axiosApi.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+interface Testimonial {
+  image: string,
+  review: string,
+  name: string,
+  job: string,
+}
 
 export const TestimonialData: Testimonial[] = [
   {
