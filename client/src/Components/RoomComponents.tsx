@@ -4,12 +4,14 @@ import DatePicker,{ setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import RoomDetails from './RoomDetails';
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Alert from '../util/Alert';
 import Input from "../Components/Elements/Input";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { HomeModel } from '../Constants/modelTypes';
+import { RAZORPAY_KEY_ID } from '../Constants/constant';
+import Razorpay from "razorpay";
 
 function RoomComponents({home} : {home: HomeModel}) {
   
@@ -44,29 +46,113 @@ function RoomComponents({home} : {home: HomeModel}) {
   }
 
   const bookHome = async(data: any) =>{
-    const result = await apiRequest.post('/booking',data) as any;
+    const result = await apiRequest.post('/booking',data) as FetchChecked;
 
     if(result.pass){
       if(!result.fetchedData) return;
       // TODO Navigate to my booking
       navigate('/myBookings');
-    }else apiErrorSetting(result.message);
+    }else apiErrorSetting(result.message!);
   }
 
-  const handleBook = async(e : FormEvent) =>{
+  // const handleBook = async(e : FormEvent) =>{
 
-    e.preventDefault();
+  //   e.preventDefault();
+   
+  // };
+
+  // const handlePayment = () =>{
+  // }
+
+
+  // ====================================================
+  // Razorpay Implementation
+  function loadScript(src : string) {
+    return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+            resolve(true);
+        };
+        script.onerror = () => {
+            resolve(false);
+        };
+        document.body.appendChild(script);
+    });
+  };
+
+  async function displayRazorpay() {
+
     if(!startDate || !endDate){
       apiErrorSetting('Please specify check-in & check-out dates');
       return;
     }
 
-    bookHome({
-      home,
-      startDate,
-      endDate,
-    });
-  };
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // const result = await axios.post("http://localhost:5000/payment/orders");
+    const result = await apiRequest.post('/payment/order',{price : home.price}) as any;
+
+    if (!result.pass) {
+        alert(result.message);
+        return;
+    }
+
+    if(!result.fetchedData) return;
+    const { amount, id: order_id, currency } = result.fetchedData.data.order;
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    const options = {
+      key_id: RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "StayHub",
+      description: "Test Transaction",
+      // image: { },
+      order_id: order_id,
+      handler: async function (response : any) {
+        const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+        };
+
+        const paymentResponse = await apiRequest.post('/payment/verify', data) as FetchChecked;
+        if(paymentResponse.pass){
+          if(!paymentResponse.fetchedData) return;
+          const payment = paymentResponse.fetchedData.data.status;
+          if(payment === 'success')
+            bookHome({
+              home,
+              startDate,
+              endDate,
+            });
+        }else apiErrorSetting(paymentResponse.message!);
+      },
+      prefill: {
+          name: `${userFromStrore ? userFromStrore.name : 'John Doe'}`,
+          email: `${userFromStrore ? userFromStrore.email : 'email@example.com'}`,
+          contact: "9999999999",
+      },
+      notes: {
+          address: `Test Address`,
+      },
+      theme: {
+          color: "#CF0A0A",
+      },
+    };
+
+    // @ts-ignore
+    const paymentObject: any = new window.Razorpay(options);
+    paymentObject.open();
+  }
+
+  // ==========================================================
 
   useEffect(() => {
     getBookedDates();
@@ -178,7 +264,8 @@ function RoomComponents({home} : {home: HomeModel}) {
           {/* <Input label='Phone' id='phone' type='text' /> */}
         </div>
 
-        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={handleBook}>Continue to Book</button>
+        {/* <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={handleBook}>Continue to Book</button> */}
+        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={displayRazorpay}>Continue to Book</button>
 
       </div>
     </>

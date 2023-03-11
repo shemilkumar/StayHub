@@ -35,6 +35,9 @@ axiosApi.interceptors.request.use(
   }
 );
 
+export const RAZORPAY_KEY_ID = 'rzp_test_yei09ktZyA11Y0'
+export const RAZORPAY_SECRET ='RZXGhh3kX9hXP3W6xESVo9av'
+
 interface Testimonial {
   image: string,
   review: string,

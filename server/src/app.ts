@@ -13,6 +13,7 @@ import AppError from './util/AppError';
 import homeRouter from './routes/homeRoutes';
 import userRouter from './routes/userRoutes';
 import bookingRouter from './routes/bookingRoutes';
+import paymentRouter from './routes/paymentRoutes';
 import globalErrorController from './controllers/errorController';
 
 const app = express();
@@ -73,6 +74,7 @@ app.use('/public',express.static(`${__dirname}/public`));
 app.use('/api/v1/homes', homeRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/booking', bookingRouter);
+app.use('/api/v1/payment', paymentRouter);
 
 
 // Url not found error handling
