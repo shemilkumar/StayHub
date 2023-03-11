@@ -20,7 +20,6 @@ export const getAll = <T>(Model: Model<T>) => catchAsync( async(req:Request, res
   const doc = await features.query;
 
   // res.setHeader('Cache-Control', 'max-age=3600');
-  // console.log("======>",doc);
 
   res.status(200).json({
     status: 'success',

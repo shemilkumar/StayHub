@@ -14,12 +14,10 @@ function Card( {home} : {home:HomeModel}) {
     <div>
     { home &&
       <Link to={home?._id ? `/room/${home._id}` : 'room/fake_id'}>
-        <div className="w-96 shadow-2xl rounded-xl">
-          <div>
-            {/* <img src="src/assets/House-Images/house-1-cover.webp" alt="house1" 
-            className='shadow-xl rounded-t-lg'/> */}
+        <div className="w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
+          <div className='h-72'>
             <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
-            className='shadow-xl rounded-t-lg'/>
+            className='shadow-xl rounded-t-lg object-cover h-72'/>
           </div>
           <div className='flex flex-col gap-4 mt-8 border-b-2 items-center'>
             <h1 className='text-3xl font-semibold text-center'>{home.name}</h1>

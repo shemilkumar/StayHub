@@ -43,7 +43,7 @@ function allHomes() {
         <div className='min-h-screen flex'>
           { homes.length <= 0 ?
           <Spinner/> :
-          <div className='m-auto grid grid-cols-3 gap-4'>
+          <div className='m-auto grid grid-cols-3 gap-12'>
             {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
           </div>
           }
