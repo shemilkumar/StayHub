@@ -14,7 +14,7 @@ class Email{
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Shemilkumar E A <${process.env.EMAIL}>`
+    this.from = `StayHub <${process.env.EMAIL}>`
 
     // console.log(this.to,this.firstName);
   }
@@ -42,6 +42,10 @@ class Email{
       html = (template.passwordResetMail).replace('<URL>', this.url);
     }
 
+    if(htmlTemplate === 'bookingSuccess'){
+      html = (template.bookingSuccess).replace('<URL>', this.url).replace('<name>',this.firstName);
+    }
+
     const mailOptions = {
       from: this.from,
       to: this.to,
@@ -60,6 +64,10 @@ class Email{
 
   async sendPasswordReset(){
     await this.send('passwordReset', 'Your password reset token (valid for only 10 minutes)');
+  }
+
+  async sendBookingConfirmation(){
+    await this.send('bookingSuccess', 'Your booking is confirmed');
   }
 }
 

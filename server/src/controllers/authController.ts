@@ -61,6 +61,7 @@ export const signup = catchAsync( async(req:Request, res: Response, next: NextFu
   const newUser = await User.create(req.body);
 
   if(newUser) new Email(newUser, `http://127.0.0.1:5173`).sendWelcome();
+  
   createSendToken(newUser,201,res);
 });
 

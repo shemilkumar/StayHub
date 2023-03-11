@@ -4,6 +4,7 @@ import * as factory from "../controllers/handleFactory";
 import { AuthRequest } from "../controllers/authController";
 import catchAsync from '../util/catchAsync';
 import AppError from '../util/AppError';
+import Email from '../util/Email/email';
 
 // export const getBooking = factory.getOne<BookingModel>(Booking);
 export const getAllBooking = factory.getAll<BookingModel>(Booking);
@@ -26,6 +27,8 @@ export const createBooking = catchAsync( async(req:AuthRequest, res: Response, n
   }
 
   const newBooking = await Booking.create(bookingDetails);
+
+  if(newBooking) new Email(req.user!, `http://127.0.0.1:5173/myBookings`).sendBookingConfirmation();
 
   res.status(201).json({
     status: 'success',
