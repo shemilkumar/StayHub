@@ -21,7 +21,7 @@ function Card( {home} : {home:HomeModel}) {
           </div>
           <div className='flex flex-col gap-4 mt-8 border-b-2 items-center'>
             <h1 className='text-3xl font-semibold text-center'>{home.name}</h1>
-            <p className='text-gray-400 text-md w-10/12 '>{home.description}</p>
+            <p className='text-gray-400 text-md w-10/12 h-20'>{home.description}</p>
             <div className='flex justify-between m-2 w-10/12'>
               <div className='flex gap-2 '>
                 <BsHouseDoorFill className='h-5 w-5 text-secondary'/>
@@ -35,10 +35,10 @@ function Card( {home} : {home:HomeModel}) {
           </div>
 
           <div className='flex justify-between py-4 w-10/12 m-auto'>
-            <div className='font-semibold text-xl text-tertiary_2'>${home.price}</div>
-            <div className='flex'>
+            <div className='font-semibold text-xl text-green-700'>${home.price}</div>
+            <div className='flex items-center'>
               <MdLocationOn className='h-5 w-5'/>
-              <p className='text-gray-400'>{home.address}</p>
+              <p className='text-gray-500 text-sm'>{home.address}</p>
             </div>
           </div>
         </div>

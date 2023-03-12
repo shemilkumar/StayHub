@@ -46,7 +46,7 @@ export interface HomeModel extends mongoose.Document{
   // 
   slug?: string,
   createdAt?: string
-  discount?: number,
+  discount: number,
 }
 
 const homeSchema = new mongoose.Schema<HomeModel>(
@@ -199,6 +199,7 @@ const homeSchema = new mongoose.Schema<HomeModel>(
     },
 
     slug: String,
+    discount: Number,
 
     createdAt: {
       type: String,
@@ -222,3 +223,4 @@ homeSchema.pre('save', function(next){
 const Home = mongoose.model<HomeModel>('Home',homeSchema);
 
 export default Home;
+

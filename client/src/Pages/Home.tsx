@@ -4,6 +4,7 @@ import Feature from '../Components/Feature';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
 import Navbar from '../Components/Navbar';
+import SearchForm from '../Components/SearchForm';
 import Testimonial from '../Components/Testimonial';
 import Alert from '../util/Alert';
 
@@ -13,6 +14,7 @@ function Home() {
       <Navbar/>
       <div className='flex flex-col max-w-same m-auto'>
         <Hero/>
+        <SearchForm/>
         <Feature/>
         <BestSellers/>
         <Testimonial/>

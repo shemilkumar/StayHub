@@ -46,8 +46,9 @@ function Map(props : ViewPort) {
         {showPopup && (
           <Popup longitude={viewport.longitude} latitude={viewport.latitude}
             anchor="top"
-            onClose={() => setShowPopup(false)}>
-            Chao Pao Villa
+            onClose={() => setShowPopup(false)}
+            className='shadow-lg rounded-lg tracking-wider text-gray-800'>
+            StayHub Home here!
           </Popup>)
         }
 
