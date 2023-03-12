@@ -13,7 +13,7 @@ router
 
 router
 .route('/bookingStats')
-.get(authController.protect,bookingController.getBookingStats);
+.get(bookingController.getBookingStats);
 
 router
   .route('/')
