@@ -14,7 +14,7 @@ function Home() {
       <div className='flex flex-col max-w-same m-auto'>
         <Hero/>
         <Feature/>
-        {/* <BestSellers/> */}
+        <BestSellers/>
         <Testimonial/>
         <Footer/>
       </div>

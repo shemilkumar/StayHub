@@ -12,6 +12,10 @@ router
   .get(authController.protect,bookingController.getMyBookings);
 
 router
+.route('/bookingStats')
+.get(authController.protect,bookingController.getBookingStats);
+
+router
   .route('/')
   .post(authController.protect,bookingController.createBooking);
 

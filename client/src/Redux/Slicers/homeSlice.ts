@@ -15,7 +15,7 @@ const homeSlice = createSlice({
   reducers: {
     setAllHomes : (state: AllHomeState, action: PayloadAction<HomeModel[]>) =>{
       state.allHomes = action.payload;
-    }
+    },
   }
 });
 

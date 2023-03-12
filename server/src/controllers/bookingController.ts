@@ -5,6 +5,7 @@ import { AuthRequest } from "../controllers/authController";
 import catchAsync from '../util/catchAsync';
 import AppError from '../util/AppError';
 import Email from '../util/Email/email';
+import Home from '../models/homeModel';
 
 // export const getBooking = factory.getOne<BookingModel>(Booking);
 export const getAllBooking = factory.getAll<BookingModel>(Booking);
@@ -75,4 +76,35 @@ export const getMyBookings = catchAsync( async(req:AuthRequest, res: Response, n
       data: myBookings
     },
   });
+});
+
+export const getBookingStats = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+
+  const stats = await Booking.aggregate([
+    {
+      $group:{
+        _id: '$home',
+        bookings: { $sum : 1 },
+      }
+    },
+    { 
+      $sort: { bookings: -1 }
+    },
+    {
+      $limit : 3
+    }
+  ]);
+  
+  const bestSellerIds = stats.map((home) => home._id);
+  
+  const bestSellers = await Home.find({ 
+    '_id': { $in: bestSellerIds}
+    });
+
+  res.status(200).json({
+    status: 'success',
+    stats,
+    bestSellers
+  });
+
 });

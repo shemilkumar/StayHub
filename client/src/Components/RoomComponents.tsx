@@ -91,7 +91,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
     if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
+      apiErrorSetting("Razorpay SDK failed to load. Are you online?");
       return;
     }
 
@@ -99,13 +99,14 @@ function RoomComponents({home} : {home: HomeModel}) {
     const result = await apiRequest.post('/payment/order',{price : home.price}) as any;
 
     if (!result.pass) {
-        alert(result.message);
+        apiErrorSetting(result.message);
         return;
     }
 
     if(!result.fetchedData) return;
+
     const { amount, id: order_id, currency } = result.fetchedData.data.order;
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    {/* <script src="https://checkout.razorpay.com/v1/checkout.js"></script> */}
     const options = {
       key_id: RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
       amount: amount.toString(),

@@ -12,6 +12,7 @@ export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next:
   next();
 });
 
+
 export const getHome = factory.getOne<HomeModel>(Home);
 export const getAllHomes = factory.getAll<HomeModel>(Home);
 export const createHome = factory.createOne<HomeModel>(Home);
