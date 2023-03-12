@@ -8,7 +8,7 @@ import { backendStaticHomesUrl } from '../Constants/constant';
 
 function Card( {home} : {home:HomeModel}) {
 
-  console.log(home.imageCover);
+  // console.log(home.imageCover);
 
   return (
     <div>

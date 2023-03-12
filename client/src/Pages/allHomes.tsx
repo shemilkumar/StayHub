@@ -3,8 +3,7 @@ import Card from '../Components/Card';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
-import { Data, HomeModel } from "../Constants/modelTypes";
-import useApi from '../api/useApi';
+import { HomeModel } from "../Constants/modelTypes";
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../Components/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,7 +42,7 @@ function allHomes() {
         <div className='min-h-screen flex'>
           { homes.length <= 0 ?
           <Spinner/> :
-          <div className='m-auto grid grid-cols-3 gap-12'>
+          <div className='m-auto grid grid-cols-3 gap-12 my-32'>
             {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
           </div>
           }
