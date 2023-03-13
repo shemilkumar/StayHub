@@ -27,7 +27,10 @@ export interface HomeModel extends mongoose.Document{
   addressDescription: string,
   place: string,
   state: string
-  location: number[],
+  location: {
+    type: 'Point';
+    coordinates: [number, number];
+  },
   imageCover:string,
   images: string[],
   maxGuests: number,
@@ -78,7 +81,18 @@ const homeSchema = new mongoose.Schema<HomeModel>(
       trim: true,
       required: [true, 'A home must have a address description (near place, distance, landmarks..etc'],
     },
-    location: [Number],
+    // location: [Number],
+    location: {
+      type: {
+        type: String,
+        enum: ['Point'], // 'location.type' must be 'Point'
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
+    },
     place: {
       type: String,
       trim: true,
@@ -208,6 +222,7 @@ const homeSchema = new mongoose.Schema<HomeModel>(
 });
 
 homeSchema.index({price: 1, ratingsAverage: -1});
+homeSchema.index({ location: '2dsphere' });
 homeSchema.index({slug: 1});
 
 homeSchema.pre('save', function(next){

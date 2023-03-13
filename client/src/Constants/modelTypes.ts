@@ -33,7 +33,10 @@ export interface HomeModel{
   addressDescription: string,
   place: string,
   state: string
-  location: number[],
+  location: {
+    type: 'Point';
+    coordinates: [number, number];
+  },
   imageCover:string,
   images: string[],
   maxGuests: number,

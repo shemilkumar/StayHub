@@ -38,7 +38,7 @@ if(process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
   // Limit requests from same API
 const limiter = rateLimit({
-  max: 100,
+  max: 200,
   windowMs: 60 * 60 * 1000,
   message: 'To many requests from this IP, Please try again in an hour'
 });

@@ -132,7 +132,7 @@ function RoomDetails({home} : {home: HomeModel}) {
             <div className='mt-8'>
               <h1 className='font-semibold text-2xl mb-4'>Where you’ll be</h1>
               {/* 77.58345359320708,12.96947682403109 */}
-              <Map latitude={home.location[0]} longitude={home.location[1]}/>
+              <Map latitude={home.location.coordinates[0]} longitude={home.location.coordinates[1]}/>
 
               <div className='text-base text-gray-600 mt-8 w-3/4'>
                 <p className='text-xl mb-2'>{home.address}</p>

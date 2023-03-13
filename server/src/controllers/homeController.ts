@@ -1,7 +1,16 @@
 import {NextFunction, Request,Response} from 'express';
 import Home, { HomeModel } from '../models/homeModel';
+import Booking from '../models/bookingModel';
 import catchAsync from '../util/catchAsync';
 import * as factory from "../controllers/handleFactory";
+
+export interface searchHomesRequest extends Request{
+  nearGuestHomes?: HomeModel[]
+}
+
+// export interface AuthRequest extends Request{
+//   user?: UserType,
+// }
 
 
 export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
@@ -12,6 +21,42 @@ export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next:
   next();
 });
 
+export const getNearByHomes = catchAsync( async(req:searchHomesRequest, res: Response, next: NextFunction) : Promise<void> =>{
+
+  console.log(req.body);
+  const {location,searchDates,guests} = req.body;
+
+  const [latitude, longitude] = location.split(',');
+
+  const geoPoint = {
+    type: 'Point',
+    // coordinates: [parseFloat(longitude), parseFloat(latitude)],
+    coordinates: [(longitude),(latitude)],
+  };
+
+  // Find the nearest rental properties to the specified location
+  const nearestHomes = await Home.find({
+    location: {
+      $nearSphere: {
+        $geometry: geoPoint,
+        $maxDistance: 300 * 1000, // Maximum distance in meters
+      },
+    },
+  });
+
+  const nearGuestHomes = nearestHomes.filter((home) => {
+    return home.maxGuests >= guests;
+  });
+
+  req.nearGuestHomes = nearGuestHomes;
+
+  res.status(200).json({
+    status: 'success',
+    results: nearestHomes.length,
+    nearestHomes,
+    nearGuestHomes,
+  });
+});
 
 export const getHome = factory.getOne<HomeModel>(Home);
 export const getAllHomes = factory.getAll<HomeModel>(Home);

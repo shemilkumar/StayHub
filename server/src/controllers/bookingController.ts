@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import Booking, { BookingModel } from '../models/bookingModel';
+import { HomeModel } from '../models/homeModel';
 import * as factory from "../controllers/handleFactory";
 import { AuthRequest } from "../controllers/authController";
 import catchAsync from '../util/catchAsync';
 import AppError from '../util/AppError';
 import Email from '../util/Email/email';
 import Home from '../models/homeModel';
+import { searchHomesRequest } from './homeController';
 
 // export const getBooking = factory.getOne<BookingModel>(Booking);
 export const getAllBooking = factory.getAll<BookingModel>(Booking);
@@ -105,6 +107,44 @@ export const getBookingStats = catchAsync( async(req:Request, res: Response, nex
     status: 'success',
     stats,
     bestSellers
+  });
+
+});
+
+
+export const getNearByNotBookedHomes = catchAsync( async(req:searchHomesRequest, res: Response, next: NextFunction) : Promise<void> =>{
+
+  const dates = (req.body.searchDates).map((dateString: string) => new Date(dateString));
+
+  if(!req.nearGuestHomes){
+    return next(new AppError('Not able to get nearby homes',400));
+  }
+
+  const {nearGuestHomes} = req;
+
+  console.log(dates, nearGuestHomes);
+
+  const nearByNotBookedHomes: HomeModel[] = [];
+
+  nearGuestHomes.map(async guesthomes => {
+    const bookedHomes = await Booking.find({ home : guesthomes._id});
+
+    if(bookedHomes.length === 0){
+      nearByNotBookedHomes.push(guesthomes);
+    }
+
+    bookedHomes.forEach(bookedHome => {
+      if (!(bookedHome.bookedDates).some(bookeddates => dates.includes(bookeddates))) {
+        nearByNotBookedHomes.push(guesthomes);
+      }
+    });
+
+
+    res.status(200).json({
+      status: 'success',
+      searchResultHomes : nearByNotBookedHomes
+    });
+
   });
 
 });

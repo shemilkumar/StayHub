@@ -1,23 +1,68 @@
-import React from 'react'
+import React, { FormEvent, useState } from 'react'
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 
 function SearchForm() {
+
+  const [userDestination, setUserDestination] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [guests, setGuests] = useState('');
+
+  function getDatesInRange(dateStart : string, dateEnd : string) {
+    const dates = [];
+    console.log(dateStart,dateEnd);
+    let currentDate = new Date(dateStart);
+    let endDate = new Date(dateEnd);
+  
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return dates;
+  }
+  
+
+  const handleSearch = async(e : FormEvent) => {
+    e.preventDefault();
+
+    const searchData = {
+      location : userDestination,
+      searchDates: getDatesInRange(startDate,endDate),
+      guests: parseInt(guests)
+    }
+
+    console.log(searchData);
+
+    const nearByHomes = await apiRequest.post('/homes/nearestHomes',searchData) as FetchChecked;
+
+    if(nearByHomes.pass){
+      if(!nearByHomes.fetchedData) return;
+
+      console.log(nearByHomes.fetchedData.data);
+
+    }else alert(nearByHomes.message);
+  };
+
   return (
     <div>
       <div className="flex w-full">
-        <form className='flex gap-1 m-auto w-full'>
+        <form className='flex gap-1 m-auto w-full' onSubmit={handleSearch}>
 
-        {/* <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/> */}
+          <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'
+          onChange={(e) => setUserDestination(e.target.value)}/>
 
-        <select placeholder='going to' name="places" id="places" className='block p-3 rounded-2xl w-full border-2 border-gray-400'>
-            <option value="" disabled selected>Going to</option>
+        {/* <select placeholder='going to' name="places" id="places" className='block p-3 rounded-2xl w-full border-2 border-gray-400'>
             <option value="kochi">Kochi</option>
             <option value="bangalore">Bangalore</option>
             <option value="chennai">Chennai</option>
-        </select>
+        </select> */}
 
-        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
-        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>        
-        <input type="text" placeholder='Guests' className='block p-3 rounded-2xl w-full border-2 border-gray-400'/>
+        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'
+        onChange={(e) => setStartDate(e.target.value)}/>        
+        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'
+        onChange={(e) => setEndDate(e.target.value)}/>        
+        <input type="text" placeholder='Guests' className='block p-3 rounded-2xl w-full border-2 border-gray-400' onChange={(e) => setGuests(e.target.value)}/>
         
         <button className='py-4 px-8 bg-tertiary_2 text-white font-semibold rounded'>Search</button>
         </form>
