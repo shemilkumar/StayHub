@@ -1,7 +1,13 @@
 import React, { FormEvent, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
+import { setAllSearchResult } from '../Redux/Slicers/searchResultSlice';
 
 function SearchForm() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userDestination, setUserDestination] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -39,7 +45,10 @@ function SearchForm() {
     if(nearByHomes.pass){
       if(!nearByHomes.fetchedData) return;
 
-      console.log(nearByHomes.fetchedData.data);
+      // console.log(nearByHomes.fetchedData.data);
+      dispatch(setAllSearchResult(nearByHomes.fetchedData.data.nearGuestHomes));
+      navigate('/searchResult');
+      //  Here I have to pass data to <SearchResultPage/>
 
     }else alert(nearByHomes.message);
   };

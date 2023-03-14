@@ -11,6 +11,7 @@ import ErrorPage from "./Pages/ErrorPage";
 import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import MyBookingsPage from "./Pages/MyBookingsPage";
+import SearchResultPage from "./Pages/SearchResultPage";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
 
           <Route path='/myBookings' element={<MyBookingsPage/>}/>
+          <Route path='/searchResult' element={<SearchResultPage/>}/>
 
           <Route path='/error/:message' element={<ErrorPage/>}/>
           <Route path='*' element={<ErrorPage/>}/>
