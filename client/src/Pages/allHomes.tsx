@@ -17,9 +17,25 @@ function allHomes() {
 
   const [homes, setHomes] = useState<HomeModel[]>([]);
   const [apiError,setApiError] = useState<string | null>(null);
+  const [sort,setSort] = useState('');
 
-  const fetchAllHomes = async() =>{
-    const result = await apiRequest.get('/homes') as FetchChecked;
+  const fetchAllHomes = async(sortParam = '') =>{
+
+    let result;
+
+    if(sortParam){
+      let sortParameter = '';
+
+      if(sortParam === 'lowToHigh') sortParameter = 'price';
+      if(sortParam === 'highToLow') sortParameter = '-price';
+      if(sortParam === 'rating') sortParameter = '-ratingsAverage';
+      // if(sortParam === 'discount') sortParameter = '-discount';
+      
+      result = await apiRequest.get(`/homes?sort=${sortParameter}`) as FetchChecked;
+
+    }else{
+      result = await apiRequest.get('/homes') as FetchChecked;
+    }
 
     if(result.pass){
       if(!result.fetchedData) return;
@@ -42,8 +58,27 @@ function allHomes() {
         <div className='min-h-screen flex'>
           { homes.length <= 0 ?
           <Spinner/> :
-          <div className='m-auto grid grid-cols-3 gap-12 my-32'>
-            {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
+          <div className='m-auto'>
+
+            <div className='flex justify-end mt-32'>
+              <select name="sort" id="sort" className='p-3 border-2 bg-blue-100'
+              onChange={(e) => {
+                setSort(e.target.value);
+                fetchAllHomes(e.target.value);
+                console.log(sort);
+              }}>
+                <option value="popularity" className='p-3'>Popularity</option>
+                <option value="rating" className='p-3'>Rating</option>
+                {/* <option value="discount" className='p-3'>Discount</option> */}
+                <option value="lowToHigh" className='p-3'>Price -- Low to High</option>
+                <option value="highToLow" className='p-3'>Price -- High to Low</option>
+              </select>
+            </div>
+
+            <div className='grid grid-cols-3 gap-12 mt-12 mb-32'>
+              {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
+            </div>
+
           </div>
           }
         </div>
