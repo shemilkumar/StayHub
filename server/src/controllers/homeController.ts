@@ -26,7 +26,7 @@ export const getNearByHomes = catchAsync( async(req:searchHomesRequest, res: Res
   console.log(req.body);
   const {location,searchDates,guests} = req.body;
 
-  const [latitude, longitude] = location.split(',');
+  const [latitude, longitude] = location;
 
   const geoPoint = {
     type: 'Point',

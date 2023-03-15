@@ -1,4 +1,5 @@
-import React, { FormEvent, useState } from 'react'
+import axios from 'axios';
+import React, { ChangeEvent, FormEvent, InputHTMLAttributes, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
@@ -10,6 +11,9 @@ function SearchForm() {
   const navigate = useNavigate();
 
   const [userDestination, setUserDestination] = useState('');
+  const [userDestinationSuggestions, setUserDestinationSuggestions] = useState<[] | null>(null);
+  const [userDestinationData, setUserDestinationData] = useState();
+ 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [guests, setGuests] = useState('');
@@ -32,13 +36,15 @@ function SearchForm() {
   const handleSearch = async(e : FormEvent) => {
     e.preventDefault();
 
+    // console.log(userDestinationData);
+
     const searchData = {
-      location : userDestination,
+      location : userDestinationData,
       searchDates: getDatesInRange(startDate,endDate),
       guests: parseInt(guests)
     }
 
-    console.log(searchData);
+    // console.log(searchData);
 
     const nearByHomes = await apiRequest.post('/homes/nearestHomes',searchData) as FetchChecked;
 
@@ -53,13 +59,77 @@ function SearchForm() {
     }else alert(nearByHomes.message);
   };
 
+  const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>) =>{
+    setUserDestination(e.target.value);
+
+    // console.log('Hiii');
+
+    const config = { 
+      headers: {
+      'Content-Type': 'application/json',
+      }
+    }
+
+    const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg';
+
+    const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?access_token=${MAPBOX_ACCESS_TOKEN}`, config);
+
+    // console.log(mapBoxResult.data.features);
+    setUserDestinationSuggestions(mapBoxResult.data.features);
+
+  }
+
   return (
     <div>
       <div className="flex w-full">
         <form className='flex gap-1 m-auto w-full' onSubmit={handleSearch}>
 
-          <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'
-          onChange={(e) => setUserDestination(e.target.value)}/>
+          <div className='w-full flex flex-col'>
+            <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'
+            value={userDestination}
+            onChange={handleChangePlace}/>
+
+            {
+              userDestinationSuggestions ?
+              <div className={`${userDestinationSuggestions ? 'translate-y-0' : '-translate-y-32'} shadow-xl ml-2 absolute mt-14 bg-blue-100 flex flex-col cursor-pointer
+              transition-all ease-out duration-700`}>
+                {
+                  userDestinationSuggestions.map((suggestion, i) =>{
+                    return(
+                      <p key={i} className='hover:bg-blue-200 p-3'
+                      onClick={(e) => {
+                        setUserDestination(suggestion.text);
+                        setUserDestinationData(userDestinationSuggestions[i].center);
+                        setUserDestinationSuggestions([]);
+                      }}>{suggestion.place_name}</p>
+                    )
+                  })
+                }
+              </div>
+              :
+              ''
+            }
+
+              {/* <div className={`${userDestinationSuggestions ? 'mt-14' : '-mt-10 hidden'} shadow-xl ml-2 absolute mt-14 bg-blue-100 flex flex-col cursor-pointer
+              transition-all ease-out duration-700`}>
+                {
+                  userDestinationSuggestions.map((suggestion, i) =>{
+                    return(
+                      <p key={i} className='hover:bg-blue-200 p-3'
+                      onClick={(e) => {
+                        setUserDestination(suggestion.text);
+                        setUserDestinationData(userDestinationSuggestions[i].center);
+                        setUserDestinationSuggestions([]);
+                      }}>{suggestion.place_name}</p>
+                    )
+                  })
+                }
+              </div> */}
+            
+          </div>
+
+
+
 
         {/* <select placeholder='going to' name="places" id="places" className='block p-3 rounded-2xl w-full border-2 border-gray-400'>
             <option value="kochi">Kochi</option>
