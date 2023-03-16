@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, FormEvent, InputHTMLAttributes, useState } from 'react'
+import { BiSearch } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
@@ -81,17 +82,21 @@ function SearchForm() {
 
   return (
     <div>
-      <div className="flex w-full">
-        <form className='flex gap-1 m-auto w-full' onSubmit={handleSearch}>
+      <div className="flex flex-col w-full mt-40">
+
+        <h1 className='text-5xl font-semibold font-sans mb-12 text-secondary text-center'>Find your next home</h1>
+
+        <form className='flex m-auto w-1/2 rounded-full bg-white items-center' onSubmit={handleSearch}>
 
           <div className='w-full flex flex-col'>
-            <input type="text" placeholder='Going to' className='block p-3 rounded-2xl w-full border-2 border-gray-400'
+            
+            <input type="text" placeholder='Going to' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400'
             value={userDestination}
             onChange={handleChangePlace}/>
 
             {
               userDestinationSuggestions ?
-              <div className={`${userDestinationSuggestions ? 'translate-y-0' : '-translate-y-32'} shadow-xl ml-2 absolute mt-14 bg-blue-100 flex flex-col cursor-pointer
+              <div className={`${userDestinationSuggestions ? 'translate-y-0' : '-translate-y-32'} shadow-xl ml-2 absolute mt-20 bg-blue-100 flex flex-col cursor-pointer
               transition-all ease-out duration-700`}>
                 {
                   userDestinationSuggestions.map((suggestion, i) =>{
@@ -109,41 +114,41 @@ function SearchForm() {
               :
               ''
             }
-
-              {/* <div className={`${userDestinationSuggestions ? 'mt-14' : '-mt-10 hidden'} shadow-xl ml-2 absolute mt-14 bg-blue-100 flex flex-col cursor-pointer
-              transition-all ease-out duration-700`}>
-                {
-                  userDestinationSuggestions.map((suggestion, i) =>{
-                    return(
-                      <p key={i} className='hover:bg-blue-200 p-3'
-                      onClick={(e) => {
-                        setUserDestination(suggestion.text);
-                        setUserDestinationData(userDestinationSuggestions[i].center);
-                        setUserDestinationSuggestions([]);
-                      }}>{suggestion.place_name}</p>
-                    )
-                  })
-                }
-              </div> */}
-            
           </div>
 
+          <div className='bg-gray-200 h-6 w-1'></div>
+
+          <input type="number" placeholder='Guests' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400  appearance-none' onChange={(e) => setGuests(e.target.value)}/>
+          
+          <button className='-ml-16 p-5 bg-tertiary_2 text-white rounded-full'>
+            <BiSearch className='w-8 h-8'/>
+          </button>
 
 
+          {/* <div className="flex items-center justify-center">
+            <div
+              className="relative mb-3 xl:w-96"
+              data-te-datepicker-init
+              data-te-input-wrapper-init>
+              <input
+                type="text"
+                className="peer block min-h-[auto] w-full rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date"
+                data-te-datepicker-toggle-ref
+                data-te-datepicker-toggle-button-ref />
+              <label
+                htmlFor="floatingInput"
+                className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                >Select a date
+                </label>
+            </div>
+          </div> */}
 
-        {/* <select placeholder='going to' name="places" id="places" className='block p-3 rounded-2xl w-full border-2 border-gray-400'>
-            <option value="kochi">Kochi</option>
-            <option value="bangalore">Bangalore</option>
-            <option value="chennai">Chennai</option>
-        </select> */}
-
-        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'
-        onChange={(e) => setStartDate(e.target.value)}/>        
-        <input type="date" className='block p-3 rounded-2xl w-full border-2 border-gray-400'
-        onChange={(e) => setEndDate(e.target.value)}/>        
-        <input type="text" placeholder='Guests' className='block p-3 rounded-2xl w-full border-2 border-gray-400' onChange={(e) => setGuests(e.target.value)}/>
-        
-        <button className='py-4 px-8 bg-tertiary_2 text-white font-semibold rounded'>Search</button>
+          {/* <input type="date" className='block p-3 -ml-8 rounded-l-full w-full border-2 border-gray-400'
+          onChange={(e) => setStartDate(e.target.value)}/>        
+          <input type="date" className='block p-3 -ml-8 rounded-l-full w-full border-2 border-gray-400'
+          onChange={(e) => setEndDate(e.target.value)}/>         */}
+          
         </form>
       </div>
     </div>
