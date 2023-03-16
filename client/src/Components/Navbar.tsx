@@ -21,9 +21,41 @@ function Navbar() {
   const [username, setUsername] = useState<string | null>(userName);
   const [userphoto, setUserphoto] = useState<string | null>(userPhoto);
 
+
+  const [scroll, setScroll] = useState(false);
+  const [show, setShow] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   useEffect(() => {
     setUsername(userName);
     setUserphoto(userPhoto);
+
+    const controlNavbar = () => {
+      if (typeof window !== "undefined") {
+        if (window.scrollY < lastScrollY) {
+          // if scroll down hide the navbar
+          setShow(false);
+        } else {
+          // if scroll up show the navbar
+          setShow(true);
+        }
+        // remember current page location to use in the next move
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    const bgColorChange = () =>
+    window.scrollY >= 100 ? setScroll(true) : setScroll(false);
+
+    if (typeof window !== "undefined") {
+      // window.addEventListener("scroll", controlNavbar);
+      window.addEventListener("scroll", bgColorChange);
+
+      return () => {
+        // window.removeEventListener("scroll", controlNavbar);
+        window.removeEventListener("scroll", bgColorChange);
+      };
+    }
   }, []);
 
   const handleLogout = () => {
@@ -33,8 +65,8 @@ function Navbar() {
   
 
   return (
-    <div className='fixed top-0 w-full z-50'>
-      <div className="max-w-same m-auto flex justify-around items-center py-4 font-semibold bg-primary text-secondary">
+    <div className={`${scroll ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50`}>
+      <div className="max-w-same m-auto flex justify-around items-center py-4 font-semibold  text-secondary font-sans">
         <div  className='w-1/3'>
           <Link to="/">
             <div className="text-3xl cursor-pointer font-mono">StayHub</div>
@@ -42,7 +74,7 @@ function Navbar() {
         </div>
 
         <div className='w-1/3 flex justify-center'>
-          <div className="inline-block shadow-md py-4 px-8 rounded-full cursor-pointer">
+          <div className={`${scroll && 'shadow-md'} inline-block py-4 px-8 rounded-full cursor-pointer`}>
             <Link to="/">
               <span className='mr-4'>Home</span>
             </Link>

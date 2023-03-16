@@ -12,8 +12,8 @@ function Home() {
   return (
     <>
       <Navbar/>
+      <Hero/>
       <div className='flex flex-col max-w-same m-auto'>
-        <Hero/>
         <SearchForm/>
         <Feature/>
         <BestSellers/>
