@@ -13,7 +13,7 @@ function SearchForm() {
 
   const [userDestination, setUserDestination] = useState('');
   const [userDestinationSuggestions, setUserDestinationSuggestions] = useState<[] | null>(null);
-  const [userDestinationData, setUserDestinationData] = useState();
+  const [userDestinationData, setUserDestinationData] = useState([]);
  
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -37,6 +37,10 @@ function SearchForm() {
   const handleSearch = async(e : FormEvent) => {
     e.preventDefault();
 
+    if(userDestinationData.length === 0 || !guests){
+      alert('Fill user destination and number of guests');
+      return;
+    }
     // console.log(userDestinationData);
 
     const searchData = {
@@ -63,6 +67,7 @@ function SearchForm() {
   const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>) =>{
     setUserDestination(e.target.value);
 
+    if(e.target.value = '') setUserDestinationData([]);
     // console.log('Hiii');
 
     const config = { 
@@ -73,11 +78,12 @@ function SearchForm() {
 
     const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg';
 
-    const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?access_token=${MAPBOX_ACCESS_TOKEN}`, config);
+    const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?country=IN&access_token=${MAPBOX_ACCESS_TOKEN}`, config);
 
-    // console.log(mapBoxResult.data.features);
+  //  &access_token=YOUR_MAPBOX_ACCESS_TOKEN"
+
+    // console.log(mapBoxResult.data);
     setUserDestinationSuggestions(mapBoxResult.data.features);
-
   }
 
   return (
@@ -86,7 +92,7 @@ function SearchForm() {
 
         <h1 className='text-5xl font-semibold font-sans mb-12 text-secondary text-center'>Find your next home</h1>
 
-        <form className='flex m-auto w-1/2 rounded-full bg-white items-center' onSubmit={handleSearch}>
+        <form className='flex m-auto w-1/2 rounded-full bg-white border-gray-200 border-2 items-center' onSubmit={handleSearch}>
 
           <div className='w-full flex flex-col'>
             
