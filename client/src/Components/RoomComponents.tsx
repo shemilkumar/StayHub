@@ -190,10 +190,10 @@ function RoomComponents({home} : {home: HomeModel}) {
         {home && <RoomDetails home={home}/>}
       </div>
 
-      <div className='h-full w-1/4 p-6 sticky top-24 shadow-2xl mb-12'>
+      <div className='sticky h-full w-1/4 p-6 top-24 shadow-2xl mb-12'>
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className='font-semibold text-2xl'>${home.price}</span>
+            <span className='font-semibold text-4xl'>${home.price}</span>
             <span className='stroke text-gray-500 text-base line-through'>${home.mrpPrice}</span>
             <span className='text-yellow-600 text-base font-semibold'>{home.discount}% off</span>
           </div>

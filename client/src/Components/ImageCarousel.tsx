@@ -12,7 +12,7 @@ function ImageCarousel({home} : any) {
             <img
               src={`${backendStaticHomesUrl}/${home.imageCover}`}
               className="block w-full"
-              alt="Wild Landscape"
+              alt="coverImage"
             />
           </div>
 
