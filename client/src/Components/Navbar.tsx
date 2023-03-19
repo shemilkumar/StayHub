@@ -98,7 +98,7 @@ function Navbar() {
             </Link>
 
             <Link to="/profile">
-              <div className='py-1 px-2 pr-3 border-2 border-gray-200 rounded-full flex gap-2 items-center'>
+              <div className={`${scroll ? 'border-gray-200' : 'border-transparent'} py-1 px-2 pr-3 border-2 rounded-full flex gap-2 items-center`}>
 
                 {userphoto &&
                   <img src={`${backendStaticUserUrl}/${userphoto}`} alt="profile" className='w-9 h-9 rounded-full' />

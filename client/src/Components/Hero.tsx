@@ -47,13 +47,13 @@ function Hero() {
                 everything, All in one place at shopspot. Everything you'll love
                 at affordable prices.
               </p> */}
-              <p className='mt-4 text-4xl font-semibold text-gray-100 font-sans'>Looking for a Home to stay 
-              <span className='text-secondary'> ?</span>
+              <p className='mt-4 text-4xl font-semibold text-gray-100 font-sans'>Looking for a Home to stay ?
+              {/* <span className='text-secondary'> ?</span> */}
               </p>
             </div>
 
             <div className={`${loaded ? 'translate-x-0' : 'translate-x-[1200px]'} flex justify-center md:w-full transition-all duration-1000 ease-in-out`}>
-              <Link to={"/products"}>
+              <Link to={"/homes"}>
                 <button
                   type="button"
                   className="md:mt-6 mt-4 px-2 py-1.5 md:px-6 md:text-xl text-md font-semibold font-sen uppercase text-white  border-secondary border-2 md:border-4 bg-secondary hover:bg-transparent hover:text-white focus:ring-4 focus:ring-blue-300 md:py-2.5 mb-2 dark:bg-transparent dark:hover:bg-blue-gradient focus:outline-none dark:focus:ring-blue-800"

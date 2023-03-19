@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
-import Card from '../Components/Card';
+import BookedCard from '../Components/BookedCard';
 import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
@@ -40,13 +40,15 @@ function MyBookingsPage() {
               <Link to={`/homes`}><Button text='Explore Homes'/></Link>
             </div>
           :
-            <div className='m-auto'>
-              <h1  className='text-center text-secondary text-4xl font-semibold mb-20'>My Bookings</h1>
+            <div className='m-auto mt-32 mb-16'>
+              <h1  className='text-center text-4xl font-semibold font-sans mb-12'>
+                My<span className='text-secondary'> Bookings</span>
+              </h1>
               <div className='grid grid-cols-3 gap-8'>
                 {
                   myBookings.map((booking : any,i) => {
                     return(
-                      <Card key={i} home={booking.home}/>
+                      <BookedCard key={i} home={booking.home} booking={booking}/>
                     );
                   })
                 }

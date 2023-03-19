@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { setAllSearchResult } from '../Redux/Slicers/searchResultSlice';
+import Alert from '../util/Alert';
 
 function SearchForm() {
 
@@ -14,14 +15,23 @@ function SearchForm() {
   const [userDestination, setUserDestination] = useState('');
   const [userDestinationSuggestions, setUserDestinationSuggestions] = useState<[] | null>(null);
   const [userDestinationData, setUserDestinationData] = useState([]);
+  const [error,setError] = useState('');
  
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [guests, setGuests] = useState('');
 
+  const apiErrorSetting = (message : string) => {
+    setError(message);
+    setTimeout(() => {
+      setError('');
+    }, 4000);
+  }
+
+
   function getDatesInRange(dateStart : string, dateEnd : string) {
     const dates = [];
-    console.log(dateStart,dateEnd);
+    // console.log(dateStart,dateEnd);
     let currentDate = new Date(dateStart);
     let endDate = new Date(dateEnd);
   
@@ -37,11 +47,15 @@ function SearchForm() {
   const handleSearch = async(e : FormEvent) => {
     e.preventDefault();
 
-    if(userDestinationData.length === 0 || !guests){
-      alert('Fill user destination and number of guests');
+    if(userDestinationData.length === 0){
+      apiErrorSetting('Select where you want to go');
       return;
     }
-    // console.log(userDestinationData);
+
+    if(!guests){
+      apiErrorSetting('Fill number of guests');
+      return;
+    }
 
     const searchData = {
       location : userDestinationData,
@@ -61,7 +75,7 @@ function SearchForm() {
       navigate('/searchResult');
       //  Here I have to pass data to <SearchResultPage/>
 
-    }else alert(nearByHomes.message);
+    }else apiErrorSetting(nearByHomes.message!);
   };
 
   const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>) =>{
@@ -88,6 +102,7 @@ function SearchForm() {
 
   return (
     <div>
+      {error && <Alert message={error}/>}
       <div className="flex flex-col w-full mt-40">
 
         <h1 className='text-5xl font-semibold font-sans mb-12 text-secondary text-center'>Find your next home</h1>

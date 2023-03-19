@@ -1,6 +1,7 @@
 import React from 'react'
 import BestSellers from '../Components/BestSellers';
-import Feature from '../Components/Feature';
+import ScenicSpots from '../Components/ScenicSpots';
+import FeatureBlock from '../Components/FeatureBlock';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
 import Navbar from '../Components/Navbar';
@@ -15,7 +16,8 @@ function Home() {
       <Hero/>
       <div className='flex flex-col max-w-same m-auto'>
         <SearchForm/>
-        <Feature/>
+        <FeatureBlock/>  
+        <ScenicSpots/>
         <BestSellers/>
         <Testimonial/>
         <Footer/>

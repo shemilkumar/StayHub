@@ -12,7 +12,7 @@ function CardList( {home} : {home:HomeModel}) {
     <div>
     { home &&
       <Link to={home?._id ? `/room/${home._id}` : 'room/fake_id'}>
-        <div className="w-full flex justify-between shadow-2xl transition-all ease-in-out duration-500 hover:scale-100">
+        <div className="w-full flex justify-between shadow-2xl transition-all ease-in-out duration-500 hover:mt-1">
           <div className='h-72 w-96'>
             <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
             className='shadow-xl object-cover h-72'/>
