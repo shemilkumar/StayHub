@@ -6,6 +6,7 @@ export interface FetchChecked{
   pass: boolean,
   message?: string,
   fetchedData?: APIResponse
+  deleted?: boolean
 }
 
 class apiRequest {
@@ -29,12 +30,6 @@ class apiRequest {
 
   async post(url : string, data: object){
     try {
-
-      // const config = {
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // };
       this.response = await axiosApi.post(url,data) as APIResponse | AxiosError;
       const result = this._checkResponse(this.response) as FetchChecked;
       return result;
@@ -57,7 +52,9 @@ class apiRequest {
   async delete(url : string){
     try {
       this.response = await axiosApi.delete(url) as AxiosResponse;
-      return this.response
+      console.log(this.response);
+      const result = this._checkResponse(this.response) as FetchChecked;
+      return result
 
     } catch (error){
       return this._internalError(error);
@@ -83,6 +80,12 @@ class apiRequest {
         // navigate(`/error/${response.message}`);
         return {pass : false, message: response.message};
       }
+    }else if(response.status === 204){
+      return {
+        pass: true,
+        deleted: true,
+        message: 'Successfully removed'
+      };
     }else if(response.data.status !== 'success') {
       // navigate(`/error/${response.data.message}`);
       return {pass : false, message: response.data.message};

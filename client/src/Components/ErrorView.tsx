@@ -11,10 +11,10 @@ function ErrorView({error} : {error:string}) {
 
         <div className='flex gap-2'>
           <Link to={'/'}>
-            <Button text='Back To Home' invert={true}/>
+            <Button text='Back To Home' invert={true}  round={true}/>
           </Link>
           <Link to={'/login'}>
-            <Button text='Login'/>
+            <Button text='Login' round={true}/>
           </Link>
         </div>
       </div>

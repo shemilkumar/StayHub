@@ -21,7 +21,8 @@ router
 
 router
   .route('/:id')
-  .get(bookingController.getBooking);
+  .get(bookingController.getBooking)
+  .delete(authController.protect,bookingController.deleteBooking);
 
 // Only admins will get access to these below routes
 router.use(authController.restrictTo('admin'));
