@@ -103,11 +103,11 @@ function SearchForm() {
   return (
     <div>
       {error && <Alert message={error}/>}
-      <div className="flex flex-col w-full mt-40">
+      <div className="flex flex-col w-full md:mt-40 mt-20">
 
-        <h1 className='text-5xl font-semibold font-sans mb-12 text-secondary text-center'>Find your next home</h1>
+        <h1 className='md:text-5xl text-3xl font-semibold font-sans md:mb-12 mb-6 text-secondary text-center'>Find your next home</h1>
 
-        <form className='flex m-auto w-1/2 rounded-full bg-white border-gray-200 border-2 items-center' onSubmit={handleSearch}>
+        <form className='flex items-center md:m-auto md:w-1/2 mx-4 rounded-full bg-white border-gray-200 border-2' onSubmit={handleSearch}>
 
           <div className='w-full flex flex-col'>
             

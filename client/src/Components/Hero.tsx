@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import image from '../assets/friends-chilling.jpg';
-import HeroBlock from '../util/HeroBlock';
 
 function Hero() {
 
@@ -10,45 +9,33 @@ function Hero() {
   useEffect(() => {
     setLoaded(true);
   }, [])
-  
-
-  // const description: String = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, sunt quas repellat sequi dolorem reiciendis aspernatur ducimus ratione impedit tempora a praesentium necessitatibus harum similique dignissimos dolor quam at, officia nemo qui. Debitis repudiandae tenetur omnis repellendus possimus asperiores ut!";
 
   return (
-    // <HeroBlock image={image} description={description} mainHero={true}/>
+    <>
+      <div className="relative w-full h-[450px] md:h-screen bg-blend-darken">
 
-    <div>
-      <div className="w-full md:h-screen h-[500px] relative bg-blend-darken">
         <img
           src={image}
           alt="bg"
-          className="-z-10  object-cover absolute md:w-full w-screen md:h-screen h-full"
-        />
+          className="absolute h-full w-screen md:w-full md:h-screen -z-10 object-cover "
+        /> 
 
-        <div className={`w-full md:h-full h-full flex justify-center text-center md:items-center items-end backdrop-brightness-50`}>
-          
-          <div className="max-w-same px-3">
+{/* md:w-full md:h-full  */}
+        <div className={`w-full h-full flex justify-center text-center md:items-center items-end backdrop-brightness-50`}>
 
-            {/* <div className="max-w-same px-3 bg-black rounded-full bg-opacity-20"> */}
+          <div className="md:max-w-same md:px-3">
   
             <div className={`${loaded ? 'translate-x-0' : '-translate-x-[1200px]'} w-full transition-all duration-1000 ease-in-out`}>
-              {/* <h1 className="inline md:text-8xl text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-cyan-700 via-blue-500 to-purple-700">
-                SHOPSPOT
-              </h1> */}
-              <h1 className=" inline md:text-8xl text-3xl font-bold text-gray-200 font-sans">
+            
+              <h1 className=" inline md:text-8xl text-5xl font-bold text-gray-200 font-sans">
                 Stay
                 <span className='text-secondary'>Hub</span>
               </h1>
             </div>
 
             <div className={`${loaded ? 'opacity-100' : 'opacity-0'} flex justify-center md:w-full transition-all duration-1000 ease-in-out`}>
-              {/* <p className="backdrop-filter-50 md:w-5/12 mt-4 md:text-xl md:font-lg text-sm text-gray-100 tracking-wider font-semibold font-sans">
-                Online shopping and selling-Shop fashion, gadgets, home, and
-                everything, All in one place at shopspot. Everything you'll love
-                at affordable prices.
-              </p> */}
-              <p className='mt-4 text-4xl font-semibold text-gray-100 font-sans'>Looking for a Home to stay ?
-              {/* <span className='text-secondary'> ?</span> */}
+             
+              <p className='mt-2 md:mt-4 text-2xl md:text-4xl font-semibold text-gray-100 font-sans'>Looking for a Home to stay ?
               </p>
             </div>
 
@@ -65,7 +52,7 @@ function Hero() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

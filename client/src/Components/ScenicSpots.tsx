@@ -11,7 +11,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 function ScenicSpots() {
 
   return (
-    <div className='relative min-h-screen flex'>
+    <div className='relative min-h-screen md:flex hidden'>
 
       <div className='m-auto flex flex-col'>
         <h1 className='mt-4 text-6xl font-semibold text-center mb-4 font-sans'>Scenic

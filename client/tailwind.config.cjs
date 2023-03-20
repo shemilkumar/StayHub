@@ -17,6 +17,14 @@ module.exports = {
         same: "80%",
       },
     },
+    screens: {
+      xs: "340px",
+      ss: "620px",
+      sm: "768px",
+      md: "1120px",
+      lg: "1200px",
+      xl: "1550px",
+    },
   },
   extend: {},
   plugins: [

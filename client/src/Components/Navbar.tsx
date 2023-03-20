@@ -66,14 +66,14 @@ function Navbar() {
 
   return (
     <div className={`${scroll ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50`}>
-      <div className="max-w-same m-auto flex justify-around items-center py-4 font-semibold  text-secondary font-sans">
-        <div  className='w-1/3'>
+      <div className="md:max-w-same m-auto flex justify-between md:justify-around items-center py-4 px-4 md:px-0 font-semibold  text-secondary font-sans">
+        <div  className='md:w-1/3'>
           <Link to="/">
-            <div className="text-3xl cursor-pointer font-mono">StayHub</div>
+            <div className="text-2xl md:text-3xl cursor-pointer font-mono">StayHub</div>
           </Link>
         </div>
 
-        <div className='w-1/3 flex justify-center'>
+        <div className='hidden md:flex justify-center w-1/3 '>
           <div className={`${scroll && 'shadow-md'} inline-block py-4 px-8 rounded-full cursor-pointer`}>
             <Link to="/">
               <span className='mr-4'>Home</span>
@@ -89,22 +89,22 @@ function Navbar() {
           </div>
         </div>
 
-        <div className="flex justify-end items-centers gap-4 cursor-pointer w-1/3">
+        <div className="flex justify-end items-centers gap-4 cursor-pointer md:w-1/3">
 
         {username ? 
           <div className='flex gap-2 items-center'>
             <Link to="/login">
-              <span className="py-2" onClick={handleLogout}>Logout</span>
+              <span className="py-2 text-md md:text-base" onClick={handleLogout}>Logout</span>
             </Link>
 
             <Link to="/profile">
-              <div className={`${scroll ? 'border-gray-200' : 'border-transparent'} py-1 px-2 pr-3 border-2 rounded-full flex gap-2 items-center`}>
+              <div className={`${scroll ? 'border-gray-200' : 'border-transparent'} py-1 px-2 pr-3 md:border-2 rounded-full flex gap-2 items-center`}>
 
                 {userphoto &&
                   <img src={`${backendStaticUserUrl}/${userphoto}`} alt="profile" className='w-9 h-9 rounded-full' />
                 }
                 
-                <span className='uppercase'>{username.split(' ')[0]}</span>
+                <span className='uppercase text-sm md:text-base md:flex hidden'>{username.split(' ')[0]}</span>
 
               </div>
             </Link>

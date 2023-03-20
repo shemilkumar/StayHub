@@ -41,11 +41,11 @@ function BestSellers() {
   
 
   return (
-    <div className='min-h-screen flex flex-col gap-12 justify-center items-center'>
-      <h1 className='text-6xl font-semibold font-sans'>Best
+    <div className='min-h-screen mt-16 md:mt-0 flex flex-col gap-12 justify-center items-center'>
+      <h1 className='text-4xl md:text-6xl font-semibold font-sans'>Best
        <span className='text-secondary'> Sellers</span>
        </h1>
-      <div className='grid grid-cols-3 gap-8 '>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 '>
         {
           bestSellers.map((bestSeller, i) => {
             return(

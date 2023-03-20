@@ -14,11 +14,11 @@ function Home() {
     <>
       <Navbar/>
       <Hero/>
-      <div className='flex flex-col max-w-same m-auto'>
+      <div className='flex flex-col md:max-w-same m-auto'>
         <SearchForm/>
         <FeatureBlock/>  
         <ScenicSpots/>
-        <BestSellers/>
+        <BestSellers/> 
         <Testimonial/>
         <Footer/>
       </div>
