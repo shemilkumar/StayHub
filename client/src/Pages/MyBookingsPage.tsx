@@ -35,16 +35,16 @@ function MyBookingsPage() {
         <div className='min-h-screen flex'>
           {myBookings.length === 0 ? 
             <div className='m-auto flex flex-col transition-all duration-500 ease-in'>
-              <h1 className='text-3xl text-red-500 font-semibold'>No bookings yet!</h1>
+              <h1 className='text-xl md:text-3xl text-red-500 font-semibold'>No bookings yet!</h1>
               <p className='text-gray-600 mb-4'>What are you waiting for? book your home now !</p>
               <Link to={`/homes`}><Button text='Explore Homes'/></Link>
             </div>
           :
             <div className='m-auto mt-32 mb-16'>
-              <h1  className='text-center text-4xl font-semibold font-sans mb-12'>
+              <h1  className='text-center text-3xl md:text-4xl font-semibold font-sans mb-12'>
                 My<span className='text-secondary'> Bookings</span>
               </h1>
-              <div className='grid grid-cols-3 gap-8'>
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-0'>
                 {
                   myBookings.map((booking : any,i) => {
                     return(

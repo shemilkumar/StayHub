@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import React, { FormEvent, useState } from 'react'
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
@@ -23,24 +23,17 @@ function ForgotPasswordPage() {
 
   const handleEmailSubmit = async(e: FormEvent) =>{
     e.preventDefault();
-    // console.log("email");
     setEmailButton('Loading...');
 
-    const response = await apiRequest.post(`/users/forgotPassword`,{email}) as APIResponse | AxiosError;
+    const response = await apiRequest.post(`/users/forgotPassword`,{email}) as FetchChecked
 
-    if(response instanceof AxiosError){
-      if(response.name === 'AxiosError') apiErrorSetting(response.message);
+    if(response.pass){
+      if(!response.fetchedData) return;
+      setUserFound(true);
+    }else{
+      apiErrorSetting(response.message!);
       setEmailButton('Continue');
-      return;
     }
-
-    if(response.data.status !== 'success') {
-      apiErrorSetting(response.data.message);
-      setEmailButton('Continue');
-      return
-    }
-
-    setUserFound(true);
   }
 
   return (
@@ -49,7 +42,7 @@ function ForgotPasswordPage() {
         <div className='min-h-screen flex'>
           {validationError && <Alert message={validationError}/> }
           {/* {!userFound ? */}
-          <div className='m-auto w-1/3 '>
+          <div className='m-auto md:w-1/3 '>
               <div className={`transition-all duration-700 ease-in-out ${userFound ? '-translate-y-[600px] opacity-0 fixed' : ''}`}>
               
               <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Reset Password</h1>

@@ -19,13 +19,17 @@ function App() {
     <Router >
       <Provider store={store}>
         <Routes>
+
+          {/* Responsive */}
           <Route path='/' element={<Home/>}/>
-          <Route path='/homes' element={<AllHomes />}/>
+          <Route path='/homes' element={<AllHomes />}/> 
           <Route path='/home/:id' element={<RoomPage/>}/>
           <Route path='/profile' element={<ProfilePage/>}/>
 
           <Route path='/signup' element={<SignUpPage/>}/>
           <Route path='/login' element={<LoginPage/>}/>
+
+          {/* Not Responsive */}
 
           <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
