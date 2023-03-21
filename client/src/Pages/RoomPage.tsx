@@ -34,7 +34,7 @@ function RoomPage() {
     <>
       <Navbar/>
 
-      <div className='mt-24 max-w-same flex m-auto justify-between gap-4 relative'>
+      <div className='mt-16 md:mt-24 md:max-w-same flex m-auto justify-between gap-4 relative'>
         {home ? <RoomComponents home={home}/> : <Spinner/>}
       </div>
 

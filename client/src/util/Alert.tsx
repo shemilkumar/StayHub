@@ -15,7 +15,7 @@ function Alert({message, success} : {message: string, success?: boolean}) {
 
   return (
     <div className={`${show ? 'top-0' : '-top-32'} fixed mx-auto inset-x-0 bottom-0 z-50 transition-all duration-500 ease-in-out`}>
-      <div className={`${success ? 'bg-green-200' : 'bg-red-200' } max-w-lg mx-auto mt-6 p-2`}>
+      <div className={`${success ? 'bg-green-200' : 'bg-red-200' } max-w-lg mx-auto mt-0 p-2`}>
         <div className="flex space-x-2">
           {success ?
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-green-700">

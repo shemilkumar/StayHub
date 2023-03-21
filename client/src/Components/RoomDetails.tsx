@@ -18,11 +18,13 @@ function RoomDetails({home} : {home: HomeModel}) {
     <>
       {
         home && 
-        <div>
-          <ImageCarousel home={home}/> 
-          <div className='mt-16 mb-12'>
+        <>
+          <div className='h-80 md:h-full'>
+            <ImageCarousel home={home}/> 
+          </div>
+          <div className='mt-6 md:mt-16 mb-8 md:mb-12 px-4 md:px-0'>
 
-            <div className='w-3/4 mb-8'>
+            <div className='w-full md:w-3/4 mb-2 md:mb-8'>
               <h1 className='text-4xl font-semibold'>{home.name}</h1>
               <div className='flex gap-2 text-sm text-gray-600'>
                 <h4>{home.maxGuests} Guests</h4>
@@ -32,71 +34,72 @@ function RoomDetails({home} : {home: HomeModel}) {
               </div>
             </div>
 
-            <div className='text-xl p-3 bg-green-700 text-white font-semibold inline-flex items-center gap-2 rounded-lg'>
+            
+            <div className='text-base md:text-xl p-1.5 md:p-3 bg-green-700 text-white font-semibold inline-flex items-center gap-2 rounded-lg'>
             {home.ratingsAverage}
               <AiFillStar/>
             </div>
-
             <div className='text-gray-500 text-sm'>{home.ratingsQuantity} Reviews</div>
 
             <div>
-              <h1 className='mt-10 font-semibold text-2xl'>Description</h1>
-              <p className='text-base text-gray-500 w-3/4'>{home.summary}</p>
+              <h1 className='mt-6 mb-2 md:mt-10 font-semibold text-2xl'>Description</h1>
+              <p className='text-sm md:text-base text-gray-500 md:w-3/4'>{home.summary}</p>
             </div>
 
             <div>
               <h1 className='mt-10 mb-6 font-semibold text-2xl'>Amenities</h1>
-              <div className='w-3/4 grid grid-cols-3 gap-y-4'>
 
-                <div className='flex gap-2 items-center text-lg text-gray-700'>
+              <div className='md:w-3/4 grid grid-cols-3 text-xs md:text-lg gap-y-4'>
+
+                <div className='flex gap-2 items-center text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.kitchen} className='h-4 w-4 text-green-600'/>
                   <TbToolsKitchen2 className='h-6 w-6'/>
                   <p>Kitchen</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.wifi} className='h-4 w-4 text-green-600'/>
                   <BiWifi className='h-6 w-6'/>
                   <p>Wifi</p>
                 </div>
 
-                <div className='flex gap-2 items-center text-lg  text-gray-700'>
+                <div className='flex gap-2 items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.pool} className='h-4 w-4 text-green-600'/>
                   <MdPool className='h-6 w-6'/>
                   <p>Pool</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.parking} className='h-4 w-4 text-green-600'/>
                   <AiFillCar className='h-6 w-6' />
                   <p>Parking</p>
                 </div>
 
-                <div className='flex gap-2 items-center text-lg  text-gray-700'>
+                <div className='flex gap-2 items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.washingMachine} className='h-4 w-4 text-green-600'/>
                   <GiWashingMachine className='h-6 w-6' />
-                  <p>Washing Machine</p>
+                  <p>Washing</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.ac} className='h-4 w-4 text-green-600'/>
                   <GiCooler className='h-6 w-6' />
                   <p>AC</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.fridge} className='h-4 w-4 text-green-600'/>
                   <BiFridge className='h-6 w-6' />
                   <p>Fridge</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.dryer} className='h-4 w-4 text-green-600'/>
                   <MdDry className='h-6 w-6' />
                   <p>Dryer</p>
                 </div>
 
-                <div className='flex gap-2  items-center text-lg  text-gray-700'>
+                <div className='flex gap-2  items-center  text-gray-700'>
                   <input type="checkbox" readOnly={true} checked={home.perks.tv} className='h-4 w-4 text-green-600'/>
                   <FiMonitor className='h-6 w-6' />
                   <p>TV</p>
@@ -119,7 +122,7 @@ function RoomDetails({home} : {home: HomeModel}) {
                 </div>
               </div>
 
-              <ul className='text-base text-gray-800 list-disc pl-8'>
+              <ul className='text-sm md:text-base text-gray-800 list-disc pl-8'>
                 <li>Smoking is {home.rules.smoking ? '' : 'not'} allowed</li>
                 <li>Pets are {home.rules.pets ? '' : 'not'} allowed</li>
                 <li>Party is {home.rules.parties ? '' : 'not'} allowed</li>
@@ -134,29 +137,19 @@ function RoomDetails({home} : {home: HomeModel}) {
               {/* 77.58345359320708,12.96947682403109 */}
               <Map latitude={home.location.coordinates[0]} longitude={home.location.coordinates[1]}/>
 
-              <div className='text-base text-gray-600 mt-8 w-3/4'>
+              <div className='text-sm md:text-base text-gray-600 mt-8 md:w-3/4'>
                 <p className='text-xl mb-2'>{home.address}</p>
-                <div>
+                <ul className='flex flex-col gap-2 md:gap-0'>
                 {home.addressDescription.split(',').map((line,i) => {
                   return (
-                    <p key={i}>{line}</p>
+                    <li key={i}>{line}</li>
                   )
                 })}
-                </div>
+                </ul>
               </div>
             </div>
-
-            <div className='mt-16'>
-              <h1 className='font-semibold text-3xl mb-4'>Similar Homes</h1>
-              <div className='mt-4 grid grid-cols-3 gap-2'>
-                {/* <Card/>
-                <Card/>
-                <Card/> */}
-              </div>
-            </div>
-
           </div>  
-        </div>
+        </>
       }
     </>
   )

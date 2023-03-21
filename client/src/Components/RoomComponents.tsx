@@ -184,17 +184,18 @@ function RoomComponents({home} : {home: HomeModel}) {
   //////////////////////////////////////
 
   return (
-    <>
+    <div className='flex flex-col md:flex-row gap-4'>
       {apiError && <Alert message={apiError}/> }
-      <div className='flex flex-col w-3/4'>
+      <div className='flex flex-col w-full md:w-3/4'>
         {home && <RoomDetails home={home}/>}
       </div>
 
-      <div className='sticky h-full w-1/4 p-6 top-24 shadow-2xl mb-12'>
+      <div className='md:sticky h-[620px] w-full md:w-1/4 p-6 md:top-24 md:shadow-2xl'>
+
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className='font-semibold text-4xl'>${home.price}</span>
-            <span className='stroke text-gray-500 text-base line-through'>${home.mrpPrice}</span>
+            <span className='font-semibold text-4xl'>₹{home.price}</span>
+            <span className='stroke text-gray-500 text-base line-through'>₹{home.mrpPrice}</span>
             <span className='text-yellow-600 text-base font-semibold'>{home.discount}% off</span>
           </div>
           <p className='text-xs text-gray-500'>Inclusive of all taxes</p>
@@ -259,17 +260,29 @@ function RoomComponents({home} : {home: HomeModel}) {
 
         </div>
 
-        <div className='mt-4'>
+        {/* <div className='mt-4'>
           <p className='font-semibold text-lg text-secondary mb-4'>Enter your Email</p>
           <Input label='Email' id='email' type='text'  value={userFromStrore ? userFromStrore.email : ''}/>
-          {/* <Input label='Phone' id='phone' type='text' /> */}
-        </div>
+        </div> */}
 
         {/* <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={handleBook}>Continue to Book</button> */}
-        <button className='mt-2 bg-secondary w-full py-3 rounded-md text-white text-base font-semibold' onClick={displayRazorpay}>Continue to Book</button>
-
+        <button className='hidden md:flex justify-center bg-secondary w-full mt-8 py-3 rounded-md text-white text-base font-semibold' onClick={displayRazorpay}>Continue to Book</button>
       </div>
-    </>
+
+      <div className='sticky bottom-0 -mt-24 mb-2 flex md:hidden justify-around gap-4 bg-white shadow-2xl p-3'>
+          <div className='flex flex-col'>
+            <div className='flex items-center gap-2'>
+              <span className='font-sans font-semibold text-2xl'>₹{home.price}</span>
+              <span className='font-sans font-semibold text-sm text-gray-500 line-through'>₹{home.mrpPrice}</span>
+            </div>
+            <span className='font-sans font-semibold text-xs text-gray-500 tracking-widest'>Total amount</span>
+          </div>
+
+          <button className='bg-gradient-to-tr from-secondary via-red-600 to-rose-600 py-3 px-12 text-white rounded-xl shadow-lg font-sans font-semibold'
+          onClick={displayRazorpay}>Book now</button>
+      </div>
+
+    </div>
   )
 }
 
