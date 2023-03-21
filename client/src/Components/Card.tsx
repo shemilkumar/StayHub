@@ -21,7 +21,7 @@ function Card( {home} : {home:HomeModel}) {
           </div>
           <div className='flex flex-col gap-4 mt-8 border-b-2 items-center'>
             <h1 className='text-2xl md:text-3xl font-semibold text-center'>{home.name}</h1>
-            <p className=' text-gray-400 text-sm md:text-base w-10/12 md:h-20 h-16'>{home.description}</p>
+            <p className='text-gray-400 text-sm md:text-base w-10/12 md:h-20 h-16'>{home.description}</p>
             <div className='flex justify-between m-2 w-10/12'>
               <div className='flex gap-2 '>
                 <BsHouseDoorFill className='h-5 w-5 text-secondary'/>

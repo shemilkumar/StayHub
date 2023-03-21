@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { backendStaticUserUrl } from '../Constants/constant';
 import { deleteUserData } from '../Redux/Slicers/userSlice';
+
+import { TfiMenu } from "react-icons/tfi";
+import { VscChromeClose } from "react-icons/vsc";
 import logout from '../util/logout';
 
 function Navbar() {
@@ -21,7 +24,7 @@ function Navbar() {
   const [username, setUsername] = useState<string | null>(userName);
   const [userphoto, setUserphoto] = useState<string | null>(userPhoto);
 
-
+  const [openNav, setOpenNav] = useState(false);
   const [scroll, setScroll] = useState(false);
   const [show, setShow] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -65,16 +68,35 @@ function Navbar() {
   
 
   return (
-    <div className={`${scroll ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50`}>
-      <div className="md:max-w-same m-auto flex justify-between md:justify-around items-center py-4 px-4 md:px-0 font-semibold  text-secondary font-sans">
-        <div  className='md:w-1/3'>
-          <Link to="/">
-            <div className="text-2xl md:text-3xl cursor-pointer font-mono">StayHub</div>
-          </Link>
+    <div className={`${scroll || openNav ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50 transition-all duration-700 ease-in-out`}>
+      <div className="md:max-w-same m-auto flex justify-between md:justify-around items-center py-4  md:px-0 font-semibold  text-secondary font-sans">
+
+        <div  className='flex items-center md:w-1/3 pl-4 md:pl-0'>
+
+        {openNav ? (
+            <VscChromeClose
+              className="h-6 w-6 md:hidden  text-gray-500"
+              onClick={() => setOpenNav(!openNav)}
+            />
+          ) : (
+            <TfiMenu
+              className="h-6 w-6 md:hidden text-gray-500"
+              onClick={() => setOpenNav(!openNav)}
+            />
+          )}
+          
+          
+          <div className="ml-2 md:ml-0 text-2xl md:text-3xl cursor-pointer font-mono">
+            <Link to="/">
+              StayHub
+            </Link>
+          </div>
+
         </div>
 
-        <div className='hidden md:flex justify-center w-1/3 '>
-          <div className={`${scroll && 'shadow-md'} inline-block py-4 px-8 rounded-full cursor-pointer`}>
+        <div className={`${openNav ? 'translate-y-0' : '-translate-y-96 md:translate-y-0'} absolute md:static top-16 flex md:justify-center w-full md:w-1/3 bg-primary md:bg-transparent px-4 md:px-0 border-2 border-t-secondary md:border-none transition-all duration-500 ease-in-out`}>
+
+          <div className={`${scroll && 'md:shadow-md'} flex flex-col gap-4 md:gap-0 md:inline-block py-4 md:px-8 md:rounded-full cursor-pointer`}>
             <Link to="/">
               <span className='mr-4'>Home</span>
             </Link>
