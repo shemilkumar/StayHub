@@ -27,7 +27,7 @@ function BookedCard( {home, booking} : {home:HomeModel, booking: any}) {
     <div>
     { home &&
         <div className="w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
-          <Link to={home?._id ? `/room/${home._id}` : 'room/fake_id'}>
+          <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
             <div className='h-72'>
               <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
               className='shadow-xl rounded-t-lg object-cover h-72'/>

@@ -69,10 +69,10 @@ function PasswordChange(){
 
 
   return(
-    <div className='px-16'>
+    <div className='md:px-16'>
       {validationError && <Alert message={validationError}/> }  
       {passwordSuccess && <Alert message='Password updated successfuly' success={true}/> }  
-      <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Change Password</h1>
+      <h1 className='text-xl md:text-2xl uppercase mb-12 text-secondary font-semibold'>Change Password</h1>
       <form onSubmit={handleUpdatePassword}>
 
         <label htmlFor='currentPassword' className='font-semibold'>Current password</label>

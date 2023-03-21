@@ -83,11 +83,10 @@ function SettingsChange({user} : {user: User}) {
 
   return (
     <>
-      <div className='px-16'>
+      <div className='md:px-16'>
         {validationError && <Alert message={validationError}/> }  
-        <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Your Account Settings</h1>
+        <h1 className='text-xl md:text-2xl uppercase mt-4 md:mt-0 mb-8 md:mb-12 text-secondary font-semibold'>Your Account Settings</h1>
         <form encType="multipart/form-data" onSubmit={handleUpdate}>
-        {/* <form onSubmit={handleUpdate}> */}
 
           <label htmlFor='name' className='font-semibold'>Name</label>
           <input type='text' id='name' className='w-full p-4 text-sm text-gray-600 tracking-wide bg-gray-200 mb-8 mt-2 h-12 rounded-sm focus:border-b-secondary border-2 outline-none'
@@ -101,25 +100,17 @@ function SettingsChange({user} : {user: User}) {
           onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* 
-          <Input id='name' type='text' label='Name' value={user?.name} />
-          <Input id='email' type='email' label='Email address' value={user?.email}/> */}
-
-          <div className='flex gap-4 items-center'>
-            <div className='w-20 h-20 rounded-full '>
+          <div className='flex gap-4 items-center w-full'>
             
-              <img src={`${backendStaticUserUrl}/${user.photo}`} alt="profile" 
-              className='w-20 h-20 object-cover rounded-full border-2 border-secondary p-0.5'/>
-              {/* <img src='http://127.0.0.1:8000/public/img/users/default.jpg' alt="" 
-              className='w-20 h-20 object-cover rounded-full border-2 border-secondary p-0.5'/> */}
+            <img src={`${backendStaticUserUrl}/${user.photo}`} alt="profile" 
+            className='w-20 h-20 object-cover rounded-full border-2 border-secondary p-0.5'/>
             
-            </div> 
 
             <div className=''>
-              <input type="file" accept='image/*' className='opacity-0 overflow-hidden absolute -z-1 focus:outline-[3px] focus:outline focus:outline-secondary text-secondary inline-block border-b-2 border-secondary p-1 cursor-pointer transition-all duration-150'
+              <input type="file" accept='image/*' className='opacity-0 overflow-hidden absolute -z-1 focus:outline-[3px] focus:outline focus:outline-secondary text-secondary inline-block border-b-2 border-secondary p-1 cursor-pointer transition-all duration-150 w-1/2 md:w-full'
               onChange={onSelectFile}/>
 
-              <label htmlFor="photo" className='outline-[3px] outline-secondary text-secondary inline-block border-b-2 border-secondary p-1 transition-all duration-150 cursor-pointer hover:bg-secondary hover:transform hover:translate-y-[-2px]'>Choose new photo</label>
+              <label htmlFor="photo" className='md:outline-[3px] outline-secondary text-secondary inline-block border-b-2 border-secondary p-1 transition-all duration-150 cursor-pointer hover:bg-secondary hover:transform hover:translate-y-[-2px]'>Choose new photo</label>
             </div>
 
           </div>

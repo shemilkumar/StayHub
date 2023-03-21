@@ -48,7 +48,7 @@ function Navbar() {
     };
 
     const bgColorChange = () =>
-    window.scrollY >= 100 ? setScroll(true) : setScroll(false);
+    window.scrollY >= 10 ? setScroll(true) : setScroll(false);
 
     if (typeof window !== "undefined") {
       // window.addEventListener("scroll", controlNavbar);
@@ -107,6 +107,10 @@ function Navbar() {
 
             <Link to="/profile">
               <span className=''>Profile</span>
+            </Link>
+
+            <Link to="/myBookings">
+              <span className='flex md:hidden'>Bookings</span>
             </Link>
           </div>
         </div>

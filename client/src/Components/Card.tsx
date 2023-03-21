@@ -14,7 +14,7 @@ function Card( {home} : {home:HomeModel}) {
   return (
     <div>
     { home &&
-      <Link to={home?._id ? `/room/${home._id}` : 'room/fake_id'}>
+      <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
         <div className="w-full md:w-96 shadow-2xl md:rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
           <div className='h-40 md:h-72'>
             <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 

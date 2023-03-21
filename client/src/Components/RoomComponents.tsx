@@ -24,6 +24,8 @@ function RoomComponents({home} : {home: HomeModel}) {
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [apiError, setApiError] = useState('');
 
+  const [showCalendar, setShowCalendar] = useState(true);
+
   const apiErrorSetting = (message : string) => {
     setApiError(message);
     setTimeout(() => {
@@ -240,23 +242,25 @@ function RoomComponents({home} : {home: HomeModel}) {
 
           <p className='my-2 text-xs text-red-500'>Red color dates are not available</p>
 
+        
           <DatePicker
-            selected={startDate}
-            onChange={(dates) => {
-              const [start, end] = dates;
-              setStartDate(start);
-              setEndDate(end);
-            }}
-            startDate={startDate}
-            endDate={endDate}
-            minDate={new Date()}
-            // highlightDates={bookedDates}
-            disabled
-            excludeDates={bookedDates}
-            renderDayContents={renderCustomDayContents}
-            selectsRange
-            inline
-          />
+          selected={startDate}
+          onChange={(dates) => {
+            const [start, end] = dates;
+            setStartDate(start);
+            setEndDate(end);
+          }}
+          startDate={startDate}
+          endDate={endDate}
+          minDate={new Date()}
+          // highlightDates={bookedDates}
+          disabled
+          excludeDates={bookedDates}
+          renderDayContents={renderCustomDayContents}
+          selectsRange
+          inline
+        />
+       
 
         </div>
 
@@ -269,7 +273,7 @@ function RoomComponents({home} : {home: HomeModel}) {
         <button className='hidden md:flex justify-center bg-secondary w-full mt-8 py-3 rounded-md text-white text-base font-semibold' onClick={displayRazorpay}>Continue to Book</button>
       </div>
 
-      <div className='sticky bottom-0 -mt-24 mb-2 flex md:hidden justify-around gap-4 bg-white shadow-2xl p-3'>
+      <div className='sticky bottom-0 -mt-24 mb-1 flex md:hidden justify-around gap-4 bg-white shadow-2xl p-3'>
           <div className='flex flex-col'>
             <div className='flex items-center gap-2'>
               <span className='font-sans font-semibold text-2xl'>₹{home.price}</span>
