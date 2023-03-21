@@ -55,13 +55,13 @@ function allHomes() {
     <>
       <Navbar/>
 
-        <div className='min-h-screen flex'>
+        <div className='min-h-screen flex mx-2 md:mx-0'>
           { homes.length <= 0 ?
           <Spinner/> :
           <div className='m-auto'>
 
-            <div className='flex justify-end mt-32'>
-              <select name="sort" id="sort" className='p-3 border-2 bg-blue-100'
+            <div className='flex justify-end mt-20 md:mt-32'>
+              <select name="sort" id="sort" className='p-1 md:p-3 border-2 bg-blue-100'
               onChange={(e) => {
                 setSort(e.target.value);
                 fetchAllHomes(e.target.value);
@@ -75,7 +75,7 @@ function allHomes() {
               </select>
             </div>
 
-            <div className='grid grid-cols-3 gap-12 mt-12 mb-32'>
+            <div className='grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-12 mt-8 md:mt-12 mb-32'>
               {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
             </div>
 

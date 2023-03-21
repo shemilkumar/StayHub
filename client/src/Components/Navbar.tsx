@@ -111,7 +111,7 @@ function Navbar() {
           </div>
         </div>
 
-        <div className="flex justify-end items-centers gap-4 cursor-pointer md:w-1/3">
+        <div className="flex justify-end items-centers gap-4 cursor-pointer md:w-1/3 pr-4">
 
         {username ? 
           <div className='flex gap-2 items-center'>
