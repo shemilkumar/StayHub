@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import React, { FormEvent, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
@@ -30,31 +30,6 @@ function ResetPasswordPage() {
     setPasswordConfirm('');
   }
 
-  // const handleEmailSubmit = async(e: FormEvent) =>{
-  //   e.preventDefault();
-  //   console.log("email");
-  //   setEmailButton('Loading...');
-
-  //   const response = await apiRequest.post(`/users/forgotPassword`,{email}) as APIResponse | AxiosError;
-
-  //   if(response instanceof AxiosError){
-  //     if(response.name === 'AxiosError') apiErrorSetting(response.message);
-  //     setEmailButton('Continue');
-  //     return;
-  //   }
-
-  //   if(response.data.status !== 'success') {
-  //     apiErrorSetting(response.data.message);
-  //     setEmailButton('Continue');
-  //     return
-  //   }
-
-  //   // setEmailButton('Continue');
-  //   setUserFound(true);
-  //   // console.log(response.data);
-  //   // console.log(userFound);
-  // }
-
   const handleSubmit = async(e: FormEvent) =>{
     e.preventDefault();
 
@@ -72,24 +47,18 @@ function ResetPasswordPage() {
       const result = await apiRequest.post(`/users/resetPassword/${resetToken}`,{
         password: passwordNew,
         passwordConfirm
-      }) as APIResponse | AxiosError;
+      }) as FetchChecked;
 
-      if(result instanceof AxiosError){
-        if(result.name === 'AxiosError') apiErrorSetting(result.message);
+      if(result.pass){
+        if(!result.fetchedData) return;
+        localStorage.setItem("token",result.fetchedData.data.token);
+        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        navigate('/'); 
+  
+      }else{
+        apiErrorSetting(result.message!);
         clearInputs();
-        return;
       }
-
-      if(result.data.status !== 'success') {
-        apiErrorSetting(result.data.message);
-        clearInputs();
-        return
-      }
-
-      localStorage.setItem("token",result.data.token);
-      localStorage.setItem("user",result.data.user!.name);
-      navigate('/'); 
-
     }
     else apiErrorSetting(validateResult.message);
   }
@@ -99,7 +68,7 @@ function ResetPasswordPage() {
       <Navbar/>
         <div className='min-h-screen flex'>
           {validationError && <Alert message={validationError}/> }
-          <div className='m-auto w-1/3'>
+          <div className='m-auto md:w-1/3 px-4 md:px-0'>
             
             <h1 className='text-2xl uppercase mb-12 text-secondary font-semibold'>Reset Password</h1>
 

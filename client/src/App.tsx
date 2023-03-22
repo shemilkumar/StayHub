@@ -29,13 +29,13 @@ function App() {
           <Route path='/signup' element={<SignUpPage/>}/>
           <Route path='/login' element={<LoginPage/>}/>
 
-          {/* Not Responsive */}
-
           <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
 
           <Route path='/myBookings' element={<MyBookingsPage/>}/>
+
           <Route path='/searchResult' element={<SearchResultPage/>}/>
+          {/* Not Responsive */}
 
           <Route path='/error/:message' element={<ErrorPage/>}/>
           <Route path='*' element={<ErrorPage/>}/>
