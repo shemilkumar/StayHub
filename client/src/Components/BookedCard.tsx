@@ -26,16 +26,16 @@ function BookedCard( {home, booking} : {home:HomeModel, booking: any}) {
   return (
     <div>
     { home &&
-        <div className="w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
+        <div className="w-72 md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
           <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
-            <div className='h-72'>
+            <div className='h-40 md:h-72'>
               <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
-              className='shadow-xl rounded-t-lg object-cover h-72'/>
+              className='shadow-xl rounded-t-lg object-cover h-40 md:h-72 w-full'/>
             </div>
-            <div className='flex flex-col gap-2 mt-8 border-b-2 p-3'>
+            <div className='flex flex-col gap-1 md:gap-2 mt-4 md:mt-8 border-b-2 p-3'>
 
               <div className='flex justify-between items-center'>
-                <h1 className='text-3xl font-semibold'>{home.name}</h1>
+                <h1 className='text-xl md:text-3xl font-semibold'>{home.name}</h1>
                 <h1 className='text-3xl text-secondary font-semibold'>{home.price}$</h1>
               </div>
 
@@ -68,7 +68,7 @@ function BookedCard( {home, booking} : {home:HomeModel, booking: any}) {
           </Link>
           <div className='flex justify-between items-center px-3 py-4  m-auto'>
             
-            <p className='text-green-800 font-semibold text-lg'>{
+            <p className='text-green-800 font-semibold text-md md:text-lg'>{
             `${new Date(booking.startDate).toLocaleDateString('en-US',{
               month: 'short', day:'numeric'
             })} - 
@@ -78,7 +78,7 @@ function BookedCard( {home, booking} : {home:HomeModel, booking: any}) {
             }
             </p>
             
-            <div className='flex items-center rounded-full'
+            <div className='flex items-center rounded-full shadow-lg'
             onClick={cancelBooking}>
               <Button text='Cancel Booking' invert={true} round={true}/>
             </div>

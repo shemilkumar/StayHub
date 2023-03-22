@@ -40,8 +40,8 @@ function MyBookingsPage() {
               <Link to={`/homes`}><Button text='Explore Homes'/></Link>
             </div>
           :
-            <div className='m-auto mt-32 mb-16'>
-              <h1  className='text-center text-3xl md:text-4xl font-semibold font-sans mb-12'>
+            <div className='m-auto mt-24 md:mt-32 mb-16'>
+              <h1  className='text-center text-2xl md:text-4xl font-semibold font-sans mb-6 md:mb-12'>
                 My<span className='text-secondary'> Bookings</span>
               </h1>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-0'>
