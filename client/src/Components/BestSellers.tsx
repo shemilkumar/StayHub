@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
-import { HomeModel } from '../Constants/modelTypes';
+import { HomeModel, Stats } from '../Constants/modelTypes';
 import { setAllBestSellers } from '../Redux/Slicers/bestSellersSlice';
 import Card from './Card';
 
@@ -9,21 +9,22 @@ function BestSellers() {
   
   const dispatch = useDispatch();
   const bestSellersFromStore = useSelector((state : any) => state.bestSellers.bestSellers);
-  const [bestSellers, setBestSellers] = useState([]);
+  const [bestSellers, setBestSellers] = useState<[] | HomeModel[]>([]);
 
   const getBestSellers = async() => {
-    const result = await apiRequest.get('/booking/bookingStats') as any;
+    const result = await apiRequest.get('/booking/bookingStats') as FetchChecked;
 
     if(result.pass){
       if(!result.fetchedData) return;
 
       // console.log(result.fetchedData.data);
-      const stats = result.fetchedData.data.stats;
-      const bestSellerHomes = result.fetchedData.data.bestSellers;
-      const bestSellersData: any = [];
+      const stats = result.fetchedData.data.stats! as Stats[];
+      const bestSellerHomes = result.fetchedData.data.bestSellers! as HomeModel[];
 
-      stats.forEach((data : any) => {
-        bestSellerHomes.forEach((home: any) => {
+      const bestSellersData: HomeModel[] = [];
+
+      stats.forEach((data : Stats) => {
+        bestSellerHomes.forEach((home: HomeModel) => {
           if(data._id === home._id) bestSellersData.push(home);
         });
       });

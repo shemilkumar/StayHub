@@ -13,18 +13,18 @@ function login() {
   const dispatch = useDispatch();
   // const userFromStrore = useSelector((state : any) => state.user.value);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error,setError] = useState(false);
-  const [apiError,setApiError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error,setError] = useState<boolean>(false);
+  const [apiError,setApiError] = useState<string>('');
   
   const clearInputs = ():void => {
     setEmail("");
     setPassword("");
   };
 
-  const apiErrorSetting = (message : string) => {
+  const apiErrorSetting = (message : string):void => {
     setApiError(message);
     setTimeout(() => {
       setApiError('');
@@ -49,9 +49,7 @@ function login() {
         navigate('/'); 
       }else apiErrorSetting(result.message ? result.message : 'Something went worng');
 
-    }else{
-      apiErrorSetting(validatedInput.message);
-    }
+    }else apiErrorSetting(validatedInput.message);
   }
 
   return (

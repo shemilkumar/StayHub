@@ -2,28 +2,6 @@ import { useEffect, useState } from "react";
 import { axiosApi } from "../Constants/constant";
 import { APIResponse,Data } from "../Constants/modelTypes";
 
-// axiosApi.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem('token');
-//     if (token){
-//       config.headers.Authorization = `Bearer ${token}`;
-//       // config.headers["Content-Type"] = 'multipart/form-data';
-//     }
-//     if (config.data instanceof FormData) {
-//       // For requests with FormData payload, set the Content-Type to multipart/form-data
-//       config.headers['Content-Type'] = 'multipart/form-data';
-//     } else {
-//       // For other requests, set the Content-Type to application/json
-//       config.headers['Content-Type'] = 'application/json';
-//     }
-    
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
 function useApi<T, U>(req: string,endpoint: string, payload?: U): { data: Data | null, error: string | null } {
 
   const [data, setData] = useState<Data | null>(null);

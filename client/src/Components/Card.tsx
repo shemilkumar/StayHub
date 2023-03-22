@@ -1,15 +1,14 @@
 import React from 'react';
-import {MdLocationOn} from "react-icons/md";
-import {BsHouseDoorFill} from "react-icons/bs";
-import {FaBed} from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { HomeModel } from "../Constants/modelTypes";
 import { backendStaticHomesUrl } from '../Constants/constant';
+
+import {MdLocationOn} from "react-icons/md";
+import {BsHouseDoorFill} from "react-icons/bs";
+import {FaBed} from "react-icons/fa";
 import { AiFillStar } from 'react-icons/ai';
 
 function Card( {home} : {home:HomeModel}) {
-
-  // console.log(home.imageCover);
 
   return (
     <div>

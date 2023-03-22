@@ -1,4 +1,4 @@
-import mongoose,{Document} from "mongoose";
+import mongoose from "mongoose";
 
 interface Perks {
   "kitchen": boolean,
@@ -15,14 +15,6 @@ interface Rules {
   "smoking": boolean,
   "pets": boolean,
   "parties": boolean
-}
-
-export type Data = {
-  status: string,
-  token: string,
-  user?: User,
-  data?: any,
-  message : string,
 }
 
 export interface HomeModel{
@@ -60,6 +52,18 @@ export interface HomeModel{
   _id: mongoose.Schema.Types.ObjectId
 }
 
+export interface BookingModel{
+  home: HomeModel,
+  user: User,
+  price: number,
+  startDate: Date,
+  endDate: Date,
+  bookedDates: Date[],
+  createdAt : Date,
+  paid: boolean,
+  _id: mongoose.Schema.Types.ObjectId
+}
+
 export interface User{
   name : string,
   email: string,
@@ -67,6 +71,22 @@ export interface User{
   photo: string,
 }
 
+export type Data = {
+  status: string,
+  token: string,
+  user?: User,
+  data?: any,
+  stats?: Stats[],
+  bestSellers?: HomeModel[]
+  message : string,
+}
+
+export interface Stats{
+  _id: mongoose.Schema.Types.ObjectId, 
+  bookings: number
+}
+
 export interface APIResponse{
   data: Data
+  status?: number
 }

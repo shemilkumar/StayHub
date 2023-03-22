@@ -1,9 +1,9 @@
 import React from 'react'
 import 'tw-elements';
-
 import { backendStaticHomesUrl } from '../Constants/constant';
+import { HomeModel } from '../Constants/modelTypes';
 
-function ImageCarousel({home} : any) {
+function ImageCarousel({home} : HomeModel) {
   return (
     <>
       <div id="carouselExampleControls" className="carousel slide relative" data-bs-ride="carousel">

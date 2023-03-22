@@ -6,11 +6,12 @@ import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import Spinner from '../Components/Spinner';
+import { BookingModel } from '../Constants/modelTypes';
 
 function MyBookingsPage() {
 
   const navigate = useNavigate();
-  const [myBookings, setMyBookings] = useState<null | any[]>(null);
+  const [myBookings, setMyBookings] = useState<null | BookingModel[]>(null);
 
   const getMyBookings = async() => {
     const response = await apiRequest.get('/booking/myBookings') as FetchChecked;
@@ -46,9 +47,9 @@ function MyBookingsPage() {
               </h1>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-0'>
                 {
-                  myBookings.map((booking : any,i) => {
+                  myBookings.map((booking : BookingModel,i) => {
                     return(
-                      <BookedCard key={i} home={booking.home} booking={booking}/>
+                      <BookedCard key={i} booking={booking}/>
                     );
                   })
                 }

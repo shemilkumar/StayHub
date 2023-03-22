@@ -20,25 +20,22 @@ function App() {
       <Provider store={store}>
         <Routes>
 
-          {/* Responsive */}
+          <Route path='/signup' element={<SignUpPage/>}/>
+          <Route path='/login' element={<LoginPage/>}/>
+
           <Route path='/' element={<Home/>}/>
           <Route path='/homes' element={<AllHomes />}/> 
           <Route path='/home/:id' element={<RoomPage/>}/>
           <Route path='/profile' element={<ProfilePage/>}/>
-
-          <Route path='/signup' element={<SignUpPage/>}/>
-          <Route path='/login' element={<LoginPage/>}/>
+          <Route path='/myBookings' element={<MyBookingsPage/>}/>
+          <Route path='/searchResult' element={<SearchResultPage/>}/>
 
           <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
 
-          <Route path='/myBookings' element={<MyBookingsPage/>}/>
-
-          <Route path='/searchResult' element={<SearchResultPage/>}/>
-          {/* Not Responsive */}
-
           <Route path='/error/:message' element={<ErrorPage/>}/>
           <Route path='*' element={<ErrorPage/>}/>
+
         </Routes>
       </Provider>
     </Router>

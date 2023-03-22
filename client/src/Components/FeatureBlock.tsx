@@ -2,7 +2,7 @@ import React from 'react'
 import { TbDiscount2 } from "react-icons/tb";
 import { MdFreeCancellation } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
-      
+
 function FeatureBlock() {
   return (
     <div>
@@ -16,8 +16,8 @@ function FeatureBlock() {
             <h1 className='text-xl md:text-3xl font-semibold'>Free cancellation</h1>
             <p className='text-gray-400 text-md md:text-xl mt-1 md:mt-4 w-11/12 md:w-3/4'>Flexible bookings on most hotels</p>
           </div>
-        </div> 
-
+        </div>
+        
         <div className='flex gap-4 justify-around'>
           <div className='h-20 w-1/12 md:w-20 flex md:items-center justify-center'>
             <TbDiscount2 className='h-14 w-14 text-secondary'/>

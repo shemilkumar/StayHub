@@ -4,7 +4,7 @@ import image from '../assets/friends-chilling.jpg';
 
 function Hero() {
 
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     setLoaded(true);
@@ -20,7 +20,6 @@ function Hero() {
           className="absolute h-full w-screen md:w-full md:h-screen -z-10 object-cover "
         /> 
 
-{/* md:w-full md:h-full  */}
         <div className={`w-full h-full flex justify-center text-center md:items-center items-end backdrop-brightness-50`}>
 
           <div className="md:max-w-same md:px-3">

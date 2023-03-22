@@ -68,86 +68,31 @@ class apiRequest {
       }
       else return {pass : false, message: error.message};
     }
-    else alert(error);
+    else return {pass : false, message: 'Something went wrong'};
+    // else alert(error);
   }
 
   _checkResponse(response : typeof this.response){
 
-    if(!response) return;
+    if(!response) return {pass : false, message: 'Something went wrong'};
 
     if(response instanceof AxiosError){
-      if(response.name === 'AxiosError'){
-        // navigate(`/error/${response.message}`);
-        return {pass : false, message: response.message};
-      }
+      if(response.name === 'AxiosError') return {pass : false, message: response.message};
     }else if(response.status === 204){
       return {
         pass: true,
         deleted: true,
-        message: 'Successfully removed'
       };
-    }else if(response.data.status !== 'success') {
-      // navigate(`/error/${response.data.message}`);
+    }else if(response.data.status !== 'success')
       return {pass : false, message: response.data.message};
-    }
 
     return {
       pass: true,
       fetchedData: response
     };
-
   }
 
 }
 
 export default new apiRequest();
-
-// const apiRequest = async(request:string, url : string, data: object = {}) => {
-//   try {
-
-//     let res: AxiosResponse;
-//     switch (request) {
-//       case 'GET':
-//         res = await axiosApi.get(url,{
-//           headers: {
-//             'Cache-Control': 'max-age=3600'
-//           }
-//         });
-//         break;
-      
-//       case 'POST':
-//         res = await axiosApi.post(url,data);
-//         break;
-
-//       case 'PATCH':
-//         res = await axiosApi.patch(url,data);
-//         break;
-
-//       case 'DELETE':
-//         res = await axiosApi.delete(url);
-//         break;
-    
-//       default:
-//         throw new Error("Request is not defined");
-//     }
-
-//     if(res.data.status === 'success'){
-//       return res.data;
-//     }else{
-//       alert(res.data.message);
-//     } 
-    
-//   } catch (error ) {
-//     if (isAxiosError(error)) {
-//       if(error.response){
-//         console.log(error);
-//         alert(error.response.data.message);
-//       }else {
-//         if(error.code === 'ERR_NETWORK') alert("Server is busy or Check your connection");
-//         throw error;
-//       }
-//     }
-//     else alert(error);
-//   }
-// };
 

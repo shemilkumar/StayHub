@@ -30,8 +30,7 @@ export const getAll = <T>(Model: Model<T>) => catchAsync( async(req:Request, res
 
 export const deleteOne = <T>(Model: Model<T>) => catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
 
-  const {id} = req.params;
-  const doc = await Model.findByIdAndDelete(id);
+  const doc = await Model.findByIdAndDelete(req.params.id);
 
   if(!doc) return next(new AppError('No document found with that ID', 404));
 

@@ -14,7 +14,6 @@ export const getAllBooking = factory.getAll<BookingModel>(Booking);
 export const updateBooking = factory.updateOne<BookingModel>(Booking);
 export const deleteBooking = factory.deleteOne<BookingModel>(Booking);
 
-
 export const createBooking = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction): Promise<void> =>{
 
   if(!req.user){

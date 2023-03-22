@@ -1,10 +1,11 @@
+import React from 'react';
+import { Link } from "react-router-dom";
+import { backendStaticHomesUrl } from "../Constants/constant";
+import { HomeModel } from "../Constants/modelTypes";
 import { AiFillStar } from "react-icons/ai";
 import { BsHouseDoorFill } from "react-icons/bs";
 import { FaBed } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
-import { Link } from "react-router-dom";
-import { backendStaticHomesUrl } from "../Constants/constant";
-import { HomeModel } from "../Constants/modelTypes";
 
 function CardList( {home} : {home:HomeModel}) {
 
