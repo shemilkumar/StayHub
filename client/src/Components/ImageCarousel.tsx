@@ -3,7 +3,7 @@ import 'tw-elements';
 import { backendStaticHomesUrl } from '../Constants/constant';
 import { HomeModel } from '../Constants/modelTypes';
 
-function ImageCarousel({home} : HomeModel) {
+function ImageCarousel({home} : {home: HomeModel}) {
   return (
     <>
       <div id="carouselExampleControls" className="carousel slide relative" data-bs-ride="carousel">
