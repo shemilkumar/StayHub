@@ -13,7 +13,11 @@ interface ViewPort {
 
 function Map(props : ViewPort) {
 
-  const [showPopup, setShowPopup] = useState(false);
+  const style = {height: '500px'}
+  const mediaQuery = window.matchMedia('(max-width: 768px)');
+  if (mediaQuery.matches) style.height = '300px';
+
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const [viewport, setViewport] = useState<ViewPort>({
     longitude: props.longitude,
@@ -29,7 +33,7 @@ function Map(props : ViewPort) {
         mapboxAccessToken="pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg"
         initialViewState={viewport}
         mapStyle="mapbox://styles/mapbox/streets-v11"
-        style={{height:500}}
+        style={style}
         onClick={(e) => setShowPopup(!showPopup)}
       >
 

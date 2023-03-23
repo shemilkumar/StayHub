@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { HomeModel, Stats } from '../Constants/modelTypes';
 import { setAllBestSellers } from '../Redux/Slicers/bestSellersSlice';
@@ -8,6 +9,8 @@ import Card from './Card';
 function BestSellers() {
   
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const bestSellersFromStore = useSelector((state : any) => state.bestSellers.bestSellers);
   const [bestSellers, setBestSellers] = useState<[] | HomeModel[]>([]);
 
@@ -32,7 +35,7 @@ function BestSellers() {
       setBestSellers(bestSellersData);
       dispatch(setAllBestSellers(bestSellersData));
 
-    }else alert(result.message);
+    }else navigate(`error/${result.message}`);
   }
 
   useEffect(() => {
