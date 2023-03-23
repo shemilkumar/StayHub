@@ -4,15 +4,15 @@ import CardList from '../Components/CardList';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import Spinner from '../Components/Spinner';
+import { HomeModel } from '../Constants/modelTypes';
 
 function SearchResultPage() {
 
-  const searchResultFromStore = useSelector((state : any) => state.searchResult.results);
-  const [homes, setHomes] = useState<[] | null>(null);
+  const searchResultFromStore = useSelector((state : any) => state.searchResult.results) as HomeModel[];
+  const [homes, setHomes] = useState<HomeModel[] | null>(null);
 
   useEffect(() => {
     searchResultFromStore.length > 0 && setHomes(searchResultFromStore);
-    // console.log(searchResultFromStore);
   }, []);
 
   return (

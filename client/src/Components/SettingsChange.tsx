@@ -1,39 +1,29 @@
-import { AxiosError } from 'axios';
 import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import apiRequest from '../api/apiRequest';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Button from './Elements/Button';
 import { APIResponse,User } from '../Constants/modelTypes';
 import { backendStaticUserUrl } from '../Constants/constant';
 import validator from '../util/validator';
 import Alert from '../util/Alert';
 
-interface UserData{
-  name: string,
-  email: string,
-  photo?: File
-}
 
 function SettingsChange({user} : {user: User}) {
 
-  const navigate = useNavigate();
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  // const navigate = useNavigate();
+  const [name, setName] = useState<string>(user.name);
+  const [email, setEmail] = useState<string>(user.email);
   const [photo, setPhoto] = useState<File>();
 
-  const [validationError, setValidationError] = useState('');
+  const [validationError, setValidationError] = useState<string>('');
 
-
-  const onSelectFile = (e : ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) {
-        return;
-    }
+  const onSelectFile = (e : ChangeEvent<HTMLInputElement>): void => {
+    if (!e.target.files || e.target.files.length === 0) return;
     setPhoto(e.target.files[0]);
-    // console.log(e.target.files[0]);
   };
-  // console.log("photo===>",name,email, photo);
   
-  const apiErrorSetting = (message : string) =>{
+  const apiErrorSetting = (message : string): void =>{
     setValidationError(message);
     setTimeout(() => {
       setValidationError('');
@@ -50,7 +40,6 @@ function SettingsChange({user} : {user: User}) {
     if(validatedResult.pass){
 
       const form = new FormData();
-
       form.append('name', name);
       form.append('email', email);
 
@@ -58,27 +47,19 @@ function SettingsChange({user} : {user: User}) {
       else form.append('photo','');
 
       // console.log(form);
-      const result = await apiRequest.patch('/users/updateMe',form) as APIResponse | AxiosError;
+      const result = await apiRequest.patch('/users/updateMe',form) as FetchChecked;
 
-      if(result instanceof AxiosError){
-        if(result.name === 'AxiosError') apiErrorSetting(result.message);
-        return;
-      }
+      if(result.pass){
+        if(!result.fetchedData) return;
 
-      if(result.data.status !== 'success') {
-        apiErrorSetting(result.data.message);
-        return
-      }
+         // console.log(result.data.data.user);
+        localStorage.setItem("user",result.fetchedData.data.data.user!.name);
+        localStorage.removeItem('/users/me');
+        window.location.reload();
 
-      // console.log(result.data.data.user);
-      localStorage.setItem("user",result.data.data.user!.name);
-      localStorage.removeItem('/users/me');
-      window.location.reload();
-
-    }else{
-      apiErrorSetting(validatedResult.message);
-    }
-
+      }else apiErrorSetting(result.message!);
+     
+    }else apiErrorSetting(validatedResult.message);
   };
 
   return (

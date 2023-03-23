@@ -9,35 +9,23 @@ import { HomeModel } from '../Constants/modelTypes';
 
 function RoomPage() {
 
-  const naviagate =useNavigate()
-  const [home, setHome] = useState<HomeModel>();
-  const [homeId, setHomeId] = useState();
-  const [apiError,setApiError] = useState<string>();
-
+  const navigate =useNavigate()
   const {id} = useParams();
+
+  const [home, setHome] = useState<HomeModel>();
   const {data,error} = useApi('GET',`/homes/${id}`);
   
   useEffect(() => {
-
-    if(data){
-      setHome(data.data);
-    }
-
-    if(error){
-      setApiError(error);
-      naviagate(`/error/${error}`);
-    }
-
+    if(data) setHome(data.data);
+    if(error) navigate(`/error/${error}`);
   }, [data,error]);
 
   return (
     <>
       <Navbar/>
-
       <div className='mt-16 md:mt-24 md:max-w-same flex m-auto justify-between gap-4 relative'>
         {home ? <RoomComponents home={home}/> : <Spinner/>}
       </div>
-
       <Footer/>
     </>
   )

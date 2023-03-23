@@ -13,13 +13,12 @@ function allHomes() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const homesFromStore = useSelector((state: any )=> state.homes.allHomes);
+  const homesFromStore = useSelector((state: any )=> state.homes.allHomes) as HomeModel[];
 
   const [homes, setHomes] = useState<HomeModel[]>([]);
-  const [apiError,setApiError] = useState<string | null>(null);
-  const [sort,setSort] = useState('');
+  const [sort,setSort] = useState<string>('');
 
-  const fetchAllHomes = async(sortParam = '') =>{
+  const fetchAllHomes = async(sortParam: string = ''):Promise<void> =>{
 
     let result;
 
@@ -33,9 +32,7 @@ function allHomes() {
       
       result = await apiRequest.get(`/homes?sort=${sortParameter}`) as FetchChecked;
 
-    }else{
-      result = await apiRequest.get('/homes') as FetchChecked;
-    }
+    }else result = await apiRequest.get('/homes') as FetchChecked;
 
     if(result.pass){
       if(!result.fetchedData) return;

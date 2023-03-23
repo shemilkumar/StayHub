@@ -1,11 +1,14 @@
 import axios from "axios";
 
-export const frondendBaseUrl: string = 'http://127.0.0.1:5173'
+export const RAZORPAY_KEY_ID = 'rzp_test_yei09ktZyA11Y0';
+export const RAZORPAY_SECRET ='RZXGhh3kX9hXP3W6xESVo9av';
+export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg';
 
+export const frondendBaseUrl: string = 'http://127.0.0.1:5173'
 export const backendBaseUrl: string = 'http://127.0.0.1:8000';
+
 export const backendStaticUserUrl = `${backendBaseUrl}/public/img/users`;
 export const backendStaticHomesUrl = `${backendBaseUrl}/public/img/homes`;
-// http://127.0.0.1:8000/public/img/users/user-63fcd99f01813ed932e71cbf-1677516687758.jpeg
 
 export const axiosApi = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/v1',
@@ -35,9 +38,6 @@ axiosApi.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-export const RAZORPAY_KEY_ID = 'rzp_test_yei09ktZyA11Y0'
-export const RAZORPAY_SECRET ='RZXGhh3kX9hXP3W6xESVo9av'
 
 interface Testimonial {
   image: string,

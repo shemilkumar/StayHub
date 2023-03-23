@@ -1,27 +1,26 @@
-import { AxiosError } from 'axios';
 import React, { FormEvent, useState } from 'react'
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
-import { APIResponse } from '../Constants/modelTypes';
 import Alert from '../util/Alert';
 
 function ForgotPasswordPage() {
 
-  const [email, setEmail] = useState('');
-  const [userFound, setUserFound] = useState(false);
-  const [validationError, setValidationError] = useState('');
-  const [emailButton, setEmailButton] = useState('Continue');
+  const [email, setEmail] = useState<string>('');
 
-  const apiErrorSetting = (message : string) => {
+  const [userFound, setUserFound] = useState<boolean>(false);
+  const [validationError, setValidationError] = useState<string>('');
+  const [emailButton, setEmailButton] = useState<string>('Continue');
+
+  const apiErrorSetting = (message : string):void => {
     setValidationError(message);
     setTimeout(() => {
       setValidationError('');
     }, 4000);
   }
 
-  const handleEmailSubmit = async(e: FormEvent) =>{
+  const handleEmailSubmit = async(e: FormEvent): Promise<void> =>{
     e.preventDefault();
     setEmailButton('Loading...');
 

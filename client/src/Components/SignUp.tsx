@@ -3,8 +3,6 @@ import {Link, useNavigate} from "react-router-dom";
 import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest, { FetchChecked } from '../api/apiRequest';
-import { APIResponse } from '../Constants/modelTypes';
-import { AxiosError } from 'axios';
 import Alert from '../util/Alert';
 
 function SignUp() {
@@ -15,16 +13,15 @@ function SignUp() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [passwordMatch, setpasswordMatch] = useState(true);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [passwordMatch, setpasswordMatch] = useState<boolean>(true);
+  const [apiError,setApiError] = useState<string>('');
   
-  const [error, setError] = useState(false);
-  const [showPassword,setShowPassword] = useState(false);
-
-  const [apiError,setApiError] = useState('');
+  const [error, setError] = useState<boolean>(false);
+  const [showPassword,setShowPassword] = useState<boolean>(false);
 
   const clearInputs = ():void => {
     setName("");
@@ -33,7 +30,7 @@ function SignUp() {
     setPasswordConfirm("");
   }
 
-    const apiErrorSetting = (message : string) => {
+    const apiErrorSetting = (message : string):void => {
     setApiError(message);
     setTimeout(() => {
       setApiError('');
@@ -74,21 +71,6 @@ function SignUp() {
         navigate('/'); 
       }else apiErrorSetting(result.message ? result.message : 'Something went worng');
 
-      // if(result instanceof AxiosError){
-      //   if(result.name === 'AxiosError') apiErrorSetting(result.message);
-      //   return;
-      // }
-
-      // if(result.data.status !== 'success') {
-      //   apiErrorSetting(result.data.message);
-      //   return
-      // }
-
-      // localStorage.setItem("token",result.data.token);
-      // localStorage.setItem("user",result.data.user!.name);
-
-      // clearInputs();
-      // navigate('/'); 
     }else{
       apiErrorSetting(validateResult.message);
       setError(true);
@@ -139,13 +121,6 @@ function SignUp() {
                   setPassword(e.target.value);}}
                 required
                 />
-
-                {/* <div className="absolute top-0 right-0 mt-3 mr-3 cursor-pointer text-gray-500"
-                onClick={() => setShowPassword(!showPassword)}>
-
-                {showPassword ? <IoIosEye className='h-5 w-5'/>: <IoMdEyeOff className='h-5 w-5'/>} */}
-
-                {/* </div> */}
               </div>
 
           <div className='relative'>

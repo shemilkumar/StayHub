@@ -10,12 +10,6 @@ import logout from '../util/logout';
 
 function Navbar() {
 
-  interface User {
-    _id: number,
-    name: string,
-    email: string,
-  }
-
   const dispatch = useDispatch();
 
   // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
@@ -24,16 +18,16 @@ function Navbar() {
   const [username, setUsername] = useState<string | null>(userName);
   const [userphoto, setUserphoto] = useState<string | null>(userPhoto);
 
-  const [openNav, setOpenNav] = useState(false);
-  const [scroll, setScroll] = useState(false);
-  const [show, setShow] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [openNav, setOpenNav] = useState<boolean>(false);
+  const [scroll, setScroll] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
 
   useEffect(() => {
     setUsername(userName);
     setUserphoto(userPhoto);
 
-    const controlNavbar = () => {
+    const controlNavbar = (): void => {
       if (typeof window !== "undefined") {
         if (window.scrollY < lastScrollY) {
           // if scroll down hide the navbar
@@ -47,7 +41,7 @@ function Navbar() {
       }
     };
 
-    const bgColorChange = () =>
+    const bgColorChange = (): void =>
     window.scrollY >= 10 ? setScroll(true) : setScroll(false);
 
     if (typeof window !== "undefined") {
@@ -61,11 +55,10 @@ function Navbar() {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     logout();
     dispatch(deleteUserData());
   }
-  
 
   return (
     <div className={`${scroll || openNav ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50 transition-all duration-700 ease-in-out`}>

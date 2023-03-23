@@ -24,7 +24,7 @@ export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next:
 export const getNearByHomes = catchAsync( async(req:searchHomesRequest, res: Response, next: NextFunction) : Promise<void> =>{
 
   console.log(req.body);
-  const {location,searchDates,guests} = req.body;
+  const {location,guests} = req.body;
 
   const [latitude, longitude] = location;
 

@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
+import { User } from '../Constants/modelTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from "../Redux/Slicers/userSlice";
 import PasswordChange from '../Components/PasswordChange';
 import SettingsChange from '../Components/SettingsChange';
 import SidebarMenu from '../Components/SidebarMenu';
-import { APIResponse, User } from '../Constants/modelTypes';
 import Spinner from './Spinner';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserData } from "../Redux/Slicers/userSlice";
-import apiRequest, { FetchChecked } from '../api/apiRequest';
-import { AxiosError } from 'axios';
-import { StateFromReducersMapObject } from '@reduxjs/toolkit';
 
 function Profile() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userFromStrore = useSelector((state : any) => state.user.value);
+  const userFromStrore = useSelector((state : any) => state.user.value) as User;
 
   const [user, setUser] = useState<User | null>();
-  const [apiError, setApiError] = useState('');
 
-  const fetchCurrentUser = async() =>{
+  const fetchCurrentUser = async(): Promise<void> =>{
     const result = await apiRequest.get('/users/me') as FetchChecked;
 
     if(result.pass){

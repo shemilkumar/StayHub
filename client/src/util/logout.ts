@@ -1,4 +1,4 @@
-const logout = () => {
+const logout = (): void => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   localStorage.removeItem("userPhoto");

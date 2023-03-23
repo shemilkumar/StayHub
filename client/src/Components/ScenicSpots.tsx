@@ -3,11 +3,6 @@ import React from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-// import houseboatImage from "../assets/scenic-location-images/house-boat.jpg";
-// import mountainImage from "../assets/scenic-location-images/mountain-view.jpg";
-// import woodroadImage from "../assets/scenic-location-images/road-btw-woods.jpg";
-// import lakeHouse from "../assets/scenic-location-images/lake-house.jpg";
-
 function ScenicSpots() {
 
   return (
@@ -54,34 +49,8 @@ function ScenicSpots() {
         className='h-80 rounded-xl w-full'
         />
       </div>
-
-      {/* <img src={mountainImage} alt="scenic" 
-      className='absolute h-72 rounded-xl top-12'/> */}
-
-      {/* <img src={lakeHouse}  alt="scenic" 
-            className='absolute h-56 rounded-xl top-16 right-56'/> */}
-
-      {/* <img src={woodroadImage} alt="scenic" 
-            className='absolute h-64 rounded-xl bottom-16 ml-32'/> */}
-      {/* 
-      <img src={houseboatImage} alt="scenic" 
-            className='absolute h-80 rounded-xl bottom-6 right-12'/> */}
-
     </div>
   )
 }
 
 export default ScenicSpots;
-
-
-// const description: String = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti voluptas dolorem, cum eius porro ut doloremque. Commodi, dicta! Ullam, beatae.'
-
-//   return (
-//     <div className='min-h-screen'>
-//       {/* <SearchForm/> */}
-//       <FeatureBlock/>  
-//       <div className='flex-row-reverse'>
-//         <HeroBlock image={image} description={description} subHeading={"Scenic Spots"} switchFlex={true}/>   
-//       </div> 
-//     </div>
-//   )

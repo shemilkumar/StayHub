@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import apiRequest from "../api/apiRequest";
+import apiRequest, { FetchChecked } from "../api/apiRequest";
 import { APIResponse } from "../Constants/modelTypes";
 import Alert from "../util/Alert";
 import validator from "../util/validator";
@@ -10,25 +10,34 @@ import Button from "./Elements/Button";
 function PasswordChange(){
 
   const navigate = useNavigate();
-  const [passwordCurrent, setPasswordCurrent] = useState('');
-  const [passwordNew, setPasswordNew] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [passwordCurrent, setPasswordCurrent] = useState<string>('');
+  const [passwordNew, setPasswordNew] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
-  const [validationError, setValidationError] = useState('');
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [validationError, setValidationError] = useState<string>('');
+  const [passwordSuccess, setPasswordSuccess] = useState<boolean>(false);
 
-  const clearPasswords = () => {
+  const clearPasswords = (): void => {
     setPasswordCurrent('');
     setPasswordNew('');
     setPasswordConfirm('');
   }
 
-  const apiErrorSetting = (message : string) =>{
+  const apiErrorSetting = (message : string): void =>{
     setValidationError(message);
     setTimeout(() => {
       setValidationError('');
     }, 4000);
   }
+
+  const passwordSuccessSettings = (): void =>{
+    setPasswordSuccess(true);
+    setTimeout(() => {
+      setPasswordSuccess(false);
+    }, 4000);
+    clearPasswords();
+  }
+  
   
   const handleUpdatePassword = async(e : FormEvent): Promise<void> =>{
     e.preventDefault();
@@ -42,29 +51,15 @@ function PasswordChange(){
         return;
       }
 
-      const result = await apiRequest.patch('/users/updateMyPassword',{passwordCurrent,passwordNew,passwordConfirm}) as APIResponse | AxiosError;
+      const result = await apiRequest.patch('/users/updateMyPassword',{passwordCurrent,passwordNew,passwordConfirm}) as FetchChecked;
 
-      if(result instanceof AxiosError){
-        if(result.name === 'AxiosError') apiErrorSetting(result.message);
-        return;
-      }
+      if(result.pass){
+        if(!result.fetchedData) return;
+        passwordSuccessSettings();
 
-      if(result.data.status !== 'success') {
-        apiErrorSetting(result.data.message);
-        return
-      }
+      }else apiErrorSetting(result.message!);
 
-      // console.log(result.data.data.user);
-      setPasswordSuccess(true);
-      setTimeout(() => {
-        setPasswordSuccess(false);
-      }, 4000);
-      clearPasswords();
-
-    }else{
-      apiErrorSetting(validatedResult.message);
-    }
-    // console.log(name,email);
+    }else apiErrorSetting(validatedResult.message);
   }
 
 

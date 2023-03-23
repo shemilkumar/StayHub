@@ -1,11 +1,9 @@
-import { AxiosError } from 'axios';
 import React, { FormEvent, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Button from '../Components/Elements/Button';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
-import { APIResponse } from '../Constants/modelTypes';
 import Alert from '../util/Alert';
 import validator from '../util/validator';
 
@@ -14,23 +12,23 @@ function ResetPasswordPage() {
   const navigate = useNavigate();
   const {resetToken} = useParams();
 
-  const [passwordNew, setPasswordNew] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [validationError, setValidationError] = useState('');
+  const [passwordNew, setPasswordNew] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [validationError, setValidationError] = useState<string>('');
 
-  const apiErrorSetting = (message : string) => {
+  const apiErrorSetting = (message : string):void => {
     setValidationError(message);
     setTimeout(() => {
       setValidationError('');
     }, 4000);
   }
 
-  const clearInputs = () =>{
+  const clearInputs = ():void =>{
     setPasswordNew('');
     setPasswordConfirm('');
   }
 
-  const handleSubmit = async(e: FormEvent) =>{
+  const handleSubmit = async(e: FormEvent):Promise<void> =>{
     e.preventDefault();
 
     console.log(passwordNew, passwordConfirm);

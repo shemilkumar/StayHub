@@ -74,11 +74,15 @@ export interface User{
 export type Data = {
   status: string,
   token: string,
+  message : string,
   user?: User,
   data?: any,
   stats?: Stats[],
-  bestSellers?: HomeModel[]
-  message : string,
+  bestSellers?: HomeModel[],
+  allBookedDates?: string[],
+  order?: any,
+  nearGuestHomes?: HomeModel[],
+  
 }
 
 export interface Stats{

@@ -1,27 +1,38 @@
-import axios from 'axios';
-import React, { ChangeEvent, FormEvent, InputHTMLAttributes, useState } from 'react'
-import { BiSearch } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import { setAllSearchResult } from '../Redux/Slicers/searchResultSlice';
 import Alert from '../util/Alert';
+
+import { BiSearch } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+
+interface DestinationData{
+  center: number[],
+  place_name: string,
+  text: string,
+}
 
 function SearchForm() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userDestination, setUserDestination] = useState('');
-  const [userDestinationSuggestions, setUserDestinationSuggestions] = useState<[] | null>(null);
-  const [userDestinationData, setUserDestinationData] = useState([]);
+  const [userDestination, setUserDestination] = useState<string>('');
+  const [userDestinationSuggestions, setUserDestinationSuggestions]=useState<DestinationData[] | null>(null);
+  const [userDestinationLatLng, setUserDestinationLatLng] = useState<number[]>([]);
   const [error,setError] = useState('');
- 
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [guests, setGuests] = useState('');
 
-  const apiErrorSetting = (message : string) => {
+  useEffect(() => {
+  }, [userDestinationSuggestions]);
+  
+ 
+  // const [startDate, setStartDate] = useState<string>('');
+  // const [endDate, setEndDate] = useState<string>('');
+  const [guests, setGuests] = useState<string>('');
+
+  const apiErrorSetting = (message : string):void => {
     setError(message);
     setTimeout(() => {
       setError('');
@@ -29,7 +40,7 @@ function SearchForm() {
   }
 
 
-  function getDatesInRange(dateStart : string, dateEnd : string) {
+  function getDatesInRange(dateStart : string, dateEnd : string): Date[] {
     const dates = [];
     // console.log(dateStart,dateEnd);
     let currentDate = new Date(dateStart);
@@ -44,10 +55,10 @@ function SearchForm() {
   }
   
 
-  const handleSearch = async(e : FormEvent) => {
+  const handleSearch = async(e : FormEvent): Promise<void> => {
     e.preventDefault();
 
-    if(userDestinationData.length === 0){
+    if(userDestinationLatLng.length === 0){
       apiErrorSetting('Select where you want to go');
       return;
     }
@@ -58,12 +69,10 @@ function SearchForm() {
     }
 
     const searchData = {
-      location : userDestinationData,
-      searchDates: getDatesInRange(startDate,endDate),
+      location : userDestinationLatLng,
       guests: parseInt(guests)
+      // searchDates: getDatesInRange(startDate,endDate),
     }
-
-    // console.log(searchData);
 
     const nearByHomes = await apiRequest.post('/homes/nearestHomes',searchData) as FetchChecked;
 
@@ -71,18 +80,21 @@ function SearchForm() {
       if(!nearByHomes.fetchedData) return;
 
       // console.log(nearByHomes.fetchedData.data);
-      dispatch(setAllSearchResult(nearByHomes.fetchedData.data.nearGuestHomes));
+      dispatch(setAllSearchResult(nearByHomes.fetchedData.data.nearGuestHomes!));
       navigate('/searchResult');
       //  Here I have to pass data to <SearchResultPage/>
 
     }else apiErrorSetting(nearByHomes.message!);
   };
 
-  const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>) =>{
-    setUserDestination(e.target.value);
+  const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>): Promise<void> =>{
 
-    if(e.target.value = '') setUserDestinationData([]);
-    // console.log('Hiii');
+    setUserDestination(e.target.value);
+    console.log(e.target.value);
+    if(e.target.value === ''){
+      setUserDestinationSuggestions(null);
+      console.log(userDestinationSuggestions);
+    }
 
     const config = { 
       headers: {
@@ -94,10 +106,10 @@ function SearchForm() {
 
     const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?country=IN&access_token=${MAPBOX_ACCESS_TOKEN}`, config);
 
-  //  &access_token=YOUR_MAPBOX_ACCESS_TOKEN"
-
-    // console.log(mapBoxResult.data);
+    // console.log(mapBoxResult.data.features);
     setUserDestinationSuggestions(mapBoxResult.data.features);
+    // console.log(mapBoxResult.data.features);
+
   }
 
   return (
@@ -123,9 +135,9 @@ function SearchForm() {
                   userDestinationSuggestions.map((suggestion, i) =>{
                     return(
                       <p key={i} className='hover:bg-blue-200 p-3'
-                      onClick={(e) => {
+                      onClick={() => {
                         setUserDestination(suggestion.text);
-                        setUserDestinationData(userDestinationSuggestions[i].center);
+                        setUserDestinationLatLng(userDestinationSuggestions[i].center);
                         setUserDestinationSuggestions([]);
                       }}>{suggestion.place_name}</p>
                     )

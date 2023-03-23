@@ -7,7 +7,6 @@ import Hero from '../Components/Hero';
 import Navbar from '../Components/Navbar';
 import SearchForm from '../Components/SearchForm';
 import Testimonial from '../Components/Testimonial';
-import Alert from '../util/Alert';
 
 function Home() {
   return (
@@ -20,8 +19,8 @@ function Home() {
         <ScenicSpots/>
         <BestSellers/> 
         <Testimonial/>
-        <Footer/>
       </div>
+      <Footer/>
     </>
   )
 }

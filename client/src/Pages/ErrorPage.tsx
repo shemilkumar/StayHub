@@ -7,18 +7,13 @@ import logout from '../util/logout';
 
 function ErrorPage() {
 
-  const [errorMessage, setErrorMessage] = useState('')
-
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const params = useParams();
 
   useEffect(() => {
-    // console.log(params);
     if(params.message) setErrorMessage(params.message);
     if(params.message?.includes('Please login again')) logout();
-
   }, [])
-  
-
 
   return (
     <>

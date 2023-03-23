@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DatePicker,{ setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,48 +6,51 @@ import "react-datepicker/dist/react-datepicker.css";
 import RoomDetails from './RoomDetails';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Alert from '../util/Alert';
-import Input from "../Components/Elements/Input";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { HomeModel } from '../Constants/modelTypes';
+import { HomeModel, User } from '../Constants/modelTypes';
 import { RAZORPAY_KEY_ID } from '../Constants/constant';
-import Razorpay from "razorpay";
+// import Razorpay from "razorpay";
+
+interface BookingData{
+  home: HomeModel,
+  startDate: Date,
+  endDate: Date,
+}
 
 function RoomComponents({home} : {home: HomeModel}) {
   
   const navigate = useNavigate();
-  const userFromStrore = useSelector((state : any) => state.user.value);
+  const userFromStrore = useSelector((state : any) => state.user.value) as User;
 
   setDefaultLocale('es');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState<string>('');
 
-  const [showCalendar, setShowCalendar] = useState(true);
-
-  const apiErrorSetting = (message : string) => {
+  const apiErrorSetting = (message : string): void => {
     setApiError(message);
     setTimeout(() => {
       setApiError('');
     }, 4000);
   }
 
-  const getBookedDates = async() => {
-    const response = await apiRequest.get(`/booking/${home._id}`) as any;
+  const getBookedDates = async(): Promise<void> => {
+    const response = await apiRequest.get(`/booking/${home._id}`) as FetchChecked;
 
     if(response.pass){
       if(!response.fetchedData) return;
 
       // Need to convert string dates array to Date objects array
-      const bookedDatesStr = response.fetchedData.data.allBookedDates;
-      const bookedDatesDateObj = bookedDatesStr.map((dates: string) => new Date(dates));
+      const bookedDatesStr = response.fetchedData.data.allBookedDates as string[];
+      const bookedDatesDateObj = bookedDatesStr.map((dates: string) => new Date(dates)) as Date[];
       setBookedDates(bookedDatesDateObj);
 
     }else navigate(`/error/${response.message}`);
   }
 
-  const bookHome = async(data: any) =>{
+  const bookHome = async(data: BookingData) =>{
     const result = await apiRequest.post('/booking',data) as FetchChecked;
 
     if(result.pass){
@@ -56,15 +59,6 @@ function RoomComponents({home} : {home: HomeModel}) {
       navigate('/myBookings');
     }else apiErrorSetting(result.message!);
   }
-
-  // const handleBook = async(e : FormEvent) =>{
-
-  //   e.preventDefault();
-   
-  // };
-
-  // const handlePayment = () =>{
-  // }
 
 
   // ====================================================
@@ -83,7 +77,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     });
   };
 
-  async function displayRazorpay() {
+  async function displayRazorpay(): Promise<void> {
 
     if(!startDate || !endDate){
       apiErrorSetting('Please specify check-in & check-out dates');
@@ -98,10 +92,10 @@ function RoomComponents({home} : {home: HomeModel}) {
     }
 
     // const result = await axios.post("http://localhost:5000/payment/orders");
-    const result = await apiRequest.post('/payment/order',{price : home.price}) as any;
+    const result = await apiRequest.post('/payment/order',{price : home.price}) as FetchChecked;
 
     if (!result.pass) {
-        apiErrorSetting(result.message);
+        apiErrorSetting(result.message!);
         return;
     }
 
@@ -151,7 +145,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     };
 
     // @ts-ignore
-    const paymentObject: any = new window.Razorpay(options);
+    const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
 
@@ -177,7 +171,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     return endDate!.getTime() >= selectedDate.getTime();
   };
 
-  const renderCustomDayContents = (day:any, date: Date) => {
+  const renderCustomDayContents = (day: any, date: Date) => {
     if (bookedDates.some((bookedDate) => bookedDate.getTime() === date.getTime())) {
       return <div className="bg-red-500 text-white rounded-lg">{day}</div>;
     }

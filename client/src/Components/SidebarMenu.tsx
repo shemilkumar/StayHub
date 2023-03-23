@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function SidebarMenu() {
 
   const navigate = useNavigate();
-  const [active, setActive] = useState('settings');
+  const [active, setActive] = useState<string>('settings');
 
   return (
     <div className='md:mt-20 py-4'>

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 function Alert({message, success} : {message: string, success?: boolean}) {
 
-  const [show, setShow] = useState(false);
-  // const [success, setSuccess] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
     setShow(true);
