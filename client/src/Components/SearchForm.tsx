@@ -102,9 +102,7 @@ function SearchForm() {
       }
     }
 
-    const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg';
-
-    const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?country=IN&access_token=${MAPBOX_ACCESS_TOKEN}`, config);
+    const mapBoxResult = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${userDestination}.json?country=IN&access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`, config);
 
     // console.log(mapBoxResult.data.features);
     setUserDestinationSuggestions(mapBoxResult.data.features);

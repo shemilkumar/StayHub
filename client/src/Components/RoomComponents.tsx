@@ -9,7 +9,6 @@ import Alert from '../util/Alert';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { HomeModel, User } from '../Constants/modelTypes';
-import { RAZORPAY_KEY_ID } from '../Constants/constant';
 // import Razorpay from "razorpay";
 
 interface BookingData{
@@ -104,7 +103,7 @@ function RoomComponents({home} : {home: HomeModel}) {
     const { amount, id: order_id, currency } = result.fetchedData.data.order;
     {/* <script src="https://checkout.razorpay.com/v1/checkout.js"></script> */}
     const options = {
-      key_id: RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      key_id: import.meta.env.VITE_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
       amount: amount.toString(),
       currency: currency,
       name: "StayHub",

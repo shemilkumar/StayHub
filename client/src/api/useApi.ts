@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { axiosApi } from "../Constants/constant";
-import { APIResponse,Data } from "../Constants/modelTypes";
+import { APIResponse } from "../Constants/modelTypes";
 
 function useApi<T, U>(req: string,endpoint: string, payload?: U): { data: any | null, error: string | null } {
 
-  const [data, setData] = useState<Data | null>(null);
+  const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(false);
 

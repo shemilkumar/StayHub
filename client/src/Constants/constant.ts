@@ -1,9 +1,5 @@
 import axios from "axios";
 
-export const RAZORPAY_KEY_ID = 'rzp_test_yei09ktZyA11Y0';
-export const RAZORPAY_SECRET ='RZXGhh3kX9hXP3W6xESVo9av';
-export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbWlsIiwiYSI6ImNsZTVhdjBtejBiOXMzcHFkeDdzenVubnQifQ.ELopMEw5SnKU0QOU85_Bdg';
-
 export const frondendBaseUrl: string = 'http://127.0.0.1:5173'
 export const backendBaseUrl: string = 'http://127.0.0.1:8000';
 
