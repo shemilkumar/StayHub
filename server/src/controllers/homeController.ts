@@ -8,11 +8,6 @@ export interface searchHomesRequest extends Request{
   nearGuestHomes?: HomeModel[]
 }
 
-// export interface AuthRequest extends Request{
-//   user?: UserType,
-// }
-
-
 export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
@@ -23,7 +18,6 @@ export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next:
 
 export const getNearByHomes = catchAsync( async(req:searchHomesRequest, res: Response, next: NextFunction) : Promise<void> =>{
 
-  console.log(req.body);
   const {location,guests} = req.body;
 
   const [latitude, longitude] = location;
@@ -57,6 +51,7 @@ export const getNearByHomes = catchAsync( async(req:searchHomesRequest, res: Res
     nearGuestHomes,
   });
 });
+
 
 export const getHome = factory.getOne<HomeModel>(Home);
 export const getAllHomes = factory.getAll<HomeModel>(Home);

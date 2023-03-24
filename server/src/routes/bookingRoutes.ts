@@ -8,15 +8,16 @@ const router = express.Router();
 // router.use(authController.protect);
 
 router
+  .route('/bookingStats')
+  .get(bookingController.getBookingStats);
+
+router
   .route('/myBookings')
   .get(authController.protect,bookingController.getMyBookings);
 
 router
-.route('/bookingStats')
-.get(bookingController.getBookingStats);
-
-router
   .route('/')
+  .get(bookingController.getAllBooking)
   .post(authController.protect,bookingController.createBooking);
 
 router
@@ -26,14 +27,5 @@ router
 
 // Only admins will get access to these below routes
 router.use(authController.restrictTo('admin'));
-
-router
-  .route('/').get(bookingController.getAllBooking);
-
-// router
-//   .route('/:id')
-//   .get(bookingController.getUser)
-//   .patch(bookingController.updateUser)
-//   .delete(bookingController.deleteUser);
 
 export default router;

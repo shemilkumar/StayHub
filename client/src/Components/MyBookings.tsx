@@ -32,7 +32,7 @@ function MyBookings() {
         <div className='min-h-screen flex'>
           {myBookings.length === 0 ? 
             <div className='m-auto flex flex-col transition-all duration-500 ease-in'>
-              <h1 className='text-xl md:text-3xl text-red-500 font-semibold'>No bookings yet!</h1>
+              <h1 className='text-xl md:text-3xl text-red-500 font-semibold'>No upcoming bookings!</h1>
               <p className='text-gray-600 mb-4'>What are you waiting for? book your home now !</p>
               <Link to={`/homes`}><Button text='Explore Homes'/></Link>
             </div>

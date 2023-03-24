@@ -43,7 +43,7 @@ export const createBooking = catchAsync( async(req:AuthRequest, res: Response, n
 export const getBooking = catchAsync( async(req:AuthRequest, res: Response, next: NextFunction): Promise<void> =>{
 
   const homeId = req.params.id;
-  const bookings = await Booking.find({home: homeId});
+  const bookings = await Booking.find({home: homeId, active: {$ne : false}});
 
   const allBookedDates: Date[] = [];
 
@@ -67,7 +67,7 @@ export const getMyBookings = catchAsync( async(req:AuthRequest, res: Response, n
   }
 
   const user = req.user?._id;
-  const myBookings = await Booking.find({user});
+  const myBookings = await Booking.find({user, active: {$ne : false}});
 
 
   res.status(201).json({
@@ -147,3 +147,15 @@ export const getNearByNotBookedHomes = catchAsync( async(req:searchHomesRequest,
   });
 
 });
+
+// export const deletePreviousBookings = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+
+//   console.log("hi");
+//   const query = { startDate :{ $lt : new Date() }};
+//   const deletedBookings = await Booking.deleteMany(query);
+
+//   console.log(deletedBookings);
+//   if(!deletedBookings) return next(new AppError('Not able to delete previous bookings',400));
+
+//   next();
+// });

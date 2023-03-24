@@ -8,6 +8,7 @@ export interface BookingModel extends Document{
   startDate: Date,
   endDate: Date,
   bookedDates: Date[],
+  active: Boolean,
   createdAt : Date,
   paid: boolean
 }
@@ -37,6 +38,10 @@ const bookingSchema = new mongoose.Schema<BookingModel>(
       required: [true, 'Booking must have a check-out date']
     },
     bookedDates : [Date],
+    active: {
+      type: Boolean,
+      default: true
+    },
     createdAt: {
       type: Date,
       default: Date.now()
@@ -59,6 +64,7 @@ bookingSchema.pre('save', function(next){
       checkInDate = moment(checkInDate).add(1, 'days');
   }
   this.bookedDates = dateArray;
+  this.active = true;
 
   next();
 });
@@ -66,6 +72,18 @@ bookingSchema.pre('save', function(next){
 
 bookingSchema.pre(/^find/, function(next){
   this.populate('user').populate('home');
+  next();
+});
+
+bookingSchema.pre(/^find/, async function(next){
+  await Booking.updateMany(
+    { 
+      startDate: { $lt: new Date() }
+    }, 
+    { 
+      $set: { active: false }
+    }
+  );
   next();
 });
 
