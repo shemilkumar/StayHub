@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import Booking, { BookingModel } from '../models/bookingModel';
-import { HomeModel } from '../models/homeModel';
+import Home, { HomeModel } from '../models/homeModel';
 import * as factory from "../controllers/handleFactory";
-import { AuthRequest } from "../controllers/authController";
 import catchAsync from '../util/catchAsync';
 import AppError from '../util/AppError';
 import Email from '../util/Email/email';
-import Home from '../models/homeModel';
 import { searchHomesRequest } from './homeController';
+
+import { AuthRequest } from "../controllers/authController";
+import getMainUrl from '../util/URLGetter';
 
 // export const getBooking = factory.getOne<BookingModel>(Booking);
 export const getAllBooking = factory.getAll<BookingModel>(Booking);
@@ -30,7 +31,8 @@ export const createBooking = catchAsync( async(req:AuthRequest, res: Response, n
 
   const newBooking = await Booking.create(bookingDetails);
 
-  if(newBooking) new Email(req.user!, `http://127.0.0.1:5173/myBookings`).sendBookingConfirmation();
+  
+  if(newBooking) new Email(req.user!, `${getMainUrl()}/myBookings`).sendBookingConfirmation();
 
   res.status(201).json({
     status: 'success',
@@ -147,15 +149,3 @@ export const getNearByNotBookedHomes = catchAsync( async(req:searchHomesRequest,
   });
 
 });
-
-// export const deletePreviousBookings = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
-
-//   console.log("hi");
-//   const query = { startDate :{ $lt : new Date() }};
-//   const deletedBookings = await Booking.deleteMany(query);
-
-//   console.log(deletedBookings);
-//   if(!deletedBookings) return next(new AppError('Not able to delete previous bookings',400));
-
-//   next();
-// });

@@ -23,14 +23,15 @@ const app = express();
 //  1) Blobal Middlewares
 
   // Implement Cors
-app.use(cors({}));
-
-app.options('*', cors());
+if(process.env.NODE_ENV === 'development'){
+  app.use(cors({}));
+  app.options('*', cors());
+}
 
   // Set security HTTP header
 app.use(helmet({
-  crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: false,
+crossOriginEmbedderPolicy: false,
+crossOriginResourcePolicy: false,
 }));
 
   // Development logging
@@ -62,7 +63,7 @@ app.use(hpp({
 }));
 
   // Compression
-// app.use(compression());
+app.use(compression());
 
   // Serving static files
 app.use('/public',express.static(`${__dirname}/public`));

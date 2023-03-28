@@ -3,7 +3,6 @@ import * as bookingController from "../controllers/bookingController";
 import * as authController from "../controllers/authController";
 
 const router = express.Router();
-
 // Only logged users get access for these below routes
 // router.use(authController.protect);
 

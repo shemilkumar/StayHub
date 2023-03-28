@@ -1,11 +1,13 @@
 import { Request,Response,NextFunction} from "express";
-import User,{UserType } from "../models/userModel";
-import catchAsync from "../util/catchAsync";
-import jwt from "jsonwebtoken";
-import AppError from "../util/AppError";
 import { promisify } from "util";
+import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import catchAsync from "../util/catchAsync";
+import AppError from "../util/AppError";
 import Email from "../util/Email/email";
+
+import User,{UserType } from "../models/userModel";
+import getMainUrl from "../util/URLGetter";
 
 export interface AuthRequest extends Request{
   user?: UserType,
@@ -20,22 +22,11 @@ interface DecodedToken{
 const signToken = (id: string):string => {
   return jwt.sign({id},process.env.JWT_SECRET!,{
     expiresIn: process.env.JWT_EXPIRES_IN
-  })
+  });
 }
 
 const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
   const token = signToken(user._id);
-
-  // const cookieOption = {
-  //   expires: new Date(
-  //     Date.now() + (+process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000
-  //   ),
-  //   httpOnly: true,
-  //   secure: false,
-  //   sameSite: 'none'
-  // };
-
-  // if(process.env.NODE_ENV === 'production') cookieOption.secure = true;
 
   res.cookie('jwt', token, {
     expires: new Date(
@@ -59,16 +50,12 @@ const createSendToken = (user : UserType,statusCode : number,res : Response) =>{
 export const signup = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
 
   const newUser = await User.create(req.body);
-
-  if(newUser) new Email(newUser, `http://127.0.0.1:5173`).sendWelcome();
+  if(newUser) new Email(newUser, process.env.MAIN_URL!).sendWelcome();
   
   createSendToken(newUser,201,res);
 });
 
 export const login = catchAsync(async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
-
-  // console.log(req);
-
   const {email, password} = req.body
 
   // check user email and password exists
@@ -88,16 +75,15 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
 }); 
 
 export const protect = catchAsync(async (req: AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
-  // Getting token and check of if its there
-  // console.log(req);
 
+  // Getting token and check of if its there
   let token: string = '';
   
-  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+    console.log("Cookieeee =======>>>>>>",token,req.cookies);
+  }else if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token = req.headers.authorization.split(' ')[1];
-  }else if (req.cookies.jwt) {
-      token = req.cookies.jwt;
-      console.log("Cookieeee =======>>>>>>",token,req.cookies);
   }
 
   if(!token) return next(new AppError('You are not logged in! Please log in to get access',401));
@@ -135,7 +121,13 @@ export const forgotPasswod = catchAsync(async (req:AuthRequest,res:Response,next
 
   // Send it to the users email
   // const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-  const resetURL = `http://127.0.0.1:5173/resetPassword/${resetToken}`;
+  // let resetURL: string = '';
+  // if(process.env.NODE_ENV === 'production')
+  //   resetURL = `${process.env.MAIN_URL}/resetPassword/${resetToken}`;
+  // else
+  const mainUrl = getMainUrl() as string;
+  const resetURL = `${mainUrl}/resetPassword/${resetToken}`;
+  
 
   await new Email(user, resetURL).sendPasswordReset();
 

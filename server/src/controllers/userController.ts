@@ -1,12 +1,12 @@
 import multer, { FileFilterCallback } from "multer";
 import { NextFunction, Request, Response } from "express";
-import User, { UserType } from "../models/userModel";
+import sharp from "sharp";
 import AppError from "../util/AppError";
 import catchAsync from "../util/catchAsync";
-import { AuthRequest } from "../controllers/authController";
 import * as factory from "../controllers/handleFactory";
-import { Callback } from "mongoose";
-import sharp from "sharp";
+
+import User, { UserType } from "../models/userModel";
+import { AuthRequest } from "../controllers/authController";
 
 // const multerStorage = multer.diskStorage({
 //   destination: (req : Request,file : Express.Multer.File,cb : Callback) =>{
@@ -46,8 +46,6 @@ export const uploadUserPhoto = upload.single('photo');
 
 export const resizePhoto = (req:AuthRequest, res: Response, next: NextFunction) =>{
 
-  // console.log("res+=====>", req.file);
-
   if(!req.file) return next();
   if(!req.user) return next(new AppError('Login error',400));
 
@@ -62,11 +60,6 @@ export const resizePhoto = (req:AuthRequest, res: Response, next: NextFunction) 
   next();
 };
 
-// interface UserData{
-//   name: string,
-//   email: string,
-//   photo?: string,
-// }
 
 const filterObj = (obj : {[key:string]: any}, ...allowedFields: string[]): any =>{
   const newObj: {[key:string]: any} = {};

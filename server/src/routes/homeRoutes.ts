@@ -1,17 +1,12 @@
 import express from "express";
 import * as homeController from "../controllers/homeController";
 import * as authController from "../controllers/authController";
-import * as bookingController from "../controllers/bookingController";
 
 const router = express.Router();
 
 router
   .route('/top-5-cheap')
   .get(homeController.aliasTopHomes,homeController.getAllHomes);
-
-// router
-// .route('/nearestHomes')
-// .post(homeController.getNearByHomes,bookingController.getNearByNotBookedHomes);
 
 router
 .route('/nearestHomes')
