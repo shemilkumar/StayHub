@@ -20,26 +20,10 @@ function Navbar() {
 
   const [openNav, setOpenNav] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
-  // const [show, setShow] = useState<boolean>(false);
-  // const [lastScrollY, setLastScrollY] = useState<number>(0);
 
   useEffect(() => {
     setUsername(userName);
     setUserphoto(userPhoto);
-
-    // const controlNavbar = (): void => {
-    //   if (typeof window !== "undefined") {
-    //     if (window.scrollY < lastScrollY) {
-    //       // if scroll down hide the navbar
-    //       setShow(false);
-    //     } else {
-    //       // if scroll up show the navbar
-    //       setShow(true);
-    //     }
-    //     // remember current page location to use in the next move
-    //     setLastScrollY(window.scrollY);
-    //   }
-    // };
 
     const bgColorChange = (): void =>
     window.scrollY >= 10 ? setScroll(true) : setScroll(false);
