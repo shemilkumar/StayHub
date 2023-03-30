@@ -23,10 +23,12 @@ const app = express();
 //  1) Blobal Middlewares
 
   // Implement Cors
-if(process.env.NODE_ENV === 'development'){
-  app.use(cors({}));
-  app.options('*', cors());
-}
+app.use(cors({}));
+app.options('*', cors());
+// if(process.env.NODE_ENV === 'development'){
+//   app.use(cors({}));
+//   app.options('*', cors());
+// }
 
   // Set security HTTP header
 app.use(helmet({

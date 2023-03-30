@@ -14,6 +14,8 @@ function MyBookings() {
   const getMyBookings = async(): Promise<void> => {
     const response = await apiRequest.get('/booking/myBookings') as FetchChecked;
 
+    console.log(response);
+
     if(response.pass){
       if(!response.fetchedData) return;
       // console.log(response.fetchedData.data.data.data);

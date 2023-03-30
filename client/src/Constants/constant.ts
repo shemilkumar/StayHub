@@ -3,20 +3,23 @@ import axios from "axios";
 export let frondendBaseUrl: string = '';
 export let backendBaseUrl:string = '';
 
-if(import.meta.env.VITE_NODE_ENV === 'production'){
-  frondendBaseUrl = `https://stayhub.shemilkumar.com:5173`;
-  backendBaseUrl = `https://stayhub.shemilkumar.com:8000`;
-  // console.log(frondendBaseUrl, backendBaseUrl);
-}else{
-  frondendBaseUrl = 'http://127.0.0.1:5173'
-  backendBaseUrl = 'http://127.0.0.1:8000';
-}
+// frondendBaseUrl = `https://stayhub.shemilkumar.com`;
+backendBaseUrl = `https://stayhub.shemilkumar.com`;
+
+// if(import.meta.env.VITE_NODE_ENV === 'production'){
+//   frondendBaseUrl = `https://stayhub.shemilkumar.com`;
+//   backendBaseUrl = `https://stayhub.shemilkumar.com`;
+//   // console.log(frondendBaseUrl, backendBaseUrl);
+// }else{
+//   frondendBaseUrl = 'http://127.0.0.1:5173'
+//   backendBaseUrl = 'http://127.0.0.1:8000';
+// }
 
 export const backendStaticUserUrl = `${backendBaseUrl}/public/img/users`;
 export const backendStaticHomesUrl = `${backendBaseUrl}/public/img/homes`;
 
 export const axiosApi = axios.create({
-  baseURL: `${backendBaseUrl}/api/v1`,
+  baseURL: `${backendBaseUrl}/api/v1/`,
   headers: {
     'Content-Type': 'application/json',
   },
