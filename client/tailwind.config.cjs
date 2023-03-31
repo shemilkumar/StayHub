@@ -8,6 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        white: "#ffffff",
+        black: "#000000",
         primary: "#ECF9FF",
         secondary: "#CF0A0A",
         tertiary_1: "#EB4D55",
@@ -17,6 +19,7 @@ module.exports = {
         same: "80%",
       },
     },
+    darkMode: "class",
     screens: {
       xs: "340px",
       ss: "620px",

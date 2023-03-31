@@ -123,7 +123,7 @@ function SearchForm() {
 
           <div className='w-full flex flex-col'>
             
-            <input type="text" placeholder='Going to' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400'
+            <input type="text" placeholder='Going to' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400 dark:bg-white'
             value={userDestination}
             onChange={handleChangePlace}/>
 
@@ -151,7 +151,7 @@ function SearchForm() {
 
           <div className='bg-gray-200 h-6 w-1'></div>
 
-          <input type="number" placeholder='Guests' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400  appearance-none' onChange={(e) => setGuests(e.target.value)}/>
+          <input type="number" placeholder='Guests' className='block p-6 rounded-full w-full border-2 border-white hover:border-gray-400  appearance-none dark:bg-white' onChange={(e) => setGuests(e.target.value)}/>
           
           <button className='-ml-16 p-5 bg-tertiary_2 text-white rounded-full'>
             <BiSearch className='w-8 h-8'/>

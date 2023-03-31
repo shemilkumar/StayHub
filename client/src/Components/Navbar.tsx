@@ -62,12 +62,24 @@ function Navbar() {
             />
           )}
           
-          
-          <div className="ml-2 md:ml-0 text-2xl md:text-3xl cursor-pointer font-mono">
-            <Link to="/">
-              StayHub
-            </Link>
-          </div>
+          {/* {
+            scroll ?
+              <div className="ml-2 md:ml-0 text-2xl md:text-3xl cursor-pointer font-mono">
+                <Link to="/">
+                  StayHub
+                </Link>
+              </div>
+            :
+              <Link to="/">
+                <img src="/logo/logo_icon.png" alt="" className='h-10 aspect-square'/>
+              </Link>
+          } */}
+
+              <div className="ml-2 md:ml-0 text-2xl md:text-3xl cursor-pointer font-mono">
+                <Link to="/">
+                  StayHub
+                </Link>
+              </div>
 
         </div>
 
