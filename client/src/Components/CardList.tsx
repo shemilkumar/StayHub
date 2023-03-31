@@ -40,7 +40,7 @@ function CardList( {home} : {home:HomeModel}) {
                   <p className='text-gray-500 text-sm'>{home.address}</p>
               </div>
 
-              <div className='flex gap-4 mt-2 md:w-10/12 w-full'>
+              <div className='flex gap-1 md:gap-4 mt-2 md:w-10/12 w-full'>
                 <div className='flex items-center gap-2 rounded-full bg-red-100 md:p-2 px-1 py-0.5'>
                   <BsHouseDoorFill className='md:h-5 md:w-5 text-secondary'/>
                   <p className='text-xs md:text-base text-gray-500'>{home.bedrooms} Rooms</p>

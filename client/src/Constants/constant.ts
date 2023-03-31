@@ -1,19 +1,7 @@
 import axios from "axios";
 
-export let frondendBaseUrl: string = '';
 export let backendBaseUrl:string = '';
-
-// frondendBaseUrl = `https://stayhub.shemilkumar.com`;
 backendBaseUrl = `https://stayhub.shemilkumar.com`;
-
-// if(import.meta.env.VITE_NODE_ENV === 'production'){
-//   frondendBaseUrl = `https://stayhub.shemilkumar.com`;
-//   backendBaseUrl = `https://stayhub.shemilkumar.com`;
-//   // console.log(frondendBaseUrl, backendBaseUrl);
-// }else{
-//   frondendBaseUrl = 'http://127.0.0.1:5173'
-//   backendBaseUrl = 'http://127.0.0.1:8000';
-// }
 
 export const backendStaticUserUrl = `${backendBaseUrl}/public/img/users`;
 export const backendStaticHomesUrl = `${backendBaseUrl}/public/img/homes`;

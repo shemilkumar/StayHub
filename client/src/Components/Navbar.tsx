@@ -46,7 +46,7 @@ function Navbar() {
 
   return (
     <div className={`${scroll || openNav ? 'bg-primary' : 'bg-transparent`'} fixed top-0 w-full z-50 transition-all duration-700 ease-in-out`}>
-      <div className="md:max-w-same m-auto flex justify-between md:justify-around items-center py-4  md:px-0 font-semibold  text-secondary font-sans">
+      <div className="md:max-w-same m-auto flex justify-between md:justify-around items-center py-4  md:px-0 md:font-semibold  text-secondary font-sans">
 
         <div  className='flex items-center md:w-1/3 pl-4 md:pl-0'>
 

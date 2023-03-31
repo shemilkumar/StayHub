@@ -14,10 +14,10 @@ function Card( {home} : {home:HomeModel}) {
     <div>
     { home &&
       <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
-        <div className="w-full md:w-96 shadow-2xl md:rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
-          <div className='h-40 md:h-72'>
+        <div className="w-full md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
+          <div className='aspect-video w-full md:h-72'>
             <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
-            className='shadow-xl md:rounded-t-lg object-cover w-full h-40 md:h-72'/>
+            className='shadow-xl rounded-t-lg object-cover w-full md:h-72'/>
           </div>
           
           <div className='flex flex-col gap-1 md:gap-4 mt-4 md:mt-8 border-b-2 pl-2 md:pl-0 items-start md:items-center'>
@@ -29,13 +29,17 @@ function Card( {home} : {home:HomeModel}) {
               <MdLocationOn className='h-5 w-5'/>
             </div>
 
-            <div className="flex gap-2 items-center justify-start text-xs mb-2 md:mb-0">
-              <div className='p-1 bg-green-700 text-white font-semibold inline-flex justify-center items-center gap-1 rounded-lg w-12'>
-              {home.ratingsAverage}
-                <AiFillStar/>
+            <div className='flex justify-between md:justify-center w-full mb-2 md:mb-0'>
+              <div className="flex gap-2 items-center justify-start text-xs mb-2 md:mb-0">
+                <div className='p-1 bg-green-700 text-white font-semibold inline-flex justify-center items-center gap-1 rounded-lg w-12'>
+                {home.ratingsAverage}
+                  <AiFillStar/>
+                </div>
+
+                <p className="text-gray-600">({home.ratingsQuantity} Ratings)</p>
               </div>
 
-              <p className="text-gray-600">({home.ratingsQuantity} Ratings)</p>
+              <div className='md:hidden mr-4 font-semibold text-2xl md:text-green-700 text-secondary'>₹{home.price}</div>
             </div>
 
             <p className='hidden md:flex text-gray-400 text-xs md:text-base w-10/12 md:h-20 h-24'>{home.description}</p>
@@ -51,7 +55,7 @@ function Card( {home} : {home:HomeModel}) {
             </div>
           </div>
 
-          <div className='flex md:flex-row justify-end md:justify-between py-2 md:py-4 w-10/12 m-auto'>
+          <div className='hidden md:flex md:flex-row justify-end md:justify-between py-2 md:py-4 w-10/12 m-auto'>
             <div className='font-semibold text-xl md:text-green-700 text-secondary'>₹{home.price}</div>
             <div className='hidden md:flex items-center'>
               <MdLocationOn className='h-5 w-5'/>

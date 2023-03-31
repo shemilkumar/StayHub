@@ -19,9 +19,7 @@ class apiRequest {
 
   async get(url : string){
     try {
-      this.response = await axiosApi.get(url) as APIResponse | AxiosError;
-      console.log(this.response);
-      
+      this.response = await axiosApi.get(url) as APIResponse | AxiosError;      
       const result = this._checkResponse(this.response) as FetchChecked;
       return result;
 
@@ -54,7 +52,6 @@ class apiRequest {
   async delete(url : string){
     try {
       this.response = await axiosApi.delete(url) as AxiosResponse;
-      console.log(this.response);
       const result = this._checkResponse(this.response) as FetchChecked;
       return result
 

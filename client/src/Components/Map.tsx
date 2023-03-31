@@ -44,7 +44,8 @@ function Map(props : ViewPort) {
         <NavigationControl />
 
         <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" >
-          <img src={`/src/assets/map-marker.png`} />
+          {/* <img src={`/src/assets/map-marker.png`} /> */}
+          <img src={markerImage} />
         </Marker>
 
         {showPopup && (

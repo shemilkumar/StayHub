@@ -123,8 +123,6 @@ export const getNearByNotBookedHomes = catchAsync( async(req:searchHomesRequest,
 
   const {nearGuestHomes} = req;
 
-  console.log(dates, nearGuestHomes);
-
   const nearByNotBookedHomes: HomeModel[] = [];
 
   nearGuestHomes.map(async guesthomes => {

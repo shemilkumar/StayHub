@@ -31,7 +31,6 @@ function ResetPasswordPage() {
   const handleSubmit = async(e: FormEvent):Promise<void> =>{
     e.preventDefault();
 
-    console.log(passwordNew, passwordConfirm);
     const validateResult = validator({password: passwordNew});
     
     if(validateResult.pass){

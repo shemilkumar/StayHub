@@ -49,7 +49,7 @@ function BestSellers() {
       <h1 className='text-4xl md:text-6xl font-semibold font-sans'>Best
        <span className='text-secondary'> Sellers</span>
        </h1>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 '>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mx-3 md:mx-0'>
         {
           bestSellers.map((bestSeller, i) => {
             return(

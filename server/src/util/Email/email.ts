@@ -1,4 +1,3 @@
-// import nodemailer from 'nodemailer';
 import nodemailer from 'nodemailer';
 import { htmlToText } from 'html-to-text';
 import * as template from "./Templates/template";
@@ -55,7 +54,6 @@ class Email{
     }
 
     await this.newTransport().sendMail(mailOptions);
-    console.log(this.to,this.firstName);
   };
 
   async sendWelcome(){

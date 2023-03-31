@@ -52,7 +52,7 @@ function allHomes() {
     <>
       <Navbar/>
 
-        <div className='min-h-screen flex mx-2 md:mx-0'>
+        <div className='min-h-screen flex mx-3 md:mx-0'>
           { homes.length <= 0 ?
           <Spinner/> :
           <div className='m-auto'>
@@ -62,7 +62,6 @@ function allHomes() {
               onChange={(e) => {
                 setSort(e.target.value);
                 fetchAllHomes(e.target.value);
-                console.log(sort);
               }}>
                 <option value="popularity" className='p-3'>Popularity</option>
                 <option value="rating" className='p-3'>Rating</option>
@@ -72,7 +71,7 @@ function allHomes() {
               </select>
             </div>
 
-            <div className='grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-12 mt-8 md:mt-12 mb-32'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-8 md:mt-12 mb-8 md:mb-32'>
               {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
             </div>
 

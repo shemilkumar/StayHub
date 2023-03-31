@@ -15,7 +15,6 @@ function BookedCard( {booking} : {booking: BookingModel}) {
   const navigate = useNavigate();
   
   const cancelBooking = async(): Promise<void> => {
-    console.log(booking.home._id);
     const response = await apiRequest.delete(`/booking/${booking._id}`) as FetchChecked;
 
     if(response.pass)
@@ -27,11 +26,11 @@ function BookedCard( {booking} : {booking: BookingModel}) {
   return (
     <div>
     { booking.home &&
-        <div className="w-72 md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
+        <div className="aspect-video w-full md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
           <Link to={booking.home?._id ? `/home/${booking.home._id}` : 'room/fake_id'}>
-            <div className='h-40 md:h-72'>
+            <div className='w-full aspect-video md:h-72'>
               <img src={`${backendStaticHomesUrl}/${booking.home.imageCover}`} alt="house-coverImage" 
-              className='shadow-xl rounded-t-lg object-cover h-40 md:h-72 w-full'/>
+              className='shadow-xl rounded-t-lg object-cover md:h-72 w-full'/>
             </div>
             <div className='flex flex-col gap-1 md:gap-2 mt-4 md:mt-8 border-b-2 p-3'>
 

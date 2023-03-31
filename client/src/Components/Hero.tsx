@@ -15,7 +15,8 @@ function Hero() {
       <div className="relative w-full h-[450px] md:h-screen bg-blend-darken">
 
         <img
-          src={`/src/assets/friends-chilling.jpg`}
+          // src={`/src/assets/friends-chilling.jpg`}
+          src={image}
           alt="bg"
           className="absolute h-full w-screen md:w-full md:h-screen -z-10 object-cover "
         /> 

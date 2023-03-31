@@ -92,7 +92,6 @@ function SearchForm() {
   const handleChangePlace = async(e : ChangeEvent<HTMLInputElement>): Promise<void> =>{
 
     setUserDestination(e.target.value);
-    console.log(e.target.value);
 
     if(e.target.value === ''){
       setShowSuggestion(false);

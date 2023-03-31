@@ -10,8 +10,6 @@ interface QueryParams{
 
 export const getAll = <T>(Model: Model<T>) => catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
   
-  console.log("hi");
-
   const features = new APIFeatures(Model.find(),req.query as QueryParams)
     ?.filter()
     ?.sort()

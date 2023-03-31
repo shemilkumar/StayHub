@@ -14,8 +14,6 @@ function MyBookings() {
   const getMyBookings = async(): Promise<void> => {
     const response = await apiRequest.get('/booking/myBookings') as FetchChecked;
 
-    console.log(response);
-
     if(response.pass){
       if(!response.fetchedData) return;
       // console.log(response.fetchedData.data.data.data);
@@ -33,9 +31,9 @@ function MyBookings() {
         myBookings ? 
         <div className='min-h-screen flex'>
           {myBookings.length === 0 ? 
-            <div className='m-auto flex flex-col transition-all duration-500 ease-in'>
+            <div className='m-auto flex flex-col transition-all duration-500 ease-in mx-2 md:mx-0'>
               <h1 className='text-xl md:text-3xl text-red-500 font-semibold'>No upcoming bookings!</h1>
-              <p className='text-gray-600 mb-4'>What are you waiting for? book your home now !</p>
+              <p className='text-gray-600 mb-4'>What are you waiting for? book your home now</p>
               <Link to={`/homes`}><Button text='Explore Homes'/></Link>
             </div>
           :
