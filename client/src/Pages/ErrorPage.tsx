@@ -16,10 +16,10 @@ function ErrorPage() {
   useEffect(() => {
     if(params.message) setErrorMessage(params.message);
     if(params.message?.includes('Please login again')){
-      logout();
       dispatch(deleteUserData());
+      logout();
     }
-  }, [])
+  }, []);
 
   return (
     <>

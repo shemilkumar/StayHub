@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { backendStaticUserUrl } from '../Constants/constant';
 import { deleteUserData } from '../Redux/Slicers/userSlice';
@@ -7,24 +7,25 @@ import { deleteUserData } from '../Redux/Slicers/userSlice';
 import { TfiMenu } from "react-icons/tfi";
 import { VscChromeClose } from "react-icons/vsc";
 import logout from '../util/logout';
+import { User } from '../Constants/modelTypes';
 
-function Navbar() {
+function Navbar({active}:{active?: string}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userFromStrore = useSelector((state : any) => state.user.value) as User;
 
-  // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
-  const userName = localStorage.getItem("user") as string;
-  const userPhoto = localStorage.getItem("userPhoto") as string;
-  const [username, setUsername] = useState<string | null>(userName);
-  const [userphoto, setUserphoto] = useState<string | null>(userPhoto);
+  const [userName, setUserName] = useState<string | null>(userFromStrore.name);
+  const [userPhoto, setUserPhoto] = useState<string | null>(userFromStrore.photo);
 
   const [openNav, setOpenNav] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
 
   useEffect(() => {
-    setUsername(userName);
-    setUserphoto(userPhoto);
+    if(userFromStrore.name){
+      setUserName(userFromStrore.name);
+      setUserPhoto(userFromStrore.photo);
+    }
 
     const bgColorChange = (): void =>
     window.scrollY >= 10 ? setScroll(true) : setScroll(false);
@@ -38,11 +39,14 @@ function Navbar() {
         window.removeEventListener("scroll", bgColorChange);
       };
     }
-  }, [username]);
+  }, [userName]);
 
   const handleLogout = async(): Promise<void> => {
     const res = await logout();
-    if(res) dispatch(deleteUserData());
+    if(res){
+      dispatch(deleteUserData());
+      navigate('/login');
+    }
     else navigate('/error/Please try again !');
   }
 
@@ -87,41 +91,41 @@ function Navbar() {
 
         <div className={`${openNav ? 'translate-y-0' : '-translate-y-96 md:translate-y-0'} absolute md:static top-16 flex md:justify-center w-full md:w-1/3 bg-primary md:bg-transparent px-4 md:px-0 border-2 border-t-secondary md:border-none transition-all duration-500 ease-in-out text-black md:text-secondary`}>
 
-          <div className={`${scroll && 'md:shadow-md'} flex flex-col gap-4 md:gap-0 md:inline-block py-4 md:px-8 md:rounded-full cursor-pointer`}>
+          <div className={`${scroll && 'md:shadow-md'} flex flex-col gap-8 md:gap-0 md:inline-block py-4 md:px-8 md:rounded-full cursor-pointer font-semibold`}>
             <Link to="/">
-              <span className='mr-4'>Home</span>
+              <span className={`${active === 'home' && 'text-secondary'} md:mr-4`}>Home</span>
             </Link>
 
             <Link to="/homes">
-              <span className='mr-4'>Houses</span>
+              <span className={`${active === 'houses' && 'text-secondary'} md:mr-4`}>Houses</span>
             </Link>
 
             <Link to="/profile">
-              <span className=''>Profile</span>
+              <span className={`${active === 'profile' && 'text-secondary'} md:mr-4`}>Profile</span>
             </Link>
 
             <Link to="/myBookings">
-              <span className='flex md:hidden'>Bookings</span>
+              <span className={`${active === 'booking' && 'text-secondary'} md:mr-4 flex md:hidden`}>Bookings</span>
             </Link>
           </div>
         </div>
 
         <div className="flex justify-end items-centers gap-4 cursor-pointer md:w-1/3 pr-4">
 
-        {username ? 
+        {userName ? 
           <div className='flex gap-2 items-center'>
-            <Link to="/login">
+            <Link to="/loading">
               <span className="py-2 text-md md:text-base" onClick={handleLogout}>Logout</span>
             </Link>
 
             <Link to="/profile">
               <div className={`${scroll ? 'border-gray-200' : 'border-transparent'} py-1 px-2 pr-3 md:border-2 rounded-full flex gap-2 items-center`}>
 
-                {userphoto &&
-                  <img src={`${backendStaticUserUrl}/${userphoto}`} alt="profile" className='w-9 h-9 rounded-full' />
+                {userPhoto &&
+                  <img src={`${backendStaticUserUrl}/${userPhoto}`} alt="profile" className='w-9 h-9 rounded-full' />
                 }
                 
-                <span className='uppercase text-sm md:text-base md:flex hidden'>{username.split(' ')[0]}</span>
+                <span className='uppercase text-sm md:text-base md:flex hidden'>{userName.split(' ')[0]}</span>
 
               </div>
             </Link>

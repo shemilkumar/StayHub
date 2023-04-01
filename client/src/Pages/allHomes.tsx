@@ -50,7 +50,7 @@ function allHomes() {
   
   return (
     <>
-      <Navbar/>
+      <Navbar active='houses'/>
 
         <div className='min-h-screen flex mx-3 md:mx-0'>
           { homes.length <= 0 ?

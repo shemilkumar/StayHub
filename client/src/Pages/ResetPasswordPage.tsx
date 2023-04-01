@@ -6,10 +6,13 @@ import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import Alert from '../util/Alert';
 import validator from '../util/validator';
+import { setUserData } from '../Redux/Slicers/userSlice';
+import { useDispatch } from 'react-redux';
 
 function ResetPasswordPage() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {resetToken} = useParams();
 
   const [passwordNew, setPasswordNew] = useState<string>('');
@@ -48,8 +51,9 @@ function ResetPasswordPage() {
 
       if(result.pass){
         if(!result.fetchedData) return;
-        localStorage.setItem("token",result.fetchedData.data.token);
-        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        // localStorage.setItem("token",result.fetchedData.data.token);
+        // localStorage.setItem("user",result.fetchedData.data.user!.name);
+        dispatch(setUserData(result.fetchedData.data.user!));
         navigate('/'); 
   
       }else{

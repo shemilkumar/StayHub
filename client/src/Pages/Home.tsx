@@ -43,7 +43,7 @@ function Home() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar active='home'/>
       <Hero/>
       <div className='flex flex-col md:max-w-same m-auto'>
         <SearchForm/>

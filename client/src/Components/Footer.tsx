@@ -14,6 +14,9 @@ function Footer() {
           <p className="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© {new Date().getFullYear()} StayHub —
             <a href="https://twitter.com/knyttneve" className="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@shemilkumar</a>
           </p>
+
+          <p className="text-sm text-gray-400 sm:ml-4 sm:pl-0 sm:py-2 ">Images courtesy of @Airbnb</p>
+
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
             <a className="text-gray-400" href='https://www.linkedin.com/in/shemilkumar/' target='_blank'>
               <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">

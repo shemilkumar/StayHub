@@ -7,11 +7,15 @@ import { APIResponse,User } from '../Constants/modelTypes';
 import { backendStaticUserUrl } from '../Constants/constant';
 import validator from '../util/validator';
 import Alert from '../util/Alert';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../Redux/Slicers/userSlice';
 
 
 function SettingsChange({user} : {user: User}) {
 
   // const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [name, setName] = useState<string>(user.name);
   const [email, setEmail] = useState<string>(user.email);
   const [photo, setPhoto] = useState<File>();
@@ -52,9 +56,8 @@ function SettingsChange({user} : {user: User}) {
       if(result.pass){
         if(!result.fetchedData) return;
 
-         // console.log(result.data.data.user);
-        localStorage.setItem("user",result.fetchedData.data.data.user!.name);
-        localStorage.removeItem('/users/me');
+        // localStorage.setItem("user",result.fetchedData.data.data.user!.name);
+        dispatch(setUserData(result.fetchedData.data.data.user!))
         window.location.reload();
 
       }else apiErrorSetting(result.message!);

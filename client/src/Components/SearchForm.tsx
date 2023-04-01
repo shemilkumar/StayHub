@@ -129,12 +129,12 @@ function SearchForm() {
 
             {
               userDestinationSuggestions && showSuggestion ?
-              <div className={`${userDestinationSuggestions ? 'translate-y-0' : '-translate-y-32'} shadow-xl ml-2 absolute mt-20 bg-blue-100 flex flex-col cursor-pointer
-              transition-all ease-out duration-700`}>
+              <div className={`${userDestinationSuggestions ? 'translate-y-0' : '-translate-y-32'} shadow-xl ml-2 absolute mt-20 bg-white flex flex-col cursor-pointer
+              transition-all ease-out duration-700 rounded-xl z-50`}>
                 {
                   userDestinationSuggestions.map((suggestion, i) =>{
                     return(
-                      <p key={i} className='hover:bg-blue-200 p-3'
+                      <p key={i} className='hover:bg-blue-200 rounded-xl p-3 border-b-2 border-teal-100'
                       onClick={() => {
                         setUserDestination(suggestion.text);
                         setUserDestinationLatLng(userDestinationSuggestions[i].center);

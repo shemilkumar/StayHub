@@ -7,7 +7,7 @@ function MyBookingsPage() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar active='booking'/>
       <MyBookings/>
       <Footer/>
     </>

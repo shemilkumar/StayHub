@@ -4,10 +4,13 @@ import validator from '../util/validator';
 import { IoIosEye, IoMdEyeOff } from "react-icons/io";
 import apiRequest, { FetchChecked } from '../api/apiRequest';
 import Alert from '../util/Alert';
+import { setUserData } from '../Redux/Slicers/userSlice';
+import { useDispatch } from 'react-redux';
 
 function SignUp() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -66,7 +69,8 @@ function SignUp() {
       if(result.pass){
         if(!result.fetchedData) return;
         // localStorage.setItem("token",result.fetchedData.data.token);
-        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        // localStorage.setItem("user",result.fetchedData.data.user!.name);
+        dispatch(setUserData(result.fetchedData.data.user!));
         clearInputs();
         navigate('/'); 
       }else apiErrorSetting(result.message ? result.message : 'Something went worng');
@@ -80,17 +84,17 @@ function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col bg-primary">
         {apiError && <Alert message={apiError}/> }
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black dark:text-teal-50 w-full dark:bg-gray-900">
+          <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black w-full">
 
             <h1 className="mb-8 text-3xl text-center">SignUp</h1>
             <form className='m-auto' onSubmit={handleSignUp}>
            
               <input
                 type="text"
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
                 name="name"
                 placeholder="Name"
                 value={name}
@@ -99,7 +103,7 @@ function SignUp() {
               />
               <input
                 type="text"
-                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900`}
+                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4`}
                 name="email"
                 placeholder="email@example.com"
                value={email}
@@ -111,7 +115,7 @@ function SignUp() {
               <div className='relative'>
                 <input
                 type="password"
-                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900`}
+                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4`}
                 name="password"
                 placeholder="password"
                 ref={passwordRef}
@@ -126,7 +130,7 @@ function SignUp() {
           <div className='relative'>
             <input
             type={showPassword ? "text" : "password"}
-            className={`${passwordMatch ? '' : 'border-red-400'} block border-0 border-b-2 outline-none w-full p-3 mb-1 dark:bg-gray-900`}
+            className={`${passwordMatch ? '' : 'border-red-400'} block border-0 border-b-2 outline-none w-full p-3 mb-1`}
             name="passwordConfirm"
             placeholder="Confirm password"
             ref={passwordConfirmRef}
@@ -171,7 +175,7 @@ function SignUp() {
           </div>
 
           <Link to="/login">
-            <div className="text-grey-dark mt-6 dark:text-teal-50 text-center">
+            <div className="text-grey-dark mt-6 text-center">
               Already have an account?{" "}
               <span className="font-semibold text-tertiary_2">Login</span>
             </div>

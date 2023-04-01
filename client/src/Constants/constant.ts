@@ -17,10 +17,10 @@ export const axiosApi = axios.create({
 
 axiosApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token){
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // const token = localStorage.getItem('token');
+    // if (token){
+    //   config.headers.Authorization = `Bearer ${token}`;
+    // }
 
     if (config.data instanceof FormData) {
       // For requests with FormData payload, set the Content-Type to multipart/form-data

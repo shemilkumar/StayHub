@@ -42,8 +42,8 @@ function login() {
       if(result.pass){
         if(!result.fetchedData) return;
         // localStorage.setItem("token",result.fetchedData.data.token);
-        localStorage.setItem("user",result.fetchedData.data.user!.name);
-        localStorage.setItem("userPhoto",result.fetchedData.data.user!.photo);
+        // localStorage.setItem("user",result.fetchedData.data.user!.name);
+        // localStorage.setItem("userPhoto",result.fetchedData.data.user!.photo);
         dispatch(setUserData(result.fetchedData.data.user!));
         clearInputs();
         navigate('/'); 
@@ -53,16 +53,17 @@ function login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-primary dark:bg-gray-900 border-4">
+    <div className="min-h-screen flex flex-col bg-primary border-4">
         {apiError && <Alert message={apiError}/> }
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black dark:text-teal-50 w-full dark:bg-gray-900">
+          <div className="bg-white px-6 py-8 rounded-xl shadow-lg text-black
+           w-full">
 
             <h1 className="mb-8 text-3xl text-center">Login</h1>
             <form className='m-auto' onSubmit={handleLogin}>
               <input
                 type="text"
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
                 name="email"
                 placeholder="email@example.com"
                 value={email}
@@ -76,7 +77,7 @@ function login() {
               <div className='relative'>
                 <input
                 type={showPassword ? 'text' : 'password'}
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-gray-900"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
                 name="password"
                 placeholder="password"
                 value={password}
@@ -109,7 +110,7 @@ function login() {
           </Link>
 
           <Link to="/signup">
-          <div className="text-grey-dark mt-5 dark:text-teal-50 text-center">
+          <div className="text-grey-dark mt-5 text-center">
             Don't have an account?{" "}
             <span className="font-semibold text-tertiary_2">Create one</span>
           </div>

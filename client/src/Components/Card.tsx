@@ -8,6 +8,9 @@ import {BsHouseDoorFill} from "react-icons/bs";
 import {FaBed} from "react-icons/fa";
 import { AiFillStar } from 'react-icons/ai';
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 function Card( {home} : {home:HomeModel}) {
 
   return (
@@ -16,8 +19,14 @@ function Card( {home} : {home:HomeModel}) {
       <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
         <div className="w-full md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
           <div className='aspect-video w-full md:h-72'>
-            <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
-            className='shadow-xl rounded-t-lg object-cover w-full md:h-72'/>
+            {/* <img src={`${backendStaticHomesUrl}/${home.imageCover}`} alt="house-coverImage" 
+            className='shadow-xl rounded-t-lg object-cover w-full md:h-72'/> */}
+            <LazyLoadImage
+            alt={'HomeImage'}
+            src={`${backendStaticHomesUrl}/${home.imageCover}`}
+            effect="blur"
+            className='shadow-xl rounded-t-lg object-cover w-full md:h-72'
+            />
           </div>
           
           <div className='flex flex-col gap-1 md:gap-4 mt-4 md:mt-8 border-b-2 pl-2 md:pl-0 items-start md:items-center'>

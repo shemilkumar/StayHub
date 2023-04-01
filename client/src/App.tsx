@@ -12,6 +12,7 @@ import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import MyBookingsPage from "./Pages/MyBookingsPage";
 import SearchResultPage from "./Pages/SearchResultPage";
+import Spinner from "./Components/Spinner";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path='/forgotPassword' element={<ForgotPasswordPage/>}/>
           <Route path='/resetPassword/:resetToken' element={<ResetPasswordPage/>}/>
 
+          <Route path='/loading' element={<Spinner/>}/>
           <Route path='/error/:message' element={<ErrorPage/>}/>
           <Route path='*' element={<ErrorPage/>}/>
 
