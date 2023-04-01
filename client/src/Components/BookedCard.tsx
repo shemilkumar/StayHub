@@ -36,7 +36,7 @@ function BookedCard( {booking} : {booking: BookingModel}) {
 
               <div className='flex justify-between items-center'>
                 <h1 className='text-xl md:text-3xl font-semibold'>{booking.home.name}</h1>
-                <h1 className='text-3xl text-secondary font-semibold'>{booking.home.price}$</h1>
+                <h1 className='text-3xl text-secondary font-semibold'>₹{booking.home.price}</h1>
               </div>
 
               <div className='flex text-gray-500'>

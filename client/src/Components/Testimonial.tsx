@@ -4,7 +4,7 @@ function Testimonial() {
   return (
     <>
       <section className="text-gray-600 body-font flex">
-        <div className="container px-5 py-24 m-auto">
+        <div className="container px-5 py-20 md:py-24 m-auto">
           <h1 className="text-4xl md:text-6xl text-gray-700 font-semibold flex justify-center mb-24 font-sans ">Testi
             <span className="text-secondary">monials</span>
           </h1>

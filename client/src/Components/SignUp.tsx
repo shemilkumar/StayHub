@@ -65,7 +65,7 @@ function SignUp() {
 
       if(result.pass){
         if(!result.fetchedData) return;
-        localStorage.setItem("token",result.fetchedData.data.token);
+        // localStorage.setItem("token",result.fetchedData.data.token);
         localStorage.setItem("user",result.fetchedData.data.user!.name);
         clearInputs();
         navigate('/'); 

@@ -74,6 +74,21 @@ export const login = catchAsync(async (req:Request,res:Response,next:NextFunctio
   createSendToken(user,200,res);
 }); 
 
+export const logout = catchAsync(async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
+  res.cookie('jwt', '', {
+    expires: new Date(
+      Date.now() + (10 * 1000)
+    ),
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
+  });
+
+  res.status(200).json({
+    status:'success'
+  });
+});
+
 export const protect = catchAsync(async (req: AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
 
   // Getting token and check of if its there
@@ -81,7 +96,7 @@ export const protect = catchAsync(async (req: AuthRequest,res:Response,next:Next
   
   if (req.cookies.jwt) {
     token = req.cookies.jwt;
-    console.log("Cookieeee =======>>>>>>",token,req.cookies);
+    // console.log("Cookieeee =======>>>>>>",token,req.cookies);
   }else if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     token = req.headers.authorization.split(' ')[1];
   }

@@ -6,6 +6,7 @@ import Navbar from '../Components/Navbar';
 import RoomComponents from '../Components/RoomComponents';
 import Spinner from '../Components/Spinner';
 import { HomeModel } from '../Constants/modelTypes';
+import apiRequest, { FetchChecked } from '../api/apiRequest';
 
 function RoomPage() {
 
@@ -13,12 +14,30 @@ function RoomPage() {
   const {id} = useParams();
 
   const [home, setHome] = useState<HomeModel>();
-  const {data,error} = useApi('GET',`/homes/${id}`);
-  
+  const [homeFetched, setHomeFetched] = useState<boolean>(false);
+  // const {data,error} = useApi('GET',`/homes/${id}`);
+
+  // useEffect(() => {
+  //   if(data) setHome(data.data);
+  //   if(error) navigate(`/error/${error}`);
+  // }, [data,error]);
+
+  const getHome = async() =>{
+    const response = await apiRequest.get(`/homes/${id}`) as FetchChecked;
+
+    if(response.pass){
+      setHome(response.fetchedData?.data.data);
+    }else navigate(`/error/${response.message}`);
+  }
+
   useEffect(() => {
-    if(data) setHome(data.data);
-    if(error) navigate(`/error/${error}`);
-  }, [data,error]);
+    if(!homeFetched){
+      getHome();
+      console.log(homeFetched);
+      setHomeFetched(true);
+    }
+  }, [homeFetched]);
+  
 
   return (
     <>

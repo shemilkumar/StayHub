@@ -11,6 +11,7 @@ import logout from '../util/logout';
 function Navbar() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // const userName = localStorage.getItem("user")?.replace(/['"]+/g, '');
   const userName = localStorage.getItem("user") as string;
@@ -39,9 +40,10 @@ function Navbar() {
     }
   }, [username]);
 
-  const handleLogout = (): void => {
-    logout();
-    dispatch(deleteUserData());
+  const handleLogout = async(): Promise<void> => {
+    const res = await logout();
+    if(res) dispatch(deleteUserData());
+    else navigate('/error/Please try again !');
   }
 
   return (
@@ -83,7 +85,7 @@ function Navbar() {
 
         </div>
 
-        <div className={`${openNav ? 'translate-y-0' : '-translate-y-96 md:translate-y-0'} absolute md:static top-16 flex md:justify-center w-full md:w-1/3 bg-primary md:bg-transparent px-4 md:px-0 border-2 border-t-secondary md:border-none transition-all duration-500 ease-in-out`}>
+        <div className={`${openNav ? 'translate-y-0' : '-translate-y-96 md:translate-y-0'} absolute md:static top-16 flex md:justify-center w-full md:w-1/3 bg-primary md:bg-transparent px-4 md:px-0 border-2 border-t-secondary md:border-none transition-all duration-500 ease-in-out text-black md:text-secondary`}>
 
           <div className={`${scroll && 'md:shadow-md'} flex flex-col gap-4 md:gap-0 md:inline-block py-4 md:px-8 md:rounded-full cursor-pointer`}>
             <Link to="/">

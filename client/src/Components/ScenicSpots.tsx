@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -14,7 +14,7 @@ function ScenicSpots() {
         <p className='w-2/4 text-lg text-gray-500 m-auto'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti voluptas dolorem, cum eius porro ut doloremque. Commodi, dicta! Ullam, beatae.</p>
       </div>
 
-      <div className='absolute h-72 top-20'>
+      <div className='absolute h-72 top-18'>
         <LazyLoadImage
         alt={'scenicImage'}
         src={`src/assets/scenic-location-images/mountain-view.jpg`}
