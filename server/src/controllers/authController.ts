@@ -156,6 +156,7 @@ export const forgotPasswod = catchAsync(async (req:AuthRequest,res:Response,next
   })
 });
 
+
 export const resetPasswod = catchAsync(async (req:AuthRequest,res:Response,next:NextFunction): Promise<void> =>{
   // get user based on the token
   const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');

@@ -1,6 +1,6 @@
 import React, { useEffect, useState,lazy } from 'react'
-// import Card from '../Components/Card';
-const Card = lazy(() => import('../Components/Card'));
+import Card from '../Components/Card';
+// const Card = lazy(() => import('../Components/Card'));
 
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
