@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,lazy } from 'react'
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ErrorView from '../Components/ErrorView';
+// import ErrorView from '../Components/ErrorView';
+const ErrorView = lazy(() => import('../Components/ErrorView'));
+
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import { deleteUserData } from '../Redux/Slicers/userSlice';

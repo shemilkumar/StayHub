@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import Card from '../Components/Card';
+import React, { useEffect, useState,lazy } from 'react'
+// import Card from '../Components/Card';
+const Card = lazy(() => import('../Components/Card'));
+
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import apiRequest, { FetchChecked } from '../api/apiRequest';
@@ -52,7 +54,7 @@ function allHomes() {
     <>
       <Navbar active='houses'/>
 
-        <div className='min-h-screen flex mx-3 md:mx-0'>
+        <div className='min-h-screen flex mx-3 md:mx-4'>
           { homes.length <= 0 ?
           <Spinner/> :
           <div className='m-auto'>
@@ -71,7 +73,7 @@ function allHomes() {
               </select>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-8 md:mt-12 mb-8 md:mb-32'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12 mt-8 md:mt-12 mb-8 md:mb-32'>
               {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
             </div>
 

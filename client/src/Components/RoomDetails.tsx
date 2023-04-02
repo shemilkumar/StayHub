@@ -1,7 +1,6 @@
-import React from 'react'
+import React,{lazy} from 'react'
 import ImageCarousel from './ImageCarousel';
 import { HomeModel } from '../Constants/modelTypes';
-import Map from './Map';
 
 import { AiFillStar,AiFillCar } from "react-icons/ai";
 import { TbToolsKitchen2 } from "react-icons/tb";
@@ -9,6 +8,8 @@ import { BiWifi,BiFridge } from "react-icons/bi";
 import { MdDry,MdPool } from "react-icons/md";
 import { FiMonitor } from "react-icons/fi";
 import {GiWashingMachine, GiCooler } from "react-icons/gi";
+
+const Map = lazy(() => import('./Map'));
 
 function RoomDetails({home} : {home: HomeModel}) {
 
