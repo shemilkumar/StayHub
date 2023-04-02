@@ -55,10 +55,10 @@ function CardList( {home} : {home:HomeModel}) {
               <div className='flex flex-col md:py-4 m-auto'>
                 <div className="flex md:flex-col items-center">
                   <div className="flex gap-2">
-                    <span className='stroke text-gray-500 text-xs md:text-base line-through'>${home.mrpPrice}</span>
+                    <span className='stroke text-gray-500 text-xs md:text-base line-through'>₹{home.mrpPrice}</span>
                     <span className='text-yellow-600 text-xs md:text-base font-semibold'>{home.discount}% off</span>
                   </div>
-                  <div className='font-semibold text-2xl md:text-4xl text-secondary'>${home.price}</div>
+                  <div className='font-semibold text-2xl md:text-4xl text-secondary'>₹{home.price}</div>
                 </div>
                 <p className="text-sm text-gray-400">per room per night</p>
               </div>

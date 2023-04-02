@@ -9,6 +9,7 @@ export interface searchHomesRequest extends Request{
 }
 
 export const aliasTopHomes = catchAsync( async(req:Request, res: Response, next: NextFunction) : Promise<void> =>{
+  req.query.page = '1';
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
   req.query.fields = 'name,price,ratingsAverage,summary,address';

@@ -20,7 +20,6 @@ function BookedCard( {booking} : {booking: BookingModel}) {
     if(response.pass)
      if(response.deleted) window.location.reload();
     else navigate(`/error/${response.message}`);
-
   }
 
   return (

@@ -61,7 +61,7 @@ const handleValidationErrorDB = (err: ErrorClass) =>{
 
 const handleJWTError = (err: ErrorClass) => new AppError('Invalid token, Please login again',401);
 
-const handleJWTExpiredError = (err: ErrorClass) => new AppError('Your token has expired, Please login again',401);
+const handleJWTExpiredError = (err: ErrorClass) => new AppError('Your session has expired, Please login again',401);
 
 const globalErrorController = (err: ErrorClass, req:Request, res:Response, next:NextFunction) =>{
 

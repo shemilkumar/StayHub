@@ -94,7 +94,7 @@ function SignUp() {
            
               <input
                 type="text"
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-white"
                 name="name"
                 placeholder="Name"
                 value={name}
@@ -103,7 +103,7 @@ function SignUp() {
               />
               <input
                 type="text"
-                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4`}
+                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-white`}
                 name="email"
                 placeholder="email@example.com"
                value={email}
@@ -115,7 +115,7 @@ function SignUp() {
               <div className='relative'>
                 <input
                 type="password"
-                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4`}
+                className={`${error ? 'focus:border-red-500' : ''} block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-white`}
                 name="password"
                 placeholder="password"
                 ref={passwordRef}
@@ -130,7 +130,7 @@ function SignUp() {
           <div className='relative'>
             <input
             type={showPassword ? "text" : "password"}
-            className={`${passwordMatch ? '' : 'border-red-400'} block border-0 border-b-2 outline-none w-full p-3 mb-1`}
+            className={`${passwordMatch ? '' : 'border-red-400'} block border-0 border-b-2 outline-none w-full p-3 mb-1 dark:bg-white`}
             name="passwordConfirm"
             placeholder="Confirm password"
             ref={passwordConfirmRef}

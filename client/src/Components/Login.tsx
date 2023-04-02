@@ -63,7 +63,7 @@ function login() {
             <form className='m-auto' onSubmit={handleLogin}>
               <input
                 type="text"
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-white"
                 name="email"
                 placeholder="email@example.com"
                 value={email}
@@ -77,7 +77,7 @@ function login() {
               <div className='relative'>
                 <input
                 type={showPassword ? 'text' : 'password'}
-                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4"
+                className="block border-0 border-b-2 outline-none border-grey-light w-full p-3 rounded mb-4 dark:bg-white"
                 name="password"
                 placeholder="password"
                 value={password}

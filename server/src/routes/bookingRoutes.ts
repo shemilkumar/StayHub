@@ -3,8 +3,6 @@ import * as bookingController from "../controllers/bookingController";
 import * as authController from "../controllers/authController";
 
 const router = express.Router();
-// Only logged users get access for these below routes
-// router.use(authController.protect);
 
 router
   .route('/bookingStats')
@@ -16,15 +14,13 @@ router
 
 router
   .route('/')
-  .get(bookingController.getAllBooking)
+  .get(authController.restrictTo('admin'),bookingController.getAllBooking)
   .post(authController.protect,bookingController.createBooking);
 
 router
   .route('/:id')
   .get(bookingController.getBooking)
+  .patch(authController.protect,authController.restrictTo('admin'),bookingController.updateBooking)
   .delete(authController.protect,bookingController.deleteBooking);
-
-// Only admins will get access to these below routes
-router.use(authController.restrictTo('admin'));
 
 export default router;
