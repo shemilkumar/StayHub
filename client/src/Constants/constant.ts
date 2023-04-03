@@ -53,7 +53,7 @@ export const TestimonialData: Testimonial[] = [
   },
   {
     image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d29tYW4lMjBhdmF0YXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=150&q=80",
-    review: 'The homes offered on this website are not only comfortable and cozy, but they are also located near some of the most breathtaking scenic spots in India. We loved being able to explore the local area and take in the beautiful scenery.',
+    review: 'The homes offered on this website are not only comfortable and cozy, but they are also located near breathtaking scenic spots. We loved being able to explore the local area and take in the beautiful scenery.',
     name: "SOPHIE LENNON",
     job: "Public Figure"
   },
