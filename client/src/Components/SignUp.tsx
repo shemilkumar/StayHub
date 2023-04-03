@@ -69,7 +69,8 @@ function SignUp() {
       if(result.pass){
         if(!result.fetchedData) return;
         // localStorage.setItem("token",result.fetchedData.data.token);
-        // localStorage.setItem("user",result.fetchedData.data.user!.name);
+        localStorage.setItem("user",result.fetchedData.data.user!.name);
+        localStorage.setItem("userPhoto",result.fetchedData.data.user!.photo);
         dispatch(setUserData(result.fetchedData.data.user!));
         clearInputs();
         navigate('/'); 

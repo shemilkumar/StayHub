@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { backendStaticUserUrl } from '../Constants/constant';
 import { deleteUserData } from '../Redux/Slicers/userSlice';
@@ -7,24 +7,27 @@ import { deleteUserData } from '../Redux/Slicers/userSlice';
 import { TfiMenu } from "react-icons/tfi";
 import { VscChromeClose } from "react-icons/vsc";
 import logout from '../util/logout';
-import { User } from '../Constants/modelTypes';
+// import { User } from '../Constants/modelTypes';
 
 function Navbar({active}:{active?: string}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userFromStrore = useSelector((state : any) => state.user.value) as User;
+  // const userFromStrore = useSelector((state : any) => state.user.value) as User;
 
-  const [userName, setUserName] = useState<string | null>(userFromStrore.name);
-  const [userPhoto, setUserPhoto] = useState<string | null>(userFromStrore.photo);
+  const usernameFromLocale = localStorage.getItem('user');
+  const userphotoFromLocale = localStorage.getItem('userPhoto');
+
+  const [userName, setUserName] = useState<string | null>(usernameFromLocale);
+  const [userPhoto, setUserPhoto] = useState<string | null>(userphotoFromLocale);
 
   const [openNav, setOpenNav] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
 
   useEffect(() => {
-    if(userFromStrore.name){
-      setUserName(userFromStrore.name);
-      setUserPhoto(userFromStrore.photo);
+    if(usernameFromLocale){
+      setUserName(usernameFromLocale);
+      setUserPhoto(userphotoFromLocale);
     }
 
     const bgColorChange = (): void =>
