@@ -25,7 +25,7 @@ function BookedCard( {booking} : {booking: BookingModel}) {
   return (
     <div>
     { booking.home &&
-        <div className="aspect-video w-full md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
+        <div className="aspect-video w-full sm:w-80 md:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">          
           <Link to={booking.home?._id ? `/home/${booking.home._id}` : 'room/fake_id'}>
             <div className='w-full aspect-video md:h-72'>
               <img src={`${backendStaticHomesUrl}/${booking.home.imageCover}`} alt="house-coverImage" 

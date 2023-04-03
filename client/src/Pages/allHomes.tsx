@@ -73,7 +73,7 @@ function allHomes() {
               </select>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12 mt-8 md:mt-12 mb-8 md:mb-32'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-12 mt-8 md:mt-12 mb-8 md:mb-32'>
               {homes.length > 0 ? homes.map((home,i) => <Card home={home} key={i}/>) : ''}
             </div>
 

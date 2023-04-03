@@ -41,7 +41,7 @@ function MyBookings() {
               <h1  className='text-center text-2xl md:text-4xl font-semibold font-sans mb-6 md:mb-12'>
                 My<span className='text-secondary'> Bookings</span>
               </h1>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-0'>
+              <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8 px-4 md:px-0'>
                 {
                   myBookings.map((booking : BookingModel,i) => {
                     return(

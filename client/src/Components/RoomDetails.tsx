@@ -1,7 +1,7 @@
-import React,{lazy} from 'react'
+import React,{Suspense, lazy} from 'react'
 import ImageCarousel from './ImageCarousel';
 import { HomeModel } from '../Constants/modelTypes';
-import Map from "./Map";
+// import Map from "./Map";
 
 import { AiFillStar,AiFillCar } from "react-icons/ai";
 import { TbToolsKitchen2 } from "react-icons/tb";
@@ -9,7 +9,9 @@ import { BiWifi,BiFridge } from "react-icons/bi";
 import { MdDry,MdPool } from "react-icons/md";
 import { FiMonitor } from "react-icons/fi";
 import {GiWashingMachine, GiCooler } from "react-icons/gi";
-// const Map = lazy(() => import('./Map'));
+import Spinner from './Spinner';
+
+const Map = lazy(() => import('./Map'));
 
 function RoomDetails({home} : {home: HomeModel}) {
 
@@ -133,8 +135,10 @@ function RoomDetails({home} : {home: HomeModel}) {
 
             <div className='mt-8'>
               <h1 className='font-semibold text-2xl mb-4'>Where you’ll be</h1>
-              {/* 77.58345359320708,12.96947682403109 */}
-              <Map latitude={home.location.coordinates[0]} longitude={home.location.coordinates[1]}/>
+
+              <Suspense fallback={<Spinner/>}>
+                <Map latitude={home.location.coordinates[0]} longitude={home.location.coordinates[1]}/>
+              </Suspense>
 
               <div className='text-sm md:text-base text-gray-600 mt-8 md:w-3/4'>
                 <p className='text-xl mb-2'>{home.address}</p>
