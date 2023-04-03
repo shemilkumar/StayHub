@@ -17,7 +17,7 @@ function Hero() {
         <img
           // src={`/src/assets/friends-chilling.jpg`}
           src={image}
-          alt="bg"
+          alt=""
           className="absolute h-full w-screen md:w-full md:h-screen -z-10 object-cover "
         /> 
 

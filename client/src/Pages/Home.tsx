@@ -1,9 +1,9 @@
 import React, { lazy,Suspense } from 'react'
-const BestSellers = lazy(() => import('../Components/BestSellers'));
-const ScenicSpots = lazy(() => import('../Components/ScenicSpots'));
+// const BestSellers = lazy(() => import('../Components/BestSellers'));
+// const ScenicSpots = lazy(() => import('../Components/ScenicSpots'));
 
-// import BestSellers from '../Components/BestSellers';
-// import ScenicSpots from '../Components/ScenicSpots';
+import BestSellers from '../Components/BestSellers';
+import ScenicSpots from '../Components/ScenicSpots';
 import FeatureBlock from '../Components/FeatureBlock';
 import Footer from '../Components/Footer';
 import Hero from '../Components/Hero';
@@ -21,13 +21,16 @@ function Home() {
         <SearchForm/>
         <FeatureBlock/>  
 
-        <Suspense fallback={<Spinner/>}>
+        {/* <Suspense fallback={<Spinner/>}>
           <ScenicSpots/>
         </Suspense>
 
         <Suspense fallback={<Spinner/>}>
           <BestSellers/>
-        </Suspense>
+        </Suspense> */}
+
+        <ScenicSpots/>
+        <BestSellers/>
 
         <Testimonial/>
       </div>

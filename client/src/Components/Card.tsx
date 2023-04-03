@@ -19,12 +19,12 @@ function Card( {home} : {home:HomeModel}) {
       <Link to={home?._id ? `/home/${home._id}` : 'room/fake_id'}>
         <div className="w-full md:w-80 lg:w-96 shadow-2xl rounded-xl transition-all ease-in-out duration-500 hover:scale-105">
 
-          <div className='w-full h-60 md:h-72'>
+          <div className='w-full sm:h-60 md:h-72'>
             <LazyLoadImage
             alt={'HomeImage'}
             src={`${backendStaticHomesUrl}/${home.imageCover}`}
             effect="blur"
-            className='shadow-xl rounded-t-lg object-cover w-full h-60 md:h-72'
+            className='shadow-xl rounded-t-lg object-cover w-full sm:h-60 md:h-72'
             />
           </div>
           
