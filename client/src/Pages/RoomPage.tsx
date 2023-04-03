@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import useApi from '../api/useApi';
+// import useApi from '../api/useApi';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import RoomComponents from '../Components/RoomComponents';
