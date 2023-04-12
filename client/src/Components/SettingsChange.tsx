@@ -56,6 +56,8 @@ function SettingsChange({user} : {user: User}) {
       if(result.pass){
         if(!result.fetchedData) return;
 
+        localStorage.removeItem("user");
+        localStorage.removeItem("userPhoto");
         localStorage.setItem("user",result.fetchedData.data.user!.name);
         localStorage.setItem("userPhoto",result.fetchedData.data.user!.photo);
         dispatch(setUserData(result.fetchedData.data.data.user!))
