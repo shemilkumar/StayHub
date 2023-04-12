@@ -8,7 +8,7 @@ function ImageCarousel({home} : {home: HomeModel}) {
     <>
       <div id="carouselExampleControls" className="carousel slide relative" data-bs-ride="carousel">
         <div className="carousel-inner relative w-full overflow-hidden">
-          <div className="carousel-item active relative float-left w-full">
+          <div className="carousel-item active relative float-left w-full ">
             <img
               src={`${backendStaticHomesUrl}/${home.imageCover}`}
               className="block w-full"
